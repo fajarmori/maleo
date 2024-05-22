@@ -12,9 +12,11 @@ class Site extends Model
     protected $fillable = [
         'name',
         'owner',
-        'districts',
+        'slug',
+        'district',
+        'regency',
         'province',
-        'description'
+        'description',
     ];
     
 }

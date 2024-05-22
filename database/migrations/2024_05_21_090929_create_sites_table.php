@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('owner');
-            $table->string('districts');
+            $table->string('slug');
+            $table->string('district');
+            $table->string('regency');
             $table->string('province');
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
