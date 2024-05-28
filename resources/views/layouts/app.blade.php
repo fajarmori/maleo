@@ -11,7 +11,14 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.tailwindcss.css" />
+        
         <!-- Scripts -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+        <script src="{{ asset('public/storage/dataTables.tailwindcss.js') }}"></script>
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
@@ -20,7 +27,7 @@
 
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white mb-12 shadow">
+                <header class="bg-white mb-6 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
