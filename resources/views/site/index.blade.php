@@ -24,7 +24,7 @@
                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                            <table class="min-w-full divide-y divide-gray-300">
+                            <table id="listSite" class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">#</th>
@@ -52,7 +52,6 @@
                                     </td>
                                 </tr>
                                 @endforeach
-
                                 <!-- More people... -->
                                 </tbody>
                             </table>
@@ -63,3 +62,13 @@
         </div>           
     </x-container>
 </x-app-layout>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#listSite').DataTable({
+        ordering : false,
+        dom: "<'sm:flex text-sm bg-gray-50 bg-gray-100/75'<'sm:basis-1/2 text-sm p-2'l><'sm:flex sm:basis-1/2 justify-end text-sm p-2'f>>"+'rtip',
+        lengthMenu: [[5, 25, 50, -1], [5, 25, 50, "All"]],
+    } );
+    $('#listSite_info').addClass('px-3 pt-1 text-xs italic');
+});
+</script>
