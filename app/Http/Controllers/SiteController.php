@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
+use App\Models\User;
+use App\Http\Requests\SiteRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -14,28 +16,21 @@ class SiteController extends Controller
         return view('site.index',['sites' => $sites]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('site.create');
+        return view('site.form');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(SiteRequest $request)
     {
-        dd($request->all());
+        Site::create($request->validated());
+        return to_route('sites.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Site $site)
     {
-        //
+        $site = Site::query()->where('slug',$site->slug)->first();
+        return view('site.show',['site' => $site]);
     }
 
     /**
