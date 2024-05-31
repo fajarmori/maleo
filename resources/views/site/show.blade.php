@@ -16,6 +16,13 @@
                     <x-danger-button as="a" href="{{ route('sites.index')}}" class="w-32">
                         {{ __('Back') }}
                     </x-danger-button>
+                    <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$site->name}} ?');" action="{{ route('sites.destroy', $site->id) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <x-dark-button class="w-32">
+                            {{ __('Delete') }}
+                        </x-dark-button>
+                    </form>
                 </div>
             </div>
         </div>
