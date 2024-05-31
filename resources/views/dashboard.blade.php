@@ -7,7 +7,7 @@
     </x-slot>
 
     <x-container>
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 {{ __("You're logged in!") }}
             </div>
