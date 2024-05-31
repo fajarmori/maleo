@@ -18,7 +18,14 @@ class SiteController extends Controller
 
     public function create()
     {
-        return view('site.form');
+        return view('site.form',[
+            'site' => new Site(),
+            'page_meta' => collect([
+                'title' => 'Create a Site',
+                'method' => 'post',
+                'url' => route('sites.store'),
+            ]),
+        ]);
     }
 
     public function store(SiteRequest $request)
@@ -33,27 +40,34 @@ class SiteController extends Controller
         return view('site.show',['site' => $site]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Site $site)
     {
-        //
+        return view('site.form',[
+            'site' => $site,
+            'page_meta' => [
+                'title' => 'Edit Site',
+                'method' => 'put',
+                'url' => route('sites.update', $site),
+            ],
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Site $site)
+    public function update(SiteRequest $request, Site $site)
     {
-        //
+        $site->update([
+            'name' => $request->name,
+            'owner' => $request->owner,
+            'district' => $request->district,
+            'regency' => $request->regency,
+            'province' => $request->province,
+            'description' => $request->description,
+        ]);
+        return to_route('sites.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Site $site)
     {
-        //
+        Site::query()->where('id', $site->id)->delete();
+        return to_route('sites.index');
     }
 }
