@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
-use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Requests\SiteRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
@@ -36,7 +35,7 @@ class SiteController extends Controller
 
     public function show(Site $site)
     {
-        $site = Site::query()->where('slug',$site->slug)->first();
+        $site = Site::query()->where('id',$site->id)->first();
         return view('site.show',['site' => $site]);
     }
 
@@ -62,7 +61,7 @@ class SiteController extends Controller
             'province' => $request->province,
             'description' => $request->description,
         ]);
-        return to_route('sites.index');
+        return to_route('sites.show',['site' => $site]);
     }
 
     public function destroy(Site $site)
