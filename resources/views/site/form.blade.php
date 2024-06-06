@@ -39,7 +39,7 @@
                     </div>
                     <div>
                         <x-input-label for="description" :value="__('Description')" />
-                        <x-text-input id="description" class="block mt-1 w-full" type="text" name="description" :value="old('description',$site->description)" autofocus />
+                        <x-textarea id="description" name="description" rows="2" class="block mt-1 w-full" placeholder="Input all about site">{{ old('description',$site->description) }}</x-textarea>
                         <x-input-error :messages="$errors->get('description')" class="mt-2" />
                     </div>
                     <x-primary-button class="w-32">
