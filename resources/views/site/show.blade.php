@@ -10,12 +10,12 @@
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 <div class="flex items-center">
-                    <x-primary-button as="a" href="{{ route('sites.edit', $site->id)}}" class="w-32">
-                        {{ __('Edit Site') }}
-                    </x-primary-button>
                     <x-danger-button as="a" href="{{ route('sites.index')}}" class="w-32">
                         {{ __('Back') }}
                     </x-danger-button>
+                    <x-primary-button as="a" href="{{ route('sites.edit', $site->id)}}" class="w-32">
+                        {{ __('Edit') }}
+                    </x-primary-button>
                     <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$site->name}} ?');" action="{{ route('sites.destroy', $site->id) }}" method="POST">
                         @method('DELETE')
                         @csrf
