@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class EmployeeRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'nik' => ['required', 'numeric', 'min_digits:16', 'max_digits:16'],
+            'born' => ['required', 'string', 'max:255'],
+            'birthday' => ['required', 'date'],
+            'phone' => ['required', 'numeric', 'min_digits:10', 'max_digits:15'],
+            'address' => ['required'],
+        ];
+    }
+}
