@@ -67,5 +67,6 @@ $(document).ready(function() {
         lengthMenu: [[5, 25, 50, -1], [5, 25, 50, "All"]],
     } );
     $('#listSite_info').addClass('px-3 pt-1 text-xs italic');
+    $('.dt-empty').addClass('p-3 text-center');
 });
 </script>
