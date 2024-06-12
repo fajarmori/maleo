@@ -9,7 +9,7 @@
     <x-container>
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
-                <div class="flex items-center">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     <x-primary-button as="a" href="{{ route('employees.create')}}">
                         {{ __('Add Employee') }}
                     </x-primary-button>
@@ -44,7 +44,7 @@
                             <tr class="{{$employee->detail->resign ? 'bg-red-200' : ''}}">
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                    <a href="{{ route('employees.show', $employee->id) }}" class="text-indigo-600 hover:text-indigo-900">MRIA-{{ substr(10000+$employee->mria,-4) }}</a>
+                                    <a href="{{ route('employees.show', $employee->slug) }}" class="text-indigo-600 hover:text-indigo-900">MRIA-{{ substr(10000+$employee->mria,-4) }}</a>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->name }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->phone }}</td>

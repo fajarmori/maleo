@@ -9,11 +9,11 @@
     <x-container>
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
-                <div class="flex items-center">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     <x-primary-button as="a" href="{{ route('occupations.create')}}">
                         {{ __('Add Occupation') }}
                     </x-primary-button>
-                    <x-danger-button as="a" :href="route('employees.index')" class="w-32">
+                    <x-danger-button as="a" :href="route('employees.index')">
                         {{ __('Back') }}
                     </x-danger-button>
                 </div>

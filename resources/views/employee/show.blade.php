@@ -9,20 +9,20 @@
     <x-container>
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
-                <div class="flex items-center">
-                    <x-danger-button as="a" href="{{ route('employees.index')}}" class="w-32">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <x-danger-button as="a" href="{{ route('employees.index')}}">
                         {{ __('Back') }}
                     </x-danger-button>
-                    <x-primary-button as="a" href="{{ route('employees.edit', $employee->id)}}" class="w-32">
+                    <x-primary-button as="a" href="{{ route('employees.edit', $employee->slug)}}">
                         {{ __('Edit') }}
                     </x-primary-button>
-                    <x-primary-button as="a" href="{{ route('journeys.create', ['employee' => $employee->id])}}" class="w-32">
+                    <x-primary-button as="a" href="{{ route('journeys.create', ['employee' => $employee->id])}}">
                         {{ __('Add Journey') }}
                     </x-primary-button>
                     <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$employee->mria}} ?');" action="{{ route('employees.destroy', $employee->id) }}" method="POST">
                         @method('DELETE')
                         @csrf
-                        <x-dark-button class="w-32">
+                        <x-dark-button class="w-full">
                             {{ __('Delete') }}
                         </x-dark-button>
                     </form>
