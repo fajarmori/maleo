@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('event');
             $table->string('site');
-            $table->string('request');
+            $table->string('application');
             $table->string('origin');
             $table->string('destination');
             $table->date('date');
