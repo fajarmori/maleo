@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EmployeeRequest extends FormRequest
@@ -15,7 +16,7 @@ class EmployeeRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'nik' => ['required', 'numeric', 'min_digits:16', 'max_digits:16'],
+            'nik' => ['required', 'numeric', 'min_digits:16', 'max_digits:16', $this->method() == 'POST' ? Rule::unique('employees','nik') : Rule::unique('employees','nik')->ignore($this->employee->id)],
             'born' => ['required', 'string', 'max:255'],
             'birthday' => ['required', 'date'],
             'phone' => ['required', 'numeric', 'min_digits:10', 'max_digits:15'],
