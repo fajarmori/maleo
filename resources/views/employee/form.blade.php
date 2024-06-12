@@ -53,7 +53,7 @@
                         <x-input-label for="occupation" :value="__('Occupation')" />
                         <select id="occupation" name="occupation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             @if(!isset($employee->detail->occupation->id))
-                                <option selected>Choose occupation</option>
+                                <option value="NULL" selected>Choose occupation</option>
                             @endif
                             @foreach($occupations as $occupation)
                                 <option value="{{ $occupation->id }}" @if(isset($employee->detail->occupation->id)) {{ $occupation->id == $employee->detail->occupation->id ? 'selected' : '' }} @endif>{{ $occupation->name }}</option>
@@ -69,7 +69,7 @@
                     @endif
 
                     <x-primary-button class="w-32">
-                        {{ __('Create') }}
+                        {{ __('Save') }}
                     </x-primary-button>
                     <x-danger-button as="a" :href="route('employees.index')" class="w-32">
                         {{ __('Back') }}

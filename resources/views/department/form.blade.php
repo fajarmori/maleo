@@ -23,7 +23,7 @@
                         <x-input-error :messages="$errors->get('code')" class="mt-2" />
                     </div>
                     <x-primary-button class="w-32">
-                        {{ __('Create') }}
+                        {{ __('Save') }}
                     </x-primary-button>
                     <x-danger-button as="a" :href="route('departments.index')" class="w-32">
                         {{ __('Back') }}
