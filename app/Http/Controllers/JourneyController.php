@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Journey;
-use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\JourneyRequest;
 
 class JourneyController extends Controller
 {
@@ -14,57 +16,69 @@ class JourneyController extends Controller
         return view('journey.index',['journeys' => $journeys]);
     }
 
-    public function create($employee)
+    public function create($employee_id)
     {
-        dd('test');
+        $employee = Employee::select('name','mria')->where('id',$employee_id)->first();
         return view('journey.form',[
             'journey' => new Journey(),
-            'employee_id' => request()->id,
             'page_meta' => collect([
-                'title' => 'Create a journey',
+                'title' => 'Create a journey '.$employee->name.' (MRIA-'.substr(10000+$employee->mria,-4).') ',
                 'method' => 'post',
-                'url' => route('journeys.store'),
+                'url' => route('journeys.store',['employee' => $employee_id]),
             ]),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(JourneyRequest $request, $employee_id)
     {
-        //
+        Journey::create([
+            'event' => $request->validated('event'),
+            'site' => $request->validated('site'),
+            'application' => $request->validated('application'),
+            'origin' => $request->validated('origin'),
+            'destination' => $request->validated('destination'),
+            'date' => $request->validated('date'),
+            'transportation' => $request->validated('transportation'),
+            'employee_id' => $employee_id,
+        ]);
+        return to_route('journeys.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Journey $journey)
-    {
-        //
-    }
+    // public function show(Journey $journey)
+    // {
+    //     //
+    // }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Journey $journey)
     {
-        //
+        $employee = Employee::select('name','mria')->where('id',$journey->employee_id)->first();
+        return view('journey.form',[
+            'journey' => $journey,
+            'page_meta' => collect([
+                'title' => 'Edit journey '.$employee->name.' (MRIA-'.substr(10000+$employee->mria,-4).') ',
+                'method' => 'put',
+                'url' => route('journeys.update',$journey),
+            ]),
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Journey $journey)
+    public function update(JourneyRequest $request, Journey $journey)
     {
-        //
+        $journey->update([
+            'event' => $request->event,
+            'site' => $request->site,
+            'application' => $request->application,
+            'origin' => $request->origin,
+            'destination' => $request->destination,
+            'date' => $request->date,
+            'transportation' => $request->transportation,
+        ]);
+        return to_route('journeys.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Journey $journey)
     {
-        //
+        Journey::query()->where('id', $journey->id)->delete();
+        return to_route('journeys.index');
     }
 }
