@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->string('slug');
             $table->string('name');
             $table->string('mria')->unique();
             $table->string('nik')->unique();
@@ -24,6 +25,7 @@ return new class extends Migration
         Schema::create('detail_employees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id');
+            $table->foreignId('user_id')->nullable();
             $table->foreignId('occupation_id')->nullable();
             $table->string('email')->nullable();
             $table->date('resign')->nullable();

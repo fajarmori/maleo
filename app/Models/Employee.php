@@ -15,6 +15,7 @@ class Employee extends Model
 {
     use SoftDeletes;
     protected $fillable = [
+        'slug',
         'name',
         'mria',
         'nik',
