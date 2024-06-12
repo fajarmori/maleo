@@ -15,9 +15,9 @@
         
         <!-- Scripts -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- <script src="https://cdn.tailwindcss.com"></script> -->
         <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
-        <script src="{{ asset('public/storage/dataTables.tailwindcss.js') }}"></script>
+        <script src="{{ asset('storage/dataTables.tailwindcss.js') }}"></script>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
