@@ -10,7 +10,6 @@ class DetailEmployee extends Model
 {
     protected $fillable = [
         'employee_id',
-        // 'occupation_id',
     ];
 
     public function employee(): Relations\BelongsTo
