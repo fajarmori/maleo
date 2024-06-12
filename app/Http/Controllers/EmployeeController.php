@@ -41,7 +41,7 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-        $employee = Employee::query()->where('id',$employee->id)->first();
+        $employee = Employee::query()->where('slug',$employee->slug)->first();
         return view('employee.show',['employee' => $employee]);
     }
 
@@ -72,14 +72,14 @@ class EmployeeController extends Controller
         $employee->detail()->update([
             'email' => $request->email,
             'resign' => $request->resign,
-            'occupation_id' => $request->occupation,
+            'occupation_id' => is_numeric($request->occupation) ? $request->occupation : NULL,
         ]);
         return to_route('employees.show',['employee' => $employee]);
     }
     
     public function destroy(Employee $employee)
     {
-        Employee::query()->where('id', $employee->id)->delete();
+        Employee::query()->where('slug', $employee->slug)->delete();
         return to_route('employees.index');
     }
 }
