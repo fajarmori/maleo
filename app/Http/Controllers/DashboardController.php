@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use App\Models\Journey;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
-        return view('dashboard');
+        $startDate = Carbon::now()->isoFormat('Y-MM-DD');
+        $endDate = Carbon::now()->addDays(7)->isoFormat('Y-MM-DD');
+        $journeys = Journey::query()->whereBetween('date',[ $startDate, $endDate])->orderBy('date')->get();
+        return view('dashboard',['journeys' => $journeys]);
     }
 }
