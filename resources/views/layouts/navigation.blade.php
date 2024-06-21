@@ -16,11 +16,16 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <!-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('log')" :active="request()->routeIs('log')">
+                        {{ __('Log Activity') }}
+                    </x-nav-link>
+                </div> -->
+                <!-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('sites.index')" :active="request()->routeIs('sites.*')">
                         {{ __('Sites') }}
                     </x-nav-link>
-                </div>
+                </div> -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.*') || request()->routeIs('journeys.*')">
                         {{ __('Employees') }}
@@ -89,11 +94,16 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
-        <div class="pt-2 pb-3 space-y-1">
+        <!-- <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('log')" :active="request()->routeIs('log')">
+                {{ __('Log Activity') }}
+            </x-responsive-nav-link>
+        </div> -->
+        <!-- <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('sites.index')" :active="request()->routeIs('sites.*')">
                 {{ __('Sites') }}
             </x-responsive-nav-link>
-        </div>
+        </div> -->
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.*') || request()->routeIs('journeys.*')">
                 {{ __('Employees') }}
