@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             DepartmentSeeder::class,
             OccupationSeeder::class,
+            EmployeeSeeder::class,
         ]);
     }
 }
