@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('slug');
             $table->string('name');
-            $table->string('mria')->unique();
-            $table->string('nik')->unique();
+            $table->string('mria');
+            $table->string('nik');
             $table->string('born');
             $table->string('birthday');
             $table->string('phone');
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->foreignId('occupation_id')->nullable();
             $table->string('email')->nullable();
+            $table->date('join')->nullable();
             $table->date('resign')->nullable();
             $table->timestamps();
         });
