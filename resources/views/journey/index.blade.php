@@ -23,10 +23,11 @@
             <div class="-mx-1 -my-1 overflow-x-auto">
                 <div class="inline-block min-w-full p-1 align-middle">
                     <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
-                        <table id="listOccupation" class="min-w-full divide-y divide-gray-300">
+                        <table id="listJourney" class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">#</th>
+                                <!-- <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Notification</th> -->
                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Journey</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Detail</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
@@ -36,6 +37,7 @@
                             @foreach($journeys as $journey)
                             <tr>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
+                                <!-- <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-800 italic">{{ \Carbon\Carbon::parse($journey->date)->locale('ID')->diffForHumans() }}</td> -->
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-6">
                                     <div class="font-medium">{{ $journey->event }} - {{ $journey->site }}</div>
                                     <div class="font-medium">{{ $journey->employee->name }} (MRIA-{{ substr(10000+$journey->employee->mria, -4) }})</div>
@@ -54,7 +56,7 @@
                                     <x-secondary-button as="a" href="https://wa.me/6285195140509?text={!! str_replace(' ','%20',$journey->event) !!}%20%2A{!! str_replace(' ','%20',$journey->site) !!}%2A%0Apengajuan%20{{ $journey->application }}%0Arute%20%3A%20%2A{!! str_replace(' ','%20',$journey->origin) !!}%20-%20{!! str_replace(' ','%20',$journey->destination) !!}%2A%0Atanggal%20%3A%20%2A{!! str_replace(',','%2C',str_replace(' ','%20',\Carbon\Carbon::parse($journey->date)->locale('ID')->isoFormat('dddd, DD-MM-Y'))) !!}%2A%0Avia%20%3A%20%2A{!! str_replace(' ','%20',$journey->transportation) !!}%2A%0Anama%20%3A%20%2A{!! str_replace(' ','%20',$journey->employee->name) !!}%2A" target="_blank" class="text-xs !mb-0">
                                         {{ __('Send WA') }}
                                     </x-secondary-button>
-                                    <form onsubmit="return confirm('Apakah anda yakin menghapus data {{ $journey->event }} - {{ $journey->site }} ?');" action="{{ route('journeys.destroy', $journey->id) }}" method="POST">
+                                    <form onsubmit="return confirm('Apakah anda yakin menghapus data {{ $journey->employee->name }} (MRIA-{{ substr(10000+$journey->employee->mria, -4) }}) tanggal {{ \Carbon\Carbon::parse($journey->date)->locale('ID')->isoFormat('DD-MM-Y') }} ?');" action="{{ route('journeys.destroy', $journey->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <x-dark-button class="text-xs !mb-0">
@@ -62,8 +64,8 @@
                                         </x-dark-button>
                                     </form>
                                 </td>
+                            </tr>
                             @endforeach
-                            <!-- More people... -->
                             </tbody>
                         </table>
                     </div>
@@ -74,12 +76,12 @@
 </x-app-layout>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#listOccupation').DataTable({
+    $('#listJourney').DataTable({
         ordering : false,
         dom: "<'sm:flex text-sm bg-gray-50 bg-gray-100/75'<'sm:basis-1/2 text-sm p-2'l><'sm:flex sm:basis-1/2 justify-end text-sm p-2'f>>"+'rtip',
-        lengthMenu: [[5, 25, 50, -1], [5, 25, 50, "All"]],
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
     } );
-    $('#listOccupation_info').addClass('px-3 pt-1 text-xs italic');
+    $('#listJourney_info').addClass('px-3 pt-1 text-xs italic');
     $('.dt-empty').addClass('p-3 text-center');
 });
 </script>

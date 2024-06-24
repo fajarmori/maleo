@@ -10,12 +10,12 @@
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <x-primary-button as="a" href="{{ route('occupations.create')}}">
-                        {{ __('Add Occupation') }}
-                    </x-primary-button>
                     <x-danger-button as="a" :href="route('employees.index')">
                         {{ __('Back') }}
                     </x-danger-button>
+                    <x-primary-button as="a" href="{{ route('occupations.create')}}">
+                        {{ __('Add Occupation') }}
+                    </x-primary-button>
                 </div>
             </div>
         </div>
@@ -50,8 +50,8 @@
                                         </x-dark-button>
                                     </form>
                                 </td>
+                            </tr>
                             @endforeach
-                            <!-- More people... -->
                             </tbody>
                         </table>
                     </div>
@@ -65,7 +65,7 @@ $(document).ready(function() {
     $('#listOccupation').DataTable({
         ordering : false,
         dom: "<'sm:flex text-sm bg-gray-50 bg-gray-100/75'<'sm:basis-1/2 text-sm p-2'l><'sm:flex sm:basis-1/2 justify-end text-sm p-2'f>>"+'rtip',
-        lengthMenu: [[5, 25, 50, -1], [5, 25, 50, "All"]],
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
     } );
     $('#listOccupation_info').addClass('px-3 pt-1 text-xs italic');
     $('.dt-empty').addClass('p-3 text-center');

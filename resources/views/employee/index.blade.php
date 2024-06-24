@@ -49,8 +49,8 @@
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->name }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->phone }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->detail->resign ? 'Resign' : 'Active'}}</td>
+                            </tr>
                             @endforeach
-                            <!-- More people... -->
                             </tbody>
                         </table>
                     </div>
@@ -64,7 +64,7 @@ $(document).ready(function() {
     $('#listEmployee').DataTable({
         ordering : false,
         dom: "<'sm:flex text-sm bg-gray-50 bg-gray-100/75'<'sm:basis-1/2 text-sm p-2'l><'sm:flex sm:basis-1/2 justify-end text-sm p-2'f>>"+'rtip',
-        lengthMenu: [[5, 25, 50, -1], [5, 25, 50, "All"]],
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
     } );
     $('#listEmployee_info').addClass('px-3 pt-1 text-xs italic');
     $('.dt-empty').addClass('p-3 text-center');
