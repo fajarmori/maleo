@@ -71,7 +71,7 @@
                     <x-primary-button class="w-32">
                         {{ __('Save') }}
                     </x-primary-button>
-                    <x-danger-button as="a" :href="route('employees.index')" class="w-32">
+                    <x-danger-button as="a" :href="route('employees.show', $employee->slug)" class="w-32">
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>

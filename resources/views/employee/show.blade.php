@@ -19,7 +19,7 @@
                     <x-primary-button as="a" href="{{ route('journeys.create', ['employee' => $employee->id])}}">
                         {{ __('Add Journey') }}
                     </x-primary-button>
-                    <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$employee->mria}} ?');" action="{{ route('employees.destroy', $employee->id) }}" method="POST">
+                    <form onsubmit="return confirm('Apakah anda yakin menghapus data MRIA-{{substr(10000+$employee->mria, -4)}} ?');" action="{{ route('employees.destroy', $employee->slug) }}" method="POST">
                         @method('DELETE')
                         @csrf
                         <x-dark-button class="w-full">
