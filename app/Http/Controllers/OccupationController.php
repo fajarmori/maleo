@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\Occupation;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -32,10 +33,11 @@ class OccupationController extends Controller
 
     public function store(OccupationRequest $request)
     {
-        Occupation::create([
+        $occupation = Occupation::create([
             'name' => $request->validated('name'),
             'department_id' => $request->validated('department'),
         ]);
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created occupation_id - '.$occupation->id]);
         return to_route('occupations.index');
     }
 
@@ -64,12 +66,14 @@ class OccupationController extends Controller
             'name' => $request->name,
             'department_id' => $request->department,
         ]);
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated occupation_id - '.$occupation->id]);
         return to_route('occupations.index');
     }
 
     public function destroy(Occupation $occupation)
     {
         Occupation::query()->where('id', $occupation->id)->delete();
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted occupation_id - '.$occupation->id]);
         return to_route('occupations.index');
     }
 }

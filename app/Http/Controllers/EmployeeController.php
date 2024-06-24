@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\Employee;
 use App\Models\Occupation;
 use App\Models\DetailEmployee;
@@ -36,6 +37,7 @@ class EmployeeController extends Controller
         $employee = Employee::create($request->validated());
         $detail = new DetailEmployee(['employee_id' => $employee->id]);
         $employee->detail()->save($detail);
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created employee_id - '.$employee->id]);
         return to_route('employees.index');
     }
 
@@ -74,12 +76,14 @@ class EmployeeController extends Controller
             'resign' => $request->resign,
             'occupation_id' => is_numeric($request->occupation) ? $request->occupation : NULL,
         ]);
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated employee_id - '.$employee->id]);
         return to_route('employees.show',['employee' => $employee]);
     }
     
     public function destroy(Employee $employee)
     {
         Employee::query()->where('slug', $employee->slug)->delete();
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted employee_id - '.$employee->id]);
         return to_route('employees.index');
     }
 }

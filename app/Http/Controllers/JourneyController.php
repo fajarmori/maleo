@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Log;
 use App\Models\Journey;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -31,7 +33,7 @@ class JourneyController extends Controller
 
     public function store(JourneyRequest $request, $employee_id)
     {
-        Journey::create([
+        $journey = Journey::create([
             'event' => $request->validated('event'),
             'site' => $request->validated('site'),
             'application' => $request->validated('application'),
@@ -41,6 +43,7 @@ class JourneyController extends Controller
             'transportation' => $request->validated('transportation'),
             'employee_id' => $employee_id,
         ]);
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created journey_id - '.$journey->id]);
         return to_route('journeys.index');
     }
 
@@ -73,12 +76,14 @@ class JourneyController extends Controller
             'date' => $request->date,
             'transportation' => $request->transportation,
         ]);
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated journey_id - '.$journey->id]);
         return to_route('journeys.index');
     }
 
     public function destroy(Journey $journey)
     {
         Journey::query()->where('id', $journey->id)->delete();
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted journey_id - '.$journey->id]);
         return to_route('journeys.index');
     }
 }

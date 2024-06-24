@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'update my profile']);
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

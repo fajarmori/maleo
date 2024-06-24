@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,7 +30,8 @@ class DepartmentController extends Controller
 
     public function store(DepartmentRequest $request)
     {
-        Department::create($request->validated());
+        $department = Department::create($request->validated());
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created department_id - '.$department->id]);
         return to_route('departments.index');
     }
 
@@ -57,12 +59,14 @@ class DepartmentController extends Controller
             'name' => $request->name,
             'code' => $request->code,
         ]);
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated department_id - '.$department->id]);
         return to_route('departments.index');
     }
 
     public function destroy(Department $department)
     {
         Department::query()->where('id', $department->id)->delete();
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted department_id - '.$department->id]);
         return to_route('departments.index');
     }
 }
