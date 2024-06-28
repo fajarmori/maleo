@@ -6,18 +6,25 @@ use App\Models\Log;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\DepartmentRequest;
 
 class DepartmentController extends Controller
 {
     public function index()
     {
+        $department = new Department();
+        Gate::authorize('list', $department);
+
         $departments = Department::query()->latest('id')->get();
         return view('department.index',['departments' => $departments]);
     }
 
     public function create()
     {
+        $department = new Department();
+        Gate::authorize('crud', $department);
+
         return view('department.form',[
             'department' => new Department(),
             'page_meta' => collect([
@@ -30,7 +37,11 @@ class DepartmentController extends Controller
 
     public function store(DepartmentRequest $request)
     {
+        $department = new Department();
+        Gate::authorize('crud', $department);
+
         $department = Department::create($request->validated());
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created department_id - '.$department->id]);
         return to_route('departments.index');
     }
@@ -43,6 +54,8 @@ class DepartmentController extends Controller
 
     public function edit(Department $department)
     {
+        Gate::authorize('crud', $department);
+        
         return view('department.form',[
             'department' => $department,
             'page_meta' => collect([
@@ -55,17 +68,23 @@ class DepartmentController extends Controller
 
     public function update(DepartmentRequest $request, Department $department)
     {
+        Gate::authorize('crud', $department);
+
         $department->update([
             'name' => $request->name,
             'code' => $request->code,
         ]);
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated department_id - '.$department->id]);
         return to_route('departments.index');
     }
 
     public function destroy(Department $department)
     {
+        Gate::authorize('crud', $department);
+
         Department::query()->where('id', $department->id)->delete();
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted department_id - '.$department->id]);
         return to_route('departments.index');
     }

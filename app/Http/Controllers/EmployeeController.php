@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Occupation;
 use App\Models\DetailEmployee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeRequest;
 
@@ -14,12 +15,18 @@ class EmployeeController extends Controller
 {
     public function index()
     {
+        $employee = new Employee();
+        Gate::authorize('list', $employee);
+
         $employees = Employee::query()->latest('id')->get();
         return view('employee.index',['employees' => $employees]);
     }
 
     public function create()
     {
+        $employee = new Employee();
+        Gate::authorize('crud', $employee);
+
         $employee = Employee::latest('id')->first();
         $employee ? $mria = $employee->mria : $mria = 0;
         return view('employee.form',[
@@ -34,21 +41,29 @@ class EmployeeController extends Controller
 
     public function store(EmployeeRequest $request)
     {
+        $employee = new Employee();
+        Gate::authorize('crud', $employee);
+
         $employee = Employee::create($request->validated());
         $detail = new DetailEmployee(['employee_id' => $employee->id]);
         $employee->detail()->save($detail);
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created employee_id - '.$employee->id]);
         return to_route('employees.index');
     }
 
     public function show(Employee $employee)
     {
+        Gate::authorize('list', $employee);
+
         $employee = Employee::query()->where('slug',$employee->slug)->first();
         return view('employee.show',['employee' => $employee]);
     }
 
     public function edit(Employee $employee)
     {
+        Gate::authorize('crud', $employee);
+
         $occupations = Occupation::query()->latest('id')->get();
         return view('employee.form',[
             'employee' => $employee,
@@ -63,6 +78,8 @@ class EmployeeController extends Controller
 
     public function update(EmployeeRequest $request, Employee $employee)
     {
+        Gate::authorize('crud', $employee);
+        
         $employee->update([
             'name' => $request->name,
             'nik' => $request->nik,
@@ -76,13 +93,17 @@ class EmployeeController extends Controller
             'resign' => $request->resign,
             'occupation_id' => is_numeric($request->occupation) ? $request->occupation : NULL,
         ]);
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated employee_id - '.$employee->id]);
         return to_route('employees.show',['employee' => $employee]);
     }
     
     public function destroy(Employee $employee)
     {
+        Gate::authorize('crud', $employee);
+
         Employee::query()->where('slug', $employee->slug)->delete();
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted employee_id - '.$employee->id]);
         return to_route('employees.index');
     }

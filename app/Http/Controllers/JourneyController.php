@@ -7,6 +7,7 @@ use App\Models\Log;
 use App\Models\Journey;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JourneyRequest;
 
@@ -14,15 +15,21 @@ class JourneyController extends Controller
 {
     public function index()
     {
+        $journey = new Journey();
+        Gate::authorize('list', $journey);
+
         $journeys = Journey::query()->latest('id')->get();
         return view('journey.index',['journeys' => $journeys]);
     }
 
     public function create($employee_id)
     {
+        $journey = new Journey();
+        Gate::authorize('crud', $journey);
+        
         $employee = Employee::select('name','mria')->where('id',$employee_id)->first();
         return view('journey.form',[
-            'journey' => new Journey(),
+            'journey' => $journey,
             'page_meta' => collect([
                 'title' => 'Create a journey '.$employee->name.' (MRIA-'.substr(10000+$employee->mria,-4).') ',
                 'method' => 'post',
@@ -33,6 +40,9 @@ class JourneyController extends Controller
 
     public function store(JourneyRequest $request, $employee_id)
     {
+        $journey = new Journey();
+        Gate::authorize('crud', $journey);
+
         $journey = Journey::create([
             'event' => $request->validated('event'),
             'site' => $request->validated('site'),
@@ -43,6 +53,7 @@ class JourneyController extends Controller
             'transportation' => $request->validated('transportation'),
             'employee_id' => $employee_id,
         ]);
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created journey_id - '.$journey->id]);
         return to_route('journeys.index');
     }
@@ -53,7 +64,9 @@ class JourneyController extends Controller
     // }
 
     public function edit(Journey $journey)
-    {
+    {        
+        Gate::authorize('crud', $journey);
+
         $employee = Employee::select('name','mria')->where('id',$journey->employee_id)->first();
         return view('journey.form',[
             'journey' => $journey,
@@ -67,6 +80,8 @@ class JourneyController extends Controller
 
     public function update(JourneyRequest $request, Journey $journey)
     {
+        Gate::authorize('crud', $journey);
+
         $journey->update([
             'event' => $request->event,
             'site' => $request->site,
@@ -76,13 +91,17 @@ class JourneyController extends Controller
             'date' => $request->date,
             'transportation' => $request->transportation,
         ]);
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated journey_id - '.$journey->id]);
         return to_route('journeys.index');
     }
 
     public function destroy(Journey $journey)
     {
+        Gate::authorize('crud', $journey);
+
         Journey::query()->where('id', $journey->id)->delete();
+        
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted journey_id - '.$journey->id]);
         return to_route('journeys.index');
     }
