@@ -13,16 +13,16 @@
                     <x-danger-button as="a" href="{{ route('employees.index')}}">
                         {{ __('Back') }}
                     </x-danger-button>
-                    <x-primary-button as="a" href="{{ route('employees.edit', $employee->slug)}}">
+                    <x-primary-button as="a" href="{{ route('employees.edit', $employee->slug)}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
                         {{ __('Edit') }}
                     </x-primary-button>
-                    <x-primary-button as="a" href="{{ route('journeys.create', ['employee' => $employee->id])}}">
+                    <x-primary-button as="a" href="{{ route('journeys.create', ['employee' => $employee->id])}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
                         {{ __('Add Journey') }}
                     </x-primary-button>
                     <form onsubmit="return confirm('Apakah anda yakin menghapus data MRIA-{{substr(10000+$employee->mria, -4)}} ?');" action="{{ route('employees.destroy', $employee->slug) }}" method="POST">
                         @method('DELETE')
                         @csrf
-                        <x-dark-button class="w-full">
+                        <x-dark-button class="w-full {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
                             {{ __('Delete') }}
                         </x-dark-button>
                     </form>
