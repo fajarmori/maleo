@@ -67,11 +67,11 @@ class OccupationSeeder extends Seeder
             ['name' => 'Umum', 'department_id' => '3'],
         ]);
 
-        $occupations->each(function($occupation){
-            Occupation::create([
-                'name' => $occupation['name'],
-                'department_id' => $occupation['department_id'],
-            ]);
+        $occupations->each(function($data){
+            $occupation = new Occupation;
+            $occupation->name = $data['name'];
+            $occupation->department_id = $data['department_id'];
+            $occupation->saveQuietly();
         });
     }
 }

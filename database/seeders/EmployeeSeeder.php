@@ -436,17 +436,6 @@ class EmployeeSeeder extends Seeder
                 $check = Employee::where('slug', $slug)->first();
             } while (isset($check));
 
-            // $employee = Employee::create([
-            //     'slug' => $slug,
-            //     'name' => $data[1],
-            //     'mria' => $data[0],
-            //     'nik' => $data[2],
-            //     'born' => $data[5],
-            //     'birthday' => $data[6],
-            //     'phone' => $data[7],
-            //     'address' => $data[5],
-            // ]);
-
             $employee = new Employee;
             $employee->slug = $slug;
             $employee->name = $data[1];
@@ -456,7 +445,6 @@ class EmployeeSeeder extends Seeder
             $employee->birthday = $data[6];
             $employee->phone = $data[7];
             $employee->address = $data[5];
-
             $employee->saveQuietly();
 
             $employee->detail()->create([

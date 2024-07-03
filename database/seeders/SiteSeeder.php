@@ -26,16 +26,15 @@ class SiteSeeder extends Seeder
             ['name' => 'Site Tulungagung', 'owner' => 'PT Waskita Karya (Persero) Tbk.', 'district' => 'Pucanglaban', 'regency' => 'Kab. Tulungagung', 'province' => 'Jawa Timur', 'description' => 'Pembangunan Jalan Lintas Selatan Lot 6b'],
         ]);
 
-        $sites->each(function($site){
-            Site::create([
-                'name' => $site['name'],
-                'owner' => $site['owner'],
-                'slug' => Str::slug($site['name'].'-'.$site['owner']),
-                'district' => $site['district'],
-                'regency' => $site['regency'],
-                'province' => $site['province'],
-                'description' => $site['description']
-            ]);
+        $sites->each(function($data){
+            $site = new Site;
+            $site->name = $data['name'];
+            $site->owner = $data['owner'];
+            $site->district = $data['district'];
+            $site->regency = $data['regency'];
+            $site->province = $data['province'];
+            $site->description = $data['description'];
+            $site->saveQuietly();
         });
     }
 }

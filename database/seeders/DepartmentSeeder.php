@@ -23,11 +23,11 @@ class DepartmentSeeder extends Seeder
             ['name' => 'Surveyor', 'code' => 'SUR'],
         ]);
 
-        $departments->each(function($department){
-            Department::create([
-                'name' => $department['name'],
-                'code' => $department['code'],
-            ]);
+        $departments->each(function($data){
+            $department = new Department;
+            $department->name = $data['name'];
+            $department->code = $data['code'];
+            $department->saveQuietly();
         });
     }
 }
