@@ -19,9 +19,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('occupations', Controllers\OccupationController::class)->except(['show']);
     Route::resource('departments', Controllers\DepartmentController::class)->except(['show']);
     
+    Route::get('/user', [Controllers\UserController::class, 'index'])->name('user.index');
+    Route::get('/user/{user}/edit', [Controllers\UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{user}', [Controllers\UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{user}', [Controllers\UserController::class, 'destroy'])->name('user.destroy');
+
     Route::get('/profile', [Controllers\ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/getemployees', [Controllers\DataController::class, 'getEmployees'])->name('getemployees');
 });
 
 require __DIR__.'/auth.php';
