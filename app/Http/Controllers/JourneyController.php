@@ -16,7 +16,7 @@ class JourneyController extends Controller
     public function index()
     {
         $journey = new Journey();
-        Gate::authorize('list', $journey);
+        Gate::authorize('listJourney', $journey);
 
         $journeys = Journey::query()->latest('id')->get();
         return view('journey.index',['journeys' => $journeys]);
@@ -25,7 +25,7 @@ class JourneyController extends Controller
     public function create($employee_id)
     {
         $journey = new Journey();
-        Gate::authorize('crud', $journey);
+        Gate::authorize('crudJourney', $journey);
         
         $employee = Employee::select('name','mria')->where('id',$employee_id)->first();
         return view('journey.form',[
@@ -41,7 +41,7 @@ class JourneyController extends Controller
     public function store(JourneyRequest $request, $employee_id)
     {
         $journey = new Journey();
-        Gate::authorize('crud', $journey);
+        Gate::authorize('crudJourney', $journey);
 
         $journey = Journey::create([
             'event' => $request->validated('event'),
@@ -65,7 +65,7 @@ class JourneyController extends Controller
 
     public function edit(Journey $journey)
     {        
-        Gate::authorize('crud', $journey);
+        Gate::authorize('crudJourney', $journey);
 
         $employee = Employee::select('name','mria')->where('id',$journey->employee_id)->first();
         return view('journey.form',[
@@ -80,7 +80,7 @@ class JourneyController extends Controller
 
     public function update(JourneyRequest $request, Journey $journey)
     {
-        Gate::authorize('crud', $journey);
+        Gate::authorize('crudJourney', $journey);
 
         $journey->update([
             'event' => $request->event,
@@ -98,7 +98,7 @@ class JourneyController extends Controller
 
     public function destroy(Journey $journey)
     {
-        Gate::authorize('crud', $journey);
+        Gate::authorize('crudJourney', $journey);
 
         Journey::query()->where('id', $journey->id)->delete();
         

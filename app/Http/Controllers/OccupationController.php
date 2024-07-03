@@ -15,7 +15,7 @@ class OccupationController extends Controller
     public function index()
     {
         $occupation = new Occupation();
-        Gate::authorize('list', $occupation);
+        Gate::authorize('listOccupation', $occupation);
 
         $occupations = Occupation::query()->latest('id')->get();
         return view('occupation.index',['occupations' => $occupations]);
@@ -24,7 +24,7 @@ class OccupationController extends Controller
     public function create()
     {
         $occupation = new Occupation();
-        Gate::authorize('crud', $occupation);
+        Gate::authorize('crudOccupation', $occupation);
 
         $departments = Department::query()->latest('id')->get();
         return view('occupation.form',[
@@ -41,7 +41,7 @@ class OccupationController extends Controller
     public function store(OccupationRequest $request)
     {
         $occupation = new Occupation();
-        Gate::authorize('crud', $occupation);
+        Gate::authorize('crudOccupation', $occupation);
 
         $occupation = Occupation::create([
             'name' => $request->validated('name'),
@@ -59,7 +59,7 @@ class OccupationController extends Controller
 
     public function edit(Occupation $occupation)
     {
-        Gate::authorize('crud', $occupation);
+        Gate::authorize('crudOccupation', $occupation);
 
         $departments = Department::query()->latest('id')->get();
         return view('occupation.form',[
@@ -75,7 +75,7 @@ class OccupationController extends Controller
 
     public function update(OccupationRequest $request, Occupation $occupation)
     {
-        Gate::authorize('crud', $occupation);
+        Gate::authorize('crudOccupation', $occupation);
 
         $occupation->update([
             'name' => $request->name,
@@ -88,7 +88,7 @@ class OccupationController extends Controller
 
     public function destroy(Occupation $occupation)
     {
-        Gate::authorize('crud', $occupation);
+        Gate::authorize('crudOccupation', $occupation);
 
         Occupation::query()->where('id', $occupation->id)->delete();
         

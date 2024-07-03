@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\Response;
 
 class JourneyPolicy
 {
-    public function list(User $user, Journey $journey): Response
+    public function listJourney(User $user, Journey $journey): Response
     {
         switch ($user->type){
         case 0:
@@ -17,7 +17,7 @@ class JourneyPolicy
             return $user->detail->occupation->department_id === 4 ? Response::allow() : Response::denyAsNotFound();
         }
     }
-    public function crud(User $user, Journey $journey): Response
+    public function crudJourney(User $user, Journey $journey): Response
     {
         switch ($user->type){
         case 0:

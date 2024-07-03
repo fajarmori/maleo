@@ -14,7 +14,7 @@ class DepartmentController extends Controller
     public function index()
     {
         $department = new Department();
-        Gate::authorize('list', $department);
+        Gate::authorize('listDepartment', $department);
 
         $departments = Department::query()->latest('id')->get();
         return view('department.index',['departments' => $departments]);
@@ -23,7 +23,7 @@ class DepartmentController extends Controller
     public function create()
     {
         $department = new Department();
-        Gate::authorize('crud', $department);
+        Gate::authorize('crudDepartment', $department);
 
         return view('department.form',[
             'department' => new Department(),
@@ -38,7 +38,7 @@ class DepartmentController extends Controller
     public function store(DepartmentRequest $request)
     {
         $department = new Department();
-        Gate::authorize('crud', $department);
+        Gate::authorize('crudDepartment', $department);
 
         $department = Department::create($request->validated());
         
@@ -54,7 +54,7 @@ class DepartmentController extends Controller
 
     public function edit(Department $department)
     {
-        Gate::authorize('crud', $department);
+        Gate::authorize('crudDepartment', $department);
         
         return view('department.form',[
             'department' => $department,
@@ -68,7 +68,7 @@ class DepartmentController extends Controller
 
     public function update(DepartmentRequest $request, Department $department)
     {
-        Gate::authorize('crud', $department);
+        Gate::authorize('crudDepartment', $department);
 
         $department->update([
             'name' => $request->name,
@@ -81,7 +81,7 @@ class DepartmentController extends Controller
 
     public function destroy(Department $department)
     {
-        Gate::authorize('crud', $department);
+        Gate::authorize('crudDepartment', $department);
 
         Department::query()->where('id', $department->id)->delete();
         

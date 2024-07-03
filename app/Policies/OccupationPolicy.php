@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\Response;
 
 class OccupationPolicy
 {
-    public function list(User $user, Occupation $occupation): Response
+    public function listOccupation(User $user, Occupation $occupation): Response
     {
         switch ($user->type){
         case 0:
@@ -17,7 +17,7 @@ class OccupationPolicy
             return $user->detail->occupation->department_id === 4 ? Response::allow() : Response::denyAsNotFound();
         }
     }
-    public function crud(User $user, Occupation $occupation): Response
+    public function crudOccupation(User $user, Occupation $occupation): Response
     {
         switch ($user->type){
         case 0:

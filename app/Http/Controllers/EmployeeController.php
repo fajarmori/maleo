@@ -16,7 +16,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employee = new Employee();
-        Gate::authorize('list', $employee);
+        Gate::authorize('listEmployee', $employee);
 
         $employees = Employee::query()->latest('id')->get();
         return view('employee.index',['employees' => $employees]);
@@ -25,7 +25,7 @@ class EmployeeController extends Controller
     public function create()
     {
         $employee = new Employee();
-        Gate::authorize('crud', $employee);
+        Gate::authorize('crudEmployee', $employee);
 
         $employee = Employee::latest('id')->first();
         $employee ? $mria = $employee->mria : $mria = 0;
@@ -42,7 +42,7 @@ class EmployeeController extends Controller
     public function store(EmployeeRequest $request)
     {
         $employee = new Employee();
-        Gate::authorize('crud', $employee);
+        Gate::authorize('crudEmployee', $employee);
 
         $employee = Employee::create($request->validated());
         $detail = new DetailEmployee(['employee_id' => $employee->id]);
@@ -54,7 +54,7 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-        Gate::authorize('list', $employee);
+        Gate::authorize('listEmployee', $employee);
 
         $employee = Employee::query()->where('slug',$employee->slug)->first();
         return view('employee.show',['employee' => $employee]);
@@ -62,7 +62,7 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee)
     {
-        Gate::authorize('crud', $employee);
+        Gate::authorize('crudEmployee', $employee);
 
         $occupations = Occupation::query()->latest('id')->get();
         return view('employee.form',[
@@ -78,7 +78,7 @@ class EmployeeController extends Controller
 
     public function update(EmployeeRequest $request, Employee $employee)
     {
-        Gate::authorize('crud', $employee);
+        Gate::authorize('crudEmployee', $employee);
         
         $employee->update([
             'name' => $request->name,
@@ -100,7 +100,7 @@ class EmployeeController extends Controller
     
     public function destroy(Employee $employee)
     {
-        Gate::authorize('crud', $employee);
+        Gate::authorize('crudEmployee', $employee);
 
         Employee::query()->where('slug', $employee->slug)->delete();
         
