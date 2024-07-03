@@ -21,5 +21,6 @@ class Site extends Model
         'regency',
         'province',
         'description',
+        'user_id',
     ];
 }
