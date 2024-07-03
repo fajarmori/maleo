@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('owner');
-            $table->string('slug');
             $table->string('district');
             $table->string('regency');
             $table->string('province');
             $table->text('description');
+            $table->foreignId('user_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
