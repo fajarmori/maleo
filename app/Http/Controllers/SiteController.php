@@ -45,11 +45,11 @@ class SiteController extends Controller
     {
         return view('site.form',[
             'site' => $site,
-            'page_meta' => [
+            'page_meta' => collect([
                 'title' => 'Edit Site',
                 'method' => 'put',
                 'url' => route('sites.update', $site),
-            ],
+            ]),
         ]);
     }
 
