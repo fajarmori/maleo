@@ -52,4 +52,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(DetailEmployee::class);
     }
+    public function site(): Relations\HasOne
+    {
+        return $this->hasOne(Site::class);
+    }
 }
