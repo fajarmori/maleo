@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code');
             $table->string('owner');
             $table->string('district');
             $table->string('regency');

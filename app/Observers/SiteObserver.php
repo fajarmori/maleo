@@ -8,6 +8,10 @@ class SiteObserver
 {
     public function creating(Site $site): void 
     {
-        $site->slug = str()->slug($site->name.'-'.$site->owner);
+        $site->code = str()->upper($site->code);
+    }
+    public function updating(Site $site): void 
+    {
+        $site->code = str()->upper($site->code);
     }
 }

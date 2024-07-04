@@ -37,6 +37,13 @@
                         </x-nav-link>
                     </div>
                 @endif
+                @if($departmentID === 3 || auth()->user()->type === 0)
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('gait')" :active="request()->routeIs('gait') || request()->routeIs('sites.*')">
+                            {{ __('GAIT') }}
+                        </x-nav-link>
+                    </div>
+                @endif
                 @if(auth()->user()->type === 0)
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
                     <x-nav-link :href="route('user.index')">
