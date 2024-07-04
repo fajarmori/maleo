@@ -7,6 +7,17 @@
     </x-slot>
 
     <x-container>
+        @if(auth()->user()->email !== 'admin@mria.co.id')
+        <div class="mb-6 bg-green-200 overflow-hidden shadow-sm rounded-lg">
+            <div class="p-6 text-gray-900">
+                <div class="sm:flex sm:items-center">
+                    <div class="sm:flex-auto">
+                        <h1 class="text-base leading-6 text-gray-900">Gunakan kode <span class="font-semibold">{{ auth()->user()->detail->occupation->department->code ?? auth()->user()->site->code }}</span> untuk surat menyurat internal.</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 <div class="sm:flex sm:items-center">
