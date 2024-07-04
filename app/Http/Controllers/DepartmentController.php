@@ -40,7 +40,10 @@ class DepartmentController extends Controller
         $department = new Department();
         Gate::authorize('crudDepartment', $department);
 
-        $department = Department::create($request->validated());
+        $department = Department::create([
+            'name' => $request->validated('name'),
+            'code' => str()->upper($request->validated('code')),
+        ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created department_id - '.$department->id]);
         return to_route('departments.index');
@@ -71,8 +74,8 @@ class DepartmentController extends Controller
         Gate::authorize('crudDepartment', $department);
 
         $department->update([
-            'name' => $request->name,
-            'code' => $request->code,
+            'name' => $request->validated('name'),
+            'code' => str()->upper($request->validated('code')),
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated department_id - '.$department->id]);

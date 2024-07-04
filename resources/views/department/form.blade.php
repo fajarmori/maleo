@@ -19,7 +19,7 @@
                     </div>
                     <div>
                         <x-input-label for="code" :value="__('Code')" />
-                        <x-text-input id="code" class="block mt-1 w-full uppercase" type="text" name="code" :value="old('code',$department->code)" autofocus />
+                        <x-text-input id="code" class="block mt-1 w-full" type="text" name="code" :value="old('code',$department->code)" minlength="3" maxlength="4" autofocus />
                         <x-input-error :messages="$errors->get('code')" class="mt-2" />
                     </div>
                     <x-primary-button class="w-32">
