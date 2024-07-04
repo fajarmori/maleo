@@ -7,18 +7,12 @@
     </x-slot>
 
     <x-container>
-        <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
+    <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
-                <div class="sm:flex sm:items-center">
-                    <div class="sm:flex-auto">
-                        <h1 class="text-base font-semibold leading-6 text-gray-900">List Site Project PT MRIA</h1>
-                        <p class="mt-2 text-sm text-gray-700">A list of all the site project PT MRIA.</p>
-                    </div>
-                    <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                        <x-primary-button as="a" href="{{ route('sites.create')}}">
-                            {{ __('Add Site') }}
-                        </x-primary-button>
-                    </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <x-primary-button as="a" href="{{ route('sites.create')}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
+                        {{ __('Add Site') }}
+                    </x-primary-button>
                 </div>
             </div>
         </div>
@@ -31,10 +25,12 @@
                             <tr>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">#</th>
                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Code</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Owner</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">District</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Regency</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Province</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
@@ -44,10 +40,12 @@
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                     <a href="{{ route('sites.show', $site->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $site->name }}</a>
                                 </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->code }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->owner }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->district }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->regency }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->province }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->user->email??'-' }}</td>
                             </tr>
                             @endforeach
                             </tbody>

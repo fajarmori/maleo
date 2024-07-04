@@ -40,6 +40,11 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Code</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->code }}</td>
+                                </tr>
+                                <tr>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Owner</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->owner }}</td>
@@ -53,6 +58,11 @@
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Description</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->description }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Email</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->user->email??'-' }}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -18,9 +18,24 @@
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div>
+                        <x-input-label for="code" :value="__('Code')" />
+                        <x-text-input id="code" class="block mt-1 w-full" type="text" name="code" placeholder="Min 3 and max 4 character" :value="old('code',$site->code)" minlength="3" maxlength="4" autofocus />
+                        <x-input-error :messages="$errors->get('code')" class="mt-2" />
+                    </div>
+                    <div>
                         <x-input-label for="owner" :value="__('Owner')" />
                         <x-text-input id="owner" class="block mt-1 w-full" type="text" name="owner" :value="old('owner',$site->owner)" autofocus />
                         <x-input-error :messages="$errors->get('owner')" class="mt-2" />
+                    </div>
+                    <div>
+                        <x-input-label for="description" :value="__('Job Description')" />
+                        <x-textarea id="description" name="description" rows="2" class="block mt-1 w-full" placeholder="About site job description">{{ old('description',$site->description) }}</x-textarea>
+                        <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                    </div>
+                    <div>
+                        <x-input-label for="email" :value="__('Email')" />
+                        <x-text-input id="email" class="block mt-1 w-full" type="text" name="email" placeholder="Choose suggested email site" :value="old('email',$site->user->email??'')" autofocus />
+                        <div id="list-email" class="relative z-10"></div>
                     </div>
                     <div>
                         <x-input-label for="district" :value="__('District')" />
@@ -37,15 +52,10 @@
                         <x-text-input id="province" class="block mt-1 w-full" type="text" name="province" :value="old('province',$site->province)" autofocus />
                         <x-input-error :messages="$errors->get('province')" class="mt-2" />
                     </div>
-                    <div>
-                        <x-input-label for="description" :value="__('Description')" />
-                        <x-textarea id="description" name="description" rows="2" class="block mt-1 w-full" placeholder="Input all about site">{{ old('description',$site->description) }}</x-textarea>
-                        <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                    </div>
                     <x-primary-button class="w-32">
                         {{ __('Save') }}
                     </x-primary-button>
-                    <x-danger-button as="a" :href="route('sites.index')" class="w-32">
+                    <x-danger-button as="a" :href="$page_meta['method'] == 'post' ? route('sites.index') : route('sites.show',$site)" class="w-32">
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
@@ -53,3 +63,23 @@
         </div>
     </x-container>
 </x-app-layout>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#email').on('keyup',function() {
+        var query = $(this).val();
+        $.ajax({
+            url:"{{ route('getemailsite') }}",
+            type:"GET",
+            data:{'email':query},
+            success:function (data) { 
+                $('#list-email').html(data);
+            }
+        })
+    });
+    $(document).on('click', 'li', function(){
+        var value = $(this).text();
+        $('#email').val(value);
+        $('#list-email').html("");
+    });
+})
+</script>
