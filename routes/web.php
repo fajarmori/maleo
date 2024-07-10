@@ -18,6 +18,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('journeys', Controllers\JourneyController::class)->except(['create','store','show']);
     Route::resource('occupations', Controllers\OccupationController::class)->except(['show']);
     Route::resource('departments', Controllers\DepartmentController::class)->except(['show']);
+    Route::resource('droppoints', Controllers\DroppointController::class);
+    Route::resource('deliverynotes', Controllers\DeliverynoteController::class);
+    Route::get('deliveryitems/create/{deliverynote:id}', [Controllers\DeliveryitemController::class, 'create'])->name('deliveryitems.create');
+    Route::post('deliveryitems/create/{deliverynote:id}', [Controllers\DeliveryitemController::class, 'store'])->name('deliveryitems.store');
+    Route::resource('deliveryitems', Controllers\DeliveryitemController::class)->except(['create','store','show']);
     
     Route::get('/user', [Controllers\UserController::class, 'index'])->name('user.index');
     Route::get('/user/{user}/edit', [Controllers\UserController::class, 'edit'])->name('user.edit');
@@ -29,9 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::view('/gait', 'menu.gait')->name('gait');
+    Route::view('/scm', 'menu.scm')->name('scm');
 
     Route::get('/getemployees', [Controllers\DataController::class, 'getEmployees'])->name('getemployees');
     Route::get('/getemailsite', [Controllers\DataController::class, 'getEmailSite'])->name('getemailsite');
+    Route::get('/getdroppoint', [Controllers\DataController::class, 'getDropPoint'])->name('getdroppoint');
+    Route::get('/generatedeliverynote/{id}',[Controllers\DataController::class, 'generateDeliveryNote'])->name('generateDeliveryNote');
 });
 
 require __DIR__.'/auth.php';
