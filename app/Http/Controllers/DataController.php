@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Employee;
+use App\Models\Droppoint;
+use App\Models\Deliverynote;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class DataController extends Controller
 {
@@ -57,5 +61,40 @@ class DataController extends Controller
             $output .= '</ul>';
             return $output;
         }
+    }
+
+    public function getDropPoint(Request $request)
+    {
+        if($request->ajax()) {
+            $droppoints = Droppoint::query()
+                ->where([
+                    ['name', 'LIKE', '%'.$request->droppoint.'%']
+                ])->limit(3)->get();
+            $output = '';
+
+            $output = '<ul class="absolute w-full">';
+            if (count($droppoints)>0) {
+                foreach ($droppoints as $droppoint){
+                    $output .= '<li class="bg-white px-3 py-2 border">'.$droppoint->name.'</li>';
+                }
+            }
+            else {
+                $output .= '<li class="bg-white px-3 py-2 border">No results</li>';
+            }
+            $output .= '</ul>';
+            return $output;
+        }
+    }
+
+    //Generate PDF
+    public function generateDeliveryNote($id)
+    {
+        $deliverynote = Deliverynote::query()->where('id',$id)->first();
+        return view('deliverynote.pdf',['deliverynote' => $deliverynote]);
+
+        // $pdf = Pdf::loadView('deliverynote.pdf', ['deliverynote' => $deliverynote]);
+        // $pdf->setPaper('A4', 'portrait');
+        // $fileName = str_replace('/','_',$deliverynote->letter)."_".Carbon::now()->format('YmdHis').".pdf";
+        // return $pdf->download($fileName);
     }
 }
