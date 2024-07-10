@@ -20,16 +20,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                <!-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('log')" :active="request()->routeIs('log')">
-                        {{ __('Log Activity') }}
-                    </x-nav-link>
-                </div> -->
-                <!-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('sites.index')" :active="request()->routeIs('sites.*')">
-                        {{ __('Sites') }}
-                    </x-nav-link>
-                </div> -->
+                @if($departmentID === 6 || auth()->user()->type === 0)
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('scm')" :active="request()->routeIs('scm') || request()->routeIs('delivery%.*')">
+                            {{ __('SCM') }}
+                        </x-nav-link>
+                    </div>
+                @endif
                 @if($departmentID === 4 || auth()->user()->type === 0)
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.*') || request()->routeIs('journeys.*')">
@@ -46,7 +43,7 @@
                 @endif
                 @if(auth()->user()->type === 0)
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
-                    <x-nav-link :href="route('user.index')">
+                    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.*')">
                         {{ __('Application') }}
                     </x-nav-link>
                 </div>
@@ -114,27 +111,31 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
-        <!-- <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('log')" :active="request()->routeIs('log')">
-                {{ __('Log Activity') }}
+        @if($departmentID === 6 || auth()->user()->type === 0)
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('scm')" :active="request()->routeIs('scm') || request()->routeIs('delivery%.*')">
+                {{ __('SCM') }}
             </x-responsive-nav-link>
-        </div> -->
-        <!-- <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('sites.index')" :active="request()->routeIs('sites.*')">
-                {{ __('Sites') }}
-            </x-responsive-nav-link>
-        </div> -->
+        </div>
+        @endif
         @if($departmentID === 4 || auth()->user()->type === 0)
-            <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.*') || request()->routeIs('journeys.*')">
-                    {{ __('Employees') }}
-                </x-responsive-nav-link>
-            </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.*') || request()->routeIs('journeys.*')">
+                {{ __('HRD') }}
+            </x-responsive-nav-link>
+        </div>
+        @endif
+        @if($departmentID === 3 || auth()->user()->type === 0)
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('gait')" :active="request()->routeIs('gait') || request()->routeIs('sites.*')">
+                {{ __('GAIT') }}
+            </x-responsive-nav-link>
+        </div>
         @endif
         @if(auth()->user()->type === 0)
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('user.index')" :active="request()->routeIs('user.*')">
-                {{ __('Users') }}
+                {{ __('Application') }}
             </x-responsive-nav-link>
         </div>
         @endif
