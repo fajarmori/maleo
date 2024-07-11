@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Employee;
 use App\Models\DetailEmployee;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 
@@ -39,9 +40,14 @@ class UserController extends Controller
     {
         Gate::authorize('pageUser', $user);
 
+        $request->validate([
+            'name' => ['required', 'string', 'max:255', "regex:/^[\w\s.'|-]*$/"],
+            'email' => ['required', 'string', 'email', 'max:255', "regex:/(.*)@mria\.co\.id/i", Rule::unique('users','email')->ignore($user->id)],
+        ]);
+
         $user->update([
-            'name' => strpos($request->name,'|')?substr($request->name,0,strlen($request->name)-12):$request->name,
-            'email' => $request->email,
+            'name' => ucwords(strtolower(strpos($request->name,'|')?substr($request->name,0,strlen($request->name)-12):$request->name)),
+            'email' => strtolower($request->email),
             'type' => $request->type,
             'email_verified_at' => NULL,
         ]);

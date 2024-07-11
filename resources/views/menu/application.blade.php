@@ -1,8 +1,8 @@
 <x-app-layout>
-    @slot('title','SCM Division')
+    @slot('title','Application Setting')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('SCM Division') }}
+            {{ __('Application Setting') }}
         </h2>
     </x-slot>
 

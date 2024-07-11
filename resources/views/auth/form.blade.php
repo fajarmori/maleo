@@ -56,7 +56,7 @@ $(document).ready(function() {
             }
         })
     });
-    $(document).on('click', 'li', function(){
+    $('#list-name').on('click', 'li', function(){
         var value = $(this).text();
         $('#name').val(value);
         $('#list-name').html("");

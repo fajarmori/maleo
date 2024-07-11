@@ -10,12 +10,14 @@
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <x-danger-button as="a" :href="route('dashboard')">
+                    <x-danger-button as="a" :href="route('application')">
                         {{ __('Back') }}
                     </x-danger-button>
-                    <x-primary-button as="a" href="{{ route('register')}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
+                    @if(auth()->user()->type === 0)
+                    <x-primary-button as="a" href="{{ route('register')}}">
                         {{ __('Add User') }}
                     </x-primary-button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -31,7 +33,9 @@
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Type</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ auth()->user()->type === 2 ? '' : 'Action' }}</th>
+                                @if(auth()->user()->type === 0)
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
@@ -44,18 +48,22 @@
                                     @switch($user->type) @case(0) Super Admin @break @case(1) Admin @break @default User @endswitch
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $user->email_verified_at ? 'Verified' : 'Unverified' }}</td>
+                                @if(auth()->user()->type === 0)
                                 <td class="whitespace-nowrap flex px-3 py-4 text-sm text-gray-500">
-                                    <x-primary-button as="a" href="{{ route('user.edit', $user->id)}}" class="text-xs !mb-0 {{ $user->email === 'admin@mria.co.id' ? 'hidden' : '' }}">
+                                    @if($user->id !== auth()->user()->id || $user->email !== 'admin@mria.co.id')
+                                    <x-primary-button as="a" href="{{ route('user.edit', $user->id)}}" class="text-xs !mb-0">
                                         {{ __('Edit') }}
                                     </x-primary-button>
                                     <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$user->name}} ?');" action="{{ route('user.destroy', $user->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <x-dark-button class="text-xs !mb-0 {{ $user->id === auth()->user()->id || $user->email === 'admin@mria.co.id' ? 'hidden' : '' }}">
+                                        <x-dark-button class="text-xs !mb-0">
                                             {{ __('Delete') }}
                                         </x-dark-button>
                                     </form>
+                                    @endif
                                 </td>
+                                @endif
                             </tr>
                             @endforeach
                             </tbody>
