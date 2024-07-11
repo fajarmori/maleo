@@ -21,29 +21,29 @@
                     </x-nav-link>
                 </div>
                 @if($departmentID === 6 || auth()->user()->type === 0)
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('scm')" :active="request()->routeIs('scm') || request()->routeIs('delivery%.*')">
-                            {{ __('SCM') }}
-                        </x-nav-link>
-                    </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('scm')" :active="request()->routeIs('scm') || request()->routeIs('delivery%.*')">
+                        {{ __('SCM') }}
+                    </x-nav-link>
+                </div>
                 @endif
                 @if($departmentID === 4 || auth()->user()->type === 0)
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.*') || request()->routeIs('journeys.*')">
-                            {{ __('HRD') }}
-                        </x-nav-link>
-                    </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('hrd')" :active="request()->routeIs('hrd') || request()->routeIs('employees.*') || request()->routeIs('journeys.*')">
+                        {{ __('HRD') }}
+                    </x-nav-link>
+                </div>
                 @endif
                 @if($departmentID === 3 || auth()->user()->type === 0)
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('gait')" :active="request()->routeIs('gait') || request()->routeIs('sites.*')">
-                            {{ __('GAIT') }}
-                        </x-nav-link>
-                    </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('gait')" :active="request()->routeIs('gait') || request()->routeIs('sites.*')">
+                        {{ __('GAIT') }}
+                    </x-nav-link>
+                </div>
                 @endif
                 @if(auth()->user()->type === 0)
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
-                    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.*')">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('application')" :active="request()->routeIs('application') || request()->routeIs('user.*')">
                         {{ __('Application') }}
                     </x-nav-link>
                 </div>

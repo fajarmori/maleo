@@ -33,8 +33,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::view('/gait', 'menu.gait')->name('gait');
     Route::view('/scm', 'menu.scm')->name('scm');
+    Route::view('/hrd', 'menu.hrd')->name('hrd');
+    Route::view('/gait', 'menu.gait')->name('gait');
+    Route::view('/application', 'menu.application')->name('application');
 
     Route::get('/getemployees', [Controllers\DataController::class, 'getEmployees'])->name('getemployees');
     Route::get('/getemailsite', [Controllers\DataController::class, 'getEmailSite'])->name('getemailsite');
