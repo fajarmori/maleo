@@ -41,14 +41,7 @@
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $user->name }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $user->email }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    @switch($user->type)
-                                        @case(0)
-                                            Super Admin @break
-                                        @case(1)
-                                            Admin @break
-                                        @default
-                                            User
-                                    @endswitch
+                                    @switch($user->type) @case(0) Super Admin @break @case(1) Admin @break @default User @endswitch
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $user->email_verified_at ? 'Verified' : 'Unverified' }}</td>
                                 <td class="whitespace-nowrap flex px-3 py-4 text-sm text-gray-500">

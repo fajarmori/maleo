@@ -19,7 +19,7 @@
                     </div>
                     <div>
                         <x-input-label for="code" :value="__('Code')" />
-                        <x-text-input id="code" class="block mt-1 w-full" type="text" name="code" placeholder="Min 3 and max 4 character" :value="old('code',$site->code)" minlength="3" maxlength="4" autofocus />
+                        <x-text-input id="code" class="block mt-1 w-full" type="text" name="code" placeholder="Input 3-4 character unique" :value="old('code',$site->code)" minlength="3" maxlength="4" autofocus />
                         <x-input-error :messages="$errors->get('code')" class="mt-2" />
                     </div>
                     <div>
@@ -76,7 +76,7 @@ $(document).ready(function() {
             }
         })
     });
-    $(document).on('click', 'li', function(){
+    $('#list-email').on('click', 'li', function(){
         var value = $(this).text();
         $('#email').val(value);
         $('#list-email').html("");

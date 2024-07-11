@@ -7,15 +7,17 @@
     </x-slot>
 
     <x-container>
-    <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
+        @if(auth()->user()->type !== 2)
+        <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <x-primary-button as="a" href="{{ route('sites.create')}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
+                    <x-primary-button as="a" href="{{ route('sites.create')}}">
                         {{ __('Add Site') }}
                     </x-primary-button>
                 </div>
             </div>
         </div>
+        @endif
         <div class="flow-root mb-6">
             <div class="-mx-1 -my-1 overflow-x-auto">
                 <div class="inline-block min-w-full p-1 align-middle">
@@ -27,9 +29,7 @@
                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Code</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Owner</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">District</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Regency</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Province</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Address</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
                             </tr>
                             </thead>
@@ -37,14 +37,18 @@
                             @foreach($sites as $site)
                             <tr>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
-                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                                     <a href="{{ route('sites.show', $site->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $site->name }}</a>
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->code }}</td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->owner }}</td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->district }}</td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->regency }}</td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->province }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">{{ $site->code }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm">
+                                    <div>{{ $site->owner }}</div>
+                                    <div class="italic">{{ $site->description }}</div>
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <div>{{ $site->district }}, {{ $site->regency }}</div>
+                                    <div class="italic">{{ $site->province }}</div>
+                                </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->user->email??'-' }}</td>
                             </tr>
                             @endforeach

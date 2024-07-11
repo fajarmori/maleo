@@ -13,6 +13,7 @@
                     <x-danger-button as="a" href="{{ route('sites.index')}}">
                         {{ __('Back') }}
                     </x-danger-button>
+                    @if(auth()->user()->type !== 2)
                     <x-primary-button as="a" href="{{ route('sites.edit', $site->id)}}">
                         {{ __('Edit') }}
                     </x-primary-button>
@@ -23,6 +24,7 @@
                             {{ __('Delete') }}
                         </x-dark-button>
                     </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -40,24 +42,24 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Code</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->code }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">Code</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">:</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">{{ $site->code }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Owner</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->owner }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Address</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->district }}, {{ $site->regency }}, {{ $site->province }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">Owner</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">:</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">{{ $site->owner }}</td>
                                 </tr>
                                 <tr>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Description</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->description }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Address</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->district }}, {{ $site->regency }}, {{ $site->province }}</td>
                                 </tr>
                                 <tr>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Email</td>

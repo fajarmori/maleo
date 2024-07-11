@@ -15,13 +15,13 @@ class SiteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'owner' => ['required', 'string', 'max:255'],
-            'district' => ['required', 'string', 'max:255'],
-            'regency' => ['required', 'string', 'max:255'],
-            'province' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'min:5'],
-            'code' => ['required', 'string', 'min:3', 'max:4', $this->method() == 'POST' ? Rule::unique('sites','code') : Rule::unique('sites','code')->ignore($this->site->id)],
+            'name' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
+            'owner' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
+            'district' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
+            'regency' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
+            'province' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
+            'description' => ['required', 'string', 'min:5', "regex:/^[\w\s.']*$/"],
+            'code' => ['required', 'string', 'min:3', 'max:4', "regex:/^[\w\s.']*$/", $this->method() == 'POST' ? Rule::unique('sites','code') : Rule::unique('sites','code')->ignore($this->site->id)],
         ];
     }
 }
