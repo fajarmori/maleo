@@ -10,9 +10,11 @@
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <x-primary-button as="a" href="{{ route('employees.create')}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
+                    @if(auth()->user()->type !== 2)
+                    <x-primary-button as="a" href="{{ route('employees.create')}}">
                         {{ __('Add Employee') }}
                     </x-primary-button>
+                    @endif
                     <x-primary-button as="a" href="{{ route('journeys.index')}}">
                         {{ __('Journey') }}
                     </x-primary-button>

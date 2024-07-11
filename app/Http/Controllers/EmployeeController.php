@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
+use App\Models\User;
 use App\Models\Employee;
 use App\Models\Occupation;
 use App\Models\DetailEmployee;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeRequest;
@@ -44,7 +46,14 @@ class EmployeeController extends Controller
         $employee = new Employee();
         Gate::authorize('crudEmployee', $employee);
 
-        $employee = Employee::create($request->validated());
+        $employee = Employee::create([
+            'name' => $request->validated('name'),
+            'nik' => $request->validated('nik'),
+            'born' => ucwords(strtolower($request->validated('born'))),
+            'birthday' => $request->validated('birthday'),
+            'phone' => $request->validated('phone'),
+            'address' => $request->validated('address'),
+        ]);
         $detail = new DetailEmployee(['employee_id' => $employee->id]);
         $employee->detail()->save($detail);
         
@@ -81,18 +90,29 @@ class EmployeeController extends Controller
         Gate::authorize('crudEmployee', $employee);
         
         $employee->update([
-            'name' => $request->name,
-            'nik' => $request->nik,
-            'born' => $request->born,
-            'birthday' => $request->birthday,
-            'phone' => $request->phone,
-            'address' => $request->address,
+            'name' => ucwords(strtolower($request->validated('name'))),
+            'nik' => $request->validated('nik'),
+            'born' => ucwords(strtolower($request->validated('born'))),
+            'birthday' => $request->validated('birthday'),
+            'phone' => $request->validated('phone'),
+            'address' => $request->validated('address'),
         ]);
+
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255', "regex:/^[\w\s.@_]*$/", Rule::unique('detail_employees','email')->ignore($employee->detail->id)],
+        ]);
+        
         $employee->detail()->update([
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'resign' => $request->resign,
             'occupation_id' => is_numeric($request->occupation) ? $request->occupation : NULL,
         ]);
+
+        if(isset($employee->detail->user_id) || isset($request->resign)){
+            $user = User::query()->where('id', $employee->detail->user_id)->delete();
+            $employee->detail()->update(['user_id' => NULL]);
+            Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted user_id - '.$employee->detail->user_id]);
+        }
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated employee_id - '.$employee->id]);
         return to_route('employees.show',['employee' => $employee]);
