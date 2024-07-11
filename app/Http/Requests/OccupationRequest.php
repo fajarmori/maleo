@@ -15,7 +15,7 @@ class OccupationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', $this->method() == 'POST' ? Rule::unique('occupations','name') : Rule::unique('occupations','name')->ignore($this->occupation->id)],
+            'name' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/", $this->method() == 'POST' ? Rule::unique('occupations','name') : Rule::unique('occupations','name')->ignore($this->occupation->id)],
             'department' => ['required','numeric', Rule::exists('departments','id')],
         ];
     }

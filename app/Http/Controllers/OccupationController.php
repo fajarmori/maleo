@@ -44,7 +44,7 @@ class OccupationController extends Controller
         Gate::authorize('crudOccupation', $occupation);
 
         $occupation = Occupation::create([
-            'name' => $request->validated('name'),
+            'name' => ucwords(strtolower($request->validated('name'))),
             'department_id' => $request->validated('department'),
         ]);
         
@@ -78,7 +78,7 @@ class OccupationController extends Controller
         Gate::authorize('crudOccupation', $occupation);
 
         $occupation->update([
-            'name' => $request->name,
+            'name' => ucwords(strtolower($request->validated('name'))),
             'department_id' => $request->department,
         ]);
         
