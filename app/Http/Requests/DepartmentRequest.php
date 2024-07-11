@@ -16,8 +16,8 @@ class DepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', $this->method() == 'POST' ? Rule::unique('departments','code') : Rule::unique('departments','code')->ignore($this->department->id)],
-            'code' => ['required', 'string', 'min:3', 'max:4', $this->method() == 'POST' ? Rule::unique('departments','code') : Rule::unique('departments','code')->ignore($this->department->id)],
+            'name' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/", $this->method() == 'POST' ? Rule::unique('departments','code') : Rule::unique('departments','code')->ignore($this->department->id)],
+            'code' => ['required', 'string', 'min:3', 'max:4', "regex:/^[\w]*$/", $this->method() == 'POST' ? Rule::unique('departments','code') : Rule::unique('departments','code')->ignore($this->department->id)],
         ];
     }
 }

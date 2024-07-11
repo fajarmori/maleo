@@ -41,7 +41,7 @@ class DepartmentController extends Controller
         Gate::authorize('crudDepartment', $department);
 
         $department = Department::create([
-            'name' => $request->validated('name'),
+            'name' => ucwords(strtolower($request->validated('name'))),
             'code' => str()->upper($request->validated('code')),
         ]);
         
@@ -74,7 +74,7 @@ class DepartmentController extends Controller
         Gate::authorize('crudDepartment', $department);
 
         $department->update([
-            'name' => $request->validated('name'),
+            'name' => ucwords(strtolower($request->validated('name'))),
             'code' => str()->upper($request->validated('code')),
         ]);
         

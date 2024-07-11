@@ -13,9 +13,11 @@
                     <x-danger-button as="a" :href="route('employees.index')">
                         {{ __('Back') }}
                     </x-danger-button>
-                    <x-primary-button as="a" href="{{ route('departments.create')}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
+                    @if(auth()->user()->type !== 2)
+                    <x-primary-button as="a" href="{{ route('departments.create')}}">
                         {{ __('Add Department') }}
                     </x-primary-button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -29,7 +31,9 @@
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">#</th>
                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Code</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Department</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ auth()->user()->type === 2 ? '' : 'Action' }}</th>
+                                @if(auth()->user()->type !== 2)
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
@@ -38,18 +42,20 @@
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $department->code }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $department->name }}</td>
+                                @if(auth()->user()->type !== 2)
                                 <td class="whitespace-nowrap flex px-3 py-4 text-sm text-gray-500">
-                                    <x-primary-button as="a" href="{{ route('departments.edit', $department->id)}}" class="text-xs !mb-0 {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
+                                    <x-primary-button as="a" href="{{ route('departments.edit', $department->id)}}" class="text-xs !mb-0">
                                         {{ __('Edit') }}
                                     </x-primary-button>
                                     <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$department->name}} ?');" action="{{ route('departments.destroy', $department->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <x-dark-button class="text-xs !mb-0 {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
+                                        <x-dark-button class="text-xs !mb-0">
                                             {{ __('Delete') }}
                                         </x-dark-button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                             @endforeach
                             </tbody>
