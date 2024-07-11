@@ -15,13 +15,13 @@ class JourneyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'event' => ['required', 'string', 'max:255'],
-            'site' => ['required', 'string', 'max:255'],
-            'application' => ['required', 'string', 'max:255'],
-            'origin' => ['required', 'string', 'max:255'],
-            'destination' => ['required', 'string', 'max:255'],
+            'event' => ['required', 'string', 'max:255', "regex:/^[\w\s.'()]*$/"],
+            'site' => ['required', 'string', 'max:255', "regex:/^[\w\s.'()]*$/"],
+            'application' => ['required', 'string', 'max:255', "regex:/^[\w\s.'()]*$/"],
+            'origin' => ['required', 'string', 'max:255', "regex:/^[\w\s.'()]*$/"],
+            'destination' => ['required', 'string', 'max:255', "regex:/^[\w\s.'()]*$/"],
             'date' => ['required', 'date'],
-            'transportation' => ['required', 'string', 'max:255'],
+            'transportation' => ['required', 'string', 'max:255', "regex:/^[\w\s.'()]*$/"],
         ];
     }
 }

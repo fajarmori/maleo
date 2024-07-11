@@ -44,13 +44,13 @@ class JourneyController extends Controller
         Gate::authorize('crudJourney', $journey);
 
         $journey = Journey::create([
-            'event' => $request->validated('event'),
-            'site' => $request->validated('site'),
+            'event' => ucfirst(strtolower($request->validated('event'))),
+            'site' => ucfirst(strtolower($request->validated('site'))),
             'application' => $request->validated('application'),
-            'origin' => $request->validated('origin'),
-            'destination' => $request->validated('destination'),
+            'origin' => ucfirst(strtolower($request->validated('origin'))),
+            'destination' => ucfirst(strtolower($request->validated('destination'))),
             'date' => $request->validated('date'),
-            'transportation' => $request->validated('transportation'),
+            'transportation' => ucfirst(strtolower($request->validated('transportation'))),
             'employee_id' => $employee_id,
         ]);
         
@@ -83,13 +83,13 @@ class JourneyController extends Controller
         Gate::authorize('crudJourney', $journey);
 
         $journey->update([
-            'event' => $request->event,
-            'site' => $request->site,
-            'application' => $request->application,
-            'origin' => $request->origin,
-            'destination' => $request->destination,
-            'date' => $request->date,
-            'transportation' => $request->transportation,
+            'event' => ucfirst(strtolower($request->validated('event'))),
+            'site' => ucfirst(strtolower($request->validated('site'))),
+            'application' => $request->validated('application'),
+            'origin' => ucfirst(strtolower($request->validated('origin'))),
+            'destination' => ucfirst(strtolower($request->validated('destination'))),
+            'date' => $request->validated('date'),
+            'transportation' => ucfirst(strtolower($request->validated('transportation'))),
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated journey_id - '.$journey->id]);
