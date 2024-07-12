@@ -15,9 +15,9 @@ class DroppointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', $this->method() == 'POST' ? Rule::unique('droppoints','name') : Rule::unique('droppoints','name')->ignore($this->droppoint->id)],
-            'address' => ['required', 'string'],
-            'notes' => ['required', 'string'],
+            'name' => ['required', "regex:/^[\w\s]*$/", $this->method() == 'POST' ? Rule::unique('droppoints','name') : Rule::unique('droppoints','name')->ignore($this->droppoint->id)],
+            'address' => ['required', 'string', "regex:/^[\w\s.,'\/()-]*$/"],
+            'notes' => ['required', 'string', "regex:/^[\w\s.,'\/()-]*$/"],
         ];
     }
 }

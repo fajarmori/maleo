@@ -6,18 +6,25 @@ use App\Models\Log;
 use App\Models\Droppoint;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\DroppointRequest;
 
 class DroppointController extends Controller
 {
     public function index()
     {
+        $droppoint = new Droppoint();
+        Gate::authorize('listDroppoint', $droppoint);
+
         $droppoints = Droppoint::query()->latest()->get();
         return view('droppoint.index',['droppoints' => $droppoints]);
     }
 
     public function create()
     {
+        $droppoint = new Droppoint();
+        Gate::authorize('crudDroppoint', $droppoint);
+
         return view('droppoint.form',[
             'droppoint' => new Droppoint(),
             'page_meta' => collect([
@@ -30,7 +37,14 @@ class DroppointController extends Controller
 
     public function store(DroppointRequest $request)
     {
-        $droppoint = Droppoint::create($request->validated());
+        $droppoint = new Droppoint();
+        Gate::authorize('crudDroppoint', $droppoint);
+
+        $droppoint = Droppoint::create([
+            'name' => strtoupper($request->validated('name')),
+            'address' => $request->validated('address'),
+            'notes' => $request->validated('notes'),
+        ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created droppoint_id - '.$droppoint->id]);
         return to_route('droppoints.index');
@@ -43,6 +57,8 @@ class DroppointController extends Controller
 
     public function edit(Droppoint $droppoint)
     {
+        Gate::authorize('crudDroppoint', $droppoint);
+
         return view('droppoint.form',[
             'droppoint' => $droppoint,
             'page_meta' => collect([
@@ -55,7 +71,13 @@ class DroppointController extends Controller
 
     public function update(DroppointRequest $request, Droppoint $droppoint)
     {
-        $droppoint->update($request->validated());
+        Gate::authorize('crudDroppoint', $droppoint);
+
+        $droppoint->update([
+            'name' => strtoupper($request->validated('name')),
+            'address' => $request->validated('address'),
+            'notes' => $request->validated('notes'),
+        ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated droppoint_id - '.$droppoint->id]);
         return to_route('droppoints.index');
@@ -63,6 +85,8 @@ class DroppointController extends Controller
 
     public function destroy(Droppoint $droppoint)
     {
+        Gate::authorize('crudDroppoint', $droppoint);
+        
         $droppoint->update(['name' => 'DEL-'.$droppoint->name]);
         Droppoint::query()->where('id', $droppoint->id)->delete();
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted droppoint_id - '.$droppoint->id]);
