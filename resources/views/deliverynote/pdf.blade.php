@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	</head>
 	<style>@page { margin:0px; }</style>
-    <body style="font-size:.75rem; margin:0px;">
+    <body style="font-size:.75rem; margin:0px; overflow:hidden;">
         <header style="position:fixed; top:0; left:0; right:0;"><img src="{{asset('/storage/images/general/kop_surat_header_a4_portrait.png')}}" alt="kop_surat_header_a4_portrait" style="width:100%;"></header>
             <div style="padding-top:135px; padding-right:60px; padding-left:60px;">
                 <div style="text-align:center; margin-bottom:10px;">
@@ -182,13 +182,13 @@
                         <tr>
                             <td style="border-right:1px solid black; text-transform:capitalize;">
                                 <div style="border-top:2px solid black; margin:0px 10px; text-align:left;">
-                                    <div style="padding:3px 0;">Kontak: {{ $deliverynote->phone_sender }}</div>
+                                    <div style="padding:3px 0;">Kontak: {{ $deliverynote->phone_recipient }}</div>
                                     <div style="padding:0 0 3px 0;">Tanggal penerimaan:</div>
                                 </div>
                             </td>
                             <td style="border-right:1px solid black; text-transform:capitalize;">
                                 <div style="border-top:2px solid black; margin:0px 10px; padding:3px 0;">
-                                @switch($deliverynote->recipient_id) @case(1) Manager SCM @break @case(2) Manager HSE @break @case(3) Manager GAIT @break @case(4) Manager Workshop @break @default Site Koordinator {{ strtolower(substr($deliverynote->sender->name,5)) }} @endswitch
+                                @switch($deliverynote->recipient_id) @case(1) Manager SCM @break @case(2) Manager HSE @break @case(3) Manager GAIT @break @case(4) Manager Workshop @break @default Site Koordinator {{ strtolower(substr($deliverynote->recipient->name,5)) }} @endswitch
                                 </div>
                             </td>
                         </tr>

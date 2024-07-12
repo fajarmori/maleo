@@ -1,3 +1,7 @@
+@php
+$departmentID = auth()->user()->detail->occupation->department_id??6;
+@endphp
+
 <x-app-layout>
     @slot('title','Delivery Note')
     <x-slot name="header">
@@ -10,12 +14,16 @@
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <x-danger-button as="a" href="{{ route('scm')}}">
+                    <x-danger-button as="a" href="{{ $departmentID !== 6 ? auth()->user()->type !== 2 ? route('project') : route('scm') : route('scm') }}">
                         {{ __('Back') }}
                     </x-danger-button>
-                    <x-primary-button as="a" href="{{ route('deliverynotes.create')}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
-                        {{ __('Add Delivery Note') }}
-                    </x-primary-button>
+                    @if(auth()->user()->type !== 2)
+                        @if($departmentID === 6)
+                        <x-primary-button as="a" href="{{ route('deliverynotes.create')}}">
+                            {{ __('Add Delivery Note') }}
+                        </x-primary-button>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>

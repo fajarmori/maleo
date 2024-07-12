@@ -1,8 +1,12 @@
+@php
+$departmentID = auth()->user()->detail->occupation->department_id??6;
+@endphp
+
 <x-app-layout>
     @slot('title','Detail Delivery Note')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Detail Detail Delivery Note') }}
+            {{ __('Detail Delivery Note') }}
         </h2>
     </x-slot>
     
@@ -10,25 +14,29 @@
         <div class="mb-6 bg-white overflow-hidden shadow-sm rounded-lg">
             <div class="p-6 text-gray-900">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <x-danger-button as="a" href="{{ route('deliverynotes.index')}}">
+                    <x-danger-button as="a" href="{{ route('deliverynotes.index') }}">
                         {{ __('Back') }}
                     </x-danger-button>
-                    <x-primary-button as="a" href="{{ route('deliverynotes.edit', $deliverynote->id)}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
-                        {{ __('Edit') }}
-                    </x-primary-button>
-                    <x-primary-button as="a" href="{{ route('generateDeliveryNote', $deliverynote->id)}}" :class="auth()->user()->type === 2 ? 'hidden' : ''" target="_blank">
-                        {{ __('Print') }}
-                    </x-primary-button>
-                    <x-primary-button as="a" href="{{ route('deliveryitems.create', $deliverynote->id)}}" :class="auth()->user()->type === 2 ? 'hidden' : ''">
-                        {{ __('Add Delivery Item') }}
-                    </x-primary-button>
-                    <form onsubmit="return confirm('Apakah anda yakin menghapus data Surat Jalan {{$deliverynote->letter}} ?');" action="{{ route('deliverynotes.destroy', $deliverynote->id) }}" method="POST" class="me-2 mb-2">
-                        @method('DELETE')
-                        @csrf
-                        <x-dark-button class="w-full {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
-                            {{ __('Delete') }}
-                        </x-dark-button>
-                    </form>
+                    @if(auth()->user()->type !== 2)
+                        @if($departmentID === 6)
+                        <x-primary-button as="a" href="{{ route('deliverynotes.edit', $deliverynote->id)}}">
+                            {{ __('Edit') }}
+                        </x-primary-button>
+                        <x-primary-button as="a" href="{{ route('generateDeliveryNote', $deliverynote->id)}}" target="_blank">
+                            {{ __('Print') }}
+                        </x-primary-button>
+                        <x-primary-button as="a" href="{{ route('deliveryitems.create', $deliverynote->id)}}">
+                            {{ __('Add Delivery Item') }}
+                        </x-primary-button>
+                        <form onsubmit="return confirm('Apakah anda yakin menghapus data Surat Jalan {{$deliverynote->letter}} ?');" action="{{ route('deliverynotes.destroy', $deliverynote->id) }}" method="POST" class="me-2">
+                            @method('DELETE')
+                            @csrf
+                            <x-dark-button class="w-full">
+                                {{ __('Delete') }}
+                            </x-dark-button>
+                        </form>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>
@@ -183,7 +191,7 @@
                         <tr>
                             <td style="border-right:1px solid black; text-transform:capitalize;">
                                 <div style="display:flex; border-top:2px solid black;margin:0px 10px;text-align:left;">
-                                    <div style="width:210px;">Kontak: {{ $deliverynote->phone_sender }}</div>
+                                    <div style="width:210px;">Kontak: {{ $deliverynote->phone_recipient }}</div>
                                     <div>Tanggal penerimaan: {{ $deliverynote->date_recipient??'' }}</div>
                                 </div>
                             </td>

@@ -15,12 +15,12 @@ class DeliverynoteRequest extends FormRequest
     {
         return [
             'sender' => ['required'],
-            'nameSender' => ['required', 'string', 'max:255'],
-            'phoneSender' => ['required'],
+            'nameSender' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
+            'phoneSender' => ['required', "regex:/^[\d]*$/"],
             'recipient' => ['required'],
-            'nameRecipient' => ['required', 'string', 'max:255'],
-            'phoneRecipient' => ['required'],
-            'via' => ['required', 'string', 'max:255'],
+            'nameRecipient' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
+            'phoneRecipient' => ['required', "regex:/^[\d]*$/"],
+            'via' => ['required', 'string', 'max:255', "regex:/^[\w\s.,'()-\/]*$/"],
         ];
     }
 }
