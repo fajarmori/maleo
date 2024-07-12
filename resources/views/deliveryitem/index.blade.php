@@ -32,7 +32,9 @@
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Notes</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purchace Order</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date Request</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ auth()->user()->type === 2 ? '' : 'Action' }}</th>
+                                @if(auth()->user()->type !== 2)
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
@@ -42,25 +44,26 @@
                                 <td class="whitespace-nowrap px-3 py-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                     <a href="{{ route('deliverynotes.show', $deliveryitem->deliverynote_id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $deliveryitem->deliverynote->letter }}</a>
                                 </td>
-                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $deliveryitem->name }}</td>
+                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                    <a href="{{ route('deliveryitems.edit', $deliveryitem->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $deliveryitem->name }}</a>
+                                </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $deliveryitem->code }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $deliveryitem->quantity }} {{ $deliveryitem->unit }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Rp {{ number_format($deliveryitem->price) }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $deliveryitem->notes }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $deliveryitem->purchase_order??'-' }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $deliveryitem->date_request??'-' }}</td>
+                                @if(auth()->user()->type !== 2)
                                 <td class="whitespace-nowrap flex px-3 py-4 text-sm text-gray-500">
-                                    <x-primary-button as="a" href="{{ route('deliveryitems.edit', $deliveryitem->id)}}" class="text-xs !mb-0 {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
-                                        {{ __('Edit') }}
-                                    </x-primary-button>
                                     <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$deliveryitem->name}} ?');" action="{{ route('deliveryitems.destroy', $deliveryitem->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <x-dark-button class="text-xs !mb-0 {{ auth()->user()->type === 2 ? 'hidden' : '' }}">
+                                        <x-dark-button class="text-xs !mb-0">
                                             {{ __('Delete') }}
                                         </x-dark-button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                             @endforeach
                             </tbody>

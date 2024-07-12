@@ -7,12 +7,16 @@ use App\Models\Deliveryitem;
 use App\Models\Deliverynote;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\DeliveryitemRequest;
 
 class DeliveryitemController extends Controller
 {
     public function index()
     {
+        $deliveryitem = new Deliveryitem();
+        Gate::authorize('listDeliveryitem', $deliveryitem);
+
         $deliveryitems = Deliveryitem::query()->latest('id')->get();
         return view('deliveryitem.index',['deliveryitems' => $deliveryitems]);
     }
@@ -20,6 +24,7 @@ class DeliveryitemController extends Controller
     public function create($deliverynote_id)
     {
         $deliveryitem = new Deliveryitem();
+        Gate::authorize('crudDeliveryitem', $deliveryitem);
 
         $deliverynote = Deliverynote::select('id','letter')->where('id',$deliverynote_id)->first();
         return view('deliveryitem.form',[
@@ -35,6 +40,9 @@ class DeliveryitemController extends Controller
 
     public function store(DeliveryitemRequest $request, $deliverynote_id)
     {
+        $deliveryitem = new Deliveryitem();
+        Gate::authorize('crudDeliveryitem', $deliveryitem);
+
         $deliveryitem = Deliveryitem::create([
             'deliverynote_id' => $deliverynote_id,
             'code' => $request->code,
@@ -59,6 +67,8 @@ class DeliveryitemController extends Controller
 
     public function edit(Deliveryitem $deliveryitem)
     {
+        Gate::authorize('crudDeliveryitem', $deliveryitem);
+
         $deliverynote = Deliverynote::select('id','letter')->where('id',$deliveryitem->deliverynote_id)->first();
 
         return view('deliveryitem.form',[
@@ -74,7 +84,8 @@ class DeliveryitemController extends Controller
 
     public function update(DeliveryitemRequest $request, Deliveryitem $deliveryitem)
     {
-        // dd('update');
+        Gate::authorize('crudDeliveryitem', $deliveryitem);
+
         $deliveryitem->update([
             'code' => $request->code,
             'name' => $request->validated('name'),
@@ -88,11 +99,13 @@ class DeliveryitemController extends Controller
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'update deliveryitem_id - '.$deliveryitem->id]);
-        return to_route('deliveryitems.index');
+        return to_route('deliverynotes.show', $deliveryitem->deliverynote_id);
     }
 
     public function destroy(Deliveryitem $deliveryitem)
     {
+        Gate::authorize('crudDeliveryitem', $deliveryitem);
+
         Deliveryitem::query()->where('id', $deliveryitem->id)->delete();
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted deliveryitem_id - '.$deliveryitem->id]);

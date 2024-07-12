@@ -1,3 +1,6 @@
+@php
+if(isset($page_meta['back'])){ $linkback = route('deliverynotes.show', $page_meta['back']); }else{ $linkback = url()->previous(); }
+@endphp
 <x-app-layout>
     @slot('title',$page_meta['title'])
     <x-slot name="header">
@@ -61,7 +64,8 @@
                     <x-primary-button class="w-32">
                         {{ __('Save') }}
                     </x-primary-button>
-                    <x-danger-button as="a" :href="route('deliverynotes.show',$page_meta['back']??$deliveryitem)" class="w-32">
+                    
+                    <x-danger-button as="a" href="{{ $linkback }}" class="w-32">
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
