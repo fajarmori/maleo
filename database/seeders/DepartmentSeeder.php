@@ -13,11 +13,12 @@ class DepartmentSeeder extends Seeder
     {
         $departments = collect([
             ['name' => 'Direksi', 'code' => 'DIR'],
-            ['name' => 'Finance', 'code' => 'FIN'],
+            ['name' => 'Site', 'code' => 'SITE'],
             ['name' => 'General Affair Information Technology', 'code' => 'GAIT'],
             ['name' => 'Human Resources', 'code' => 'HRD'],
             ['name' => 'Health, Safety, and Environment', 'code' => 'HSE'],
             ['name' => 'Supply Chain Management', 'code' => 'SCM'],
+            ['name' => 'Finance', 'code' => 'FIN'],
             ['name' => 'Marketing, Engineering, and Operasional', 'code' => 'MEO'],
             ['name' => 'Workshop', 'code' => 'WOR'],
             ['name' => 'Surveyor', 'code' => 'SUR'],
