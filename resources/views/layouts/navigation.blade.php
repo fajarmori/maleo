@@ -20,6 +20,11 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('project')" :active="request()->routeIs('project')">
+                        {{ __('Project') }}
+                    </x-nav-link>
+                </div>
                 @if($departmentID === 6 || auth()->user()->type === 0)
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('scm')" :active="request()->routeIs('scm') || request()->routeIs('delivery%.*')">
@@ -109,6 +114,11 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('project')" :active="request()->routeIs('project')">
+                {{ __('Project') }}
             </x-responsive-nav-link>
         </div>
         @if($departmentID === 6 || auth()->user()->type === 0)
