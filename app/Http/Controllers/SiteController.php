@@ -6,6 +6,7 @@ use App\Models\Log;
 use App\Models\Site;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\SiteRequest;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -38,9 +39,13 @@ class SiteController extends Controller
         $site = new Site();
         Gate::authorize('crudSite', $site);
 
+        $request->validate([
+            'email' => [isset($request->email) ? "'Rule::exists('departments','id')','regex:/sitemria*(.*)@mria\.co\.id/i'" : ''],
+        ]);
+
         $user = User::query()->where('email',$request->email)->first();
         $site = Site::create([
-            'name' => $request->validated('name'),
+            'name' => $request->validated('email'),
             'code' => $request->validated('code'),
             'owner' => $request->validated('owner'),
             'district' => $request->validated('district'),
@@ -77,6 +82,9 @@ class SiteController extends Controller
     public function update(SiteRequest $request, Site $site)
     {
         Gate::authorize('crudSite', $site);
+        $request->validate([
+            'email' => [ isset($request->email) ? Rule::exists('users','email') : '', isset($request->email) ? "regex:/sitemria*(.*)@mria\.co\.id/i" : ''],
+        ]);
 
         $user = User::query()->where('email',$request->email)->first();
         $site->update([

@@ -22,7 +22,6 @@ class SiteRequest extends FormRequest
             'regency' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
             'province' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
             'description' => ['required', 'string', 'min:5', "regex:/^[\w\s.,'\-()]*$/"],
-            'email' => [isset($request->email) ? "regex:/sitemria*(.*)@mria\.co\.id/i" : ''],
         ];
     }
 }
