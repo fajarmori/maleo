@@ -15,7 +15,7 @@ class OccupationController extends Controller
     public function index()
     {
         $occupation = new Occupation();
-        Gate::authorize('listOccupation', $occupation);
+        Gate::authorize('showOccupation', $occupation);
 
         $occupations = Occupation::query()->latest('id')->get();
         return view('occupation.index',['occupations' => $occupations]);
@@ -44,7 +44,7 @@ class OccupationController extends Controller
         Gate::authorize('crudOccupation', $occupation);
 
         $occupation = Occupation::create([
-            'name' => ucwords(strtolower($request->validated('name'))),
+            'name' => str()->title($request->validated('name')),
             'department_id' => $request->validated('department'),
         ]);
         
@@ -78,7 +78,7 @@ class OccupationController extends Controller
         Gate::authorize('crudOccupation', $occupation);
 
         $occupation->update([
-            'name' => ucwords(strtolower($request->validated('name'))),
+            'name' => $request->validated('name'),
             'department_id' => $request->department,
         ]);
         

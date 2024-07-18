@@ -24,7 +24,7 @@
                                 <option selected>Choose department</option>
                             @endif
                             @foreach($departments as $department)
-                                <option value="{{ $department->id }}" @if(isset($occupation->department->id)) {{ $department->id == $occupation->department->id ? 'selected' : '' }} @endif>({{ $department->code }}) {{ $department->name }}</option>
+                                <option value="{{ $department->id }}" @if(isset($occupation->department->id)) {{ $department->id == $occupation->department->id ? 'selected' : '' }} @endif>{{ $department->code }} - {{ $department->name }}</option>
                             @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('department')" class="mt-2" />
