@@ -13,7 +13,7 @@
                     @method($page_meta['method'])
                     @csrf
                     <div>
-                        <x-input-label for="name" :value="__('Name')" />
+                        <x-input-label for="name" :value="__('Name Site')" />
                         <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name',$site->name)" autofocus />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
@@ -35,6 +35,7 @@
                     <div>
                         <x-input-label for="email" :value="__('Email')" />
                         <x-text-input id="email" class="block mt-1 w-full" type="text" name="email" placeholder="Choose suggested email site" :value="old('email',$site->user->email??'')" autofocus />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         <div id="list-email" class="relative z-10"></div>
                     </div>
                     <div>
@@ -65,21 +66,8 @@
 </x-app-layout>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#email').on('keyup',function() {
-        var query = $(this).val();
-        $.ajax({
-            url:"{{ route('getemailsite') }}",
-            type:"GET",
-            data:{'email':query},
-            success:function (data) { 
-                $('#list-email').html(data);
-            }
-        })
-    });
-    $('#list-email').on('click', 'li', function(){
-        var value = $(this).text();
-        $('#email').val(value);
-        $('#list-email').html("");
-    });
+    $('#email').on('keyup',function() { var query = $(this).val(); $.ajax({ url:"{{ route('getemailsite') }}", type:'GET', data:{'email':query}, success:function (data) { $('#list-email').html(data); } }) });
+    $('#list-email').on('click', 'li', function(){ var email = $(this).data('email'); $('#email').val(email); $('#list-email').html(''); });
+    $('input').on('focus',function() { $('#list-email').html(''); });
 })
 </script>

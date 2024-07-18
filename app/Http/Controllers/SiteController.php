@@ -56,8 +56,6 @@ class SiteController extends Controller
 
     public function show(Site $site)
     {
-        Gate::authorize('listSite', $site);
-
         $site = Site::query()->where('id',$site->id)->first();
         return view('site.show',['site' => $site]);
     }
@@ -100,7 +98,7 @@ class SiteController extends Controller
     {
         Gate::authorize('crudSite', $site);
 
-        $site->update(['code' => 'DEL-'.$site->code,'user_id' => NULL]);
+        $site->update(['name' => 'DEL-'.$site->name,'code' => 'DEL-'.$site->code,'user_id' => NULL]);
         Site::query()->where('id', $site->id)->delete();
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted site_id - '.$site->id]);

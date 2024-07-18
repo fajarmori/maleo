@@ -42,29 +42,29 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">Code</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">{{ $site->code }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm">Code</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm">{{ $site->code }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">Owner</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold">{{ $site->owner }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm">Owner</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm">{{ $site->owner }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Description</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->description }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">Description</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">{{ $site->description }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Address</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->district }}, {{ $site->regency }}, {{ $site->province }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">Address</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">{{ $site->district }}, {{ $site->regency }}, {{ $site->province }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Email</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $site->user->email??'-' }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">Email</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">{{ $site->user->email??'-' }}</td>
                                 </tr>
                             </tbody>
                         </table>
