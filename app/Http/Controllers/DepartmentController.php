@@ -14,7 +14,7 @@ class DepartmentController extends Controller
     public function index()
     {
         $department = new Department();
-        Gate::authorize('listDepartment', $department);
+        Gate::authorize('showDepartment', $department);
 
         $departments = Department::query()->latest('id')->get();
         return view('department.index',['departments' => $departments]);
@@ -41,7 +41,7 @@ class DepartmentController extends Controller
         Gate::authorize('crudDepartment', $department);
 
         $department = Department::create([
-            'name' => ucwords(strtolower($request->validated('name'))),
+            'name' => str()->title($request->validated('name')),
             'code' => str()->upper($request->validated('code')),
         ]);
         
@@ -51,8 +51,7 @@ class DepartmentController extends Controller
 
     // public function show(Department $department)
     // {
-    //     $department = Department::query()->where('id',$department->id)->first();
-    //     return view('department.show',['department' => $department]);
+    //     
     // }
 
     public function edit(Department $department)
@@ -74,7 +73,7 @@ class DepartmentController extends Controller
         Gate::authorize('crudDepartment', $department);
 
         $department->update([
-            'name' => ucwords(strtolower($request->validated('name'))),
+            'name' => str()->title($request->validated('name')),
             'code' => str()->upper($request->validated('code')),
         ]);
         

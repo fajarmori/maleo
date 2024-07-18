@@ -113,7 +113,15 @@ $departmentID = auth()->user()->detail->occupation->department_id??6;
                         @foreach($deliverynote->items as $item)
                         <tr style="border:1px solid black;">
                             <td style="border:1px solid black;">{{ $loop->iteration }}</td>
-                            <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->name }}</td>
+                            <td style="border:1px solid black; text-align:left !important; padding-left:5px;">
+                                @if(auth()->user()->type === 0)
+                                <a href="{{ route('deliveryitems.edit', $item->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $item->name }}</a>
+                                @elseif($departmentID === 6)
+                                <a href="{{ route('deliveryitems.edit', $item->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $item->name }}</a>
+                                @else
+                                {{ $item->name }}
+                                @endif
+                            </td>
                             <td style="border:1px solid black;">{{ $item->quantity }}</td>
                             <td style="border:1px solid black;">{{ $item->unit }}</td>
                             <td style="border:1px solid black;">{{ $item->bale }}</td>

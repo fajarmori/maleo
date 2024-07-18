@@ -8,13 +8,13 @@ use Illuminate\Auth\Access\Response;
 
 class DepartmentPolicy
 {
-    public function listDepartment(User $user, Department $department): Response
+    public function showDepartment(User $user, Department $department): Response
     {
         switch ($user->type){
         case 0:
             return Response::allow();
         default:
-            return $user->detail->occupation->department_id === 4 ? Response::allow() : Response::denyAsNotFound();
+            return $user->department_id === 4 ? Response::allow() : Response::denyAsNotFound();
         }
     }
     public function crudDepartment(User $user, Department $department): Response
@@ -23,7 +23,7 @@ class DepartmentPolicy
         case 0:
             return Response::allow();
         case 1:
-            return $user->detail->occupation->department_id === 4 ? Response::allow() : Response::denyAsNotFound();
+            return $user->department_id === 4 ? Response::allow() : Response::denyAsNotFound();
         default:
             return Response::denyAsNotFound();
         }
