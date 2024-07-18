@@ -51,7 +51,7 @@ class DataController extends Controller
             $output = '<ul class="absolute w-full">';
             if (count($users)>0) {
                 foreach ($users as $user){
-                    $output .= '<li class="bg-white px-3 py-2 border">'.$user->email.'</li>';
+                    $output .= '<li class="bg-white px-3 py-2 border" data-email="'.$user->email.'">'.$user->email.'</li>';
                 }
             }
             else {
