@@ -13,6 +13,9 @@
                     <x-primary-button as="a" href="{{ route('user.index')}}">
                         {{ __('List User') }}
                     </x-primary-button>
+                    <x-primary-button as="a" href="{{ route('log')}}">
+                        {{ __('List Log') }}
+                    </x-primary-button>
                 </div>
             </div>
         </div>    
