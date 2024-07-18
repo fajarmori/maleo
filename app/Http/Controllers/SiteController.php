@@ -40,7 +40,7 @@ class SiteController extends Controller
         Gate::authorize('crudSite', $site);
 
         $request->validate([
-            'email' => [isset($request->email) ? "'Rule::exists('departments','id')','regex:/sitemria*(.*)@mria\.co\.id/i'" : ''],
+            'email' => [ isset($request->email) ? Rule::exists('users','email') : '', isset($request->email) ? "regex:/sitemria*(.*)@mria\.co\.id/i" : '' ],
         ]);
 
         $user = User::query()->where('email',$request->email)->first();
