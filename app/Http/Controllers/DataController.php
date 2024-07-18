@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Employee;
 use App\Models\Droppoint;
-use App\Models\Deliverynote;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
@@ -27,7 +26,7 @@ class DataController extends Controller
             $output = '<ul class="absolute w-full">';
             if (count($employees)>0) {
                 foreach ($employees as $employee){
-                    $output .= '<li class="bg-white px-3 py-2 border">'.$employee->name.' | MRIA-'.substr((10000+$employee->mria), -4).'</li>';
+                    $output .= '<li class="bg-white px-3 py-2 border cursor-pointer" data-name="'.$employee->name.'" data-mria="MRIA-'.substr((10000+$employee->mria), -4).'">MRIA-'.substr((10000+$employee->mria), -4).' | '.$employee->name.'</li>';
                 }
             }
             else {
@@ -84,17 +83,5 @@ class DataController extends Controller
             $output .= '</ul>';
             return $output;
         }
-    }
-
-    //Generate PDF
-    public function generateDeliveryNote($id)
-    {
-        $deliverynote = Deliverynote::query()->where('id',$id)->first();
-        return view('deliverynote.pdf',['deliverynote' => $deliverynote]);
-
-        // $pdf = Pdf::loadView('deliverynote.pdf', ['deliverynote' => $deliverynote]);
-        // $pdf->setPaper('A4', 'portrait');
-        // $fileName = str_replace('/','_',$deliverynote->letter)."_".Carbon::now()->format('YmdHis').".pdf";
-        // return $pdf->download($fileName);
     }
 }
