@@ -10,7 +10,10 @@ class LogController extends Controller
 {
     public function __invoke()
     {
-        $logs = Log::query()->latest()->get();
-        return view('log.index',['logs' => $logs]);
+        if(auth()->user()->type === 0){
+            $logs = Log::query()->latest()->get();
+            return view('log.index',['logs' => $logs]);
+        }
+        else{return abort(404);}
     }
 }
