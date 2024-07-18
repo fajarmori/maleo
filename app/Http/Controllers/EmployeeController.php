@@ -18,7 +18,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employee = new Employee();
-        Gate::authorize('listEmployee', $employee);
+        Gate::authorize('showEmployee', $employee);
 
         $employees = Employee::query()->latest('id')->get();
         return view('employee.index',['employees' => $employees]);
@@ -30,7 +30,7 @@ class EmployeeController extends Controller
         Gate::authorize('crudEmployee', $employee);
 
         $employee = Employee::latest('id')->first();
-        $employee ? $mria = $employee->mria : $mria = 0;
+        $mria = $employee ? $employee->mria : 0;
         return view('employee.form',[
             'employee' => new Employee(),
             'page_meta' => collect([
@@ -49,11 +49,12 @@ class EmployeeController extends Controller
         $employee = Employee::create([
             'name' => $request->validated('name'),
             'nik' => $request->validated('nik'),
-            'born' => ucwords(strtolower($request->validated('born'))),
+            'born' => $request->validated('born'),
             'birthday' => $request->validated('birthday'),
-            'phone' => $request->validated('phone'),
+            'phone' => substr($request->validated('phone'),0,1) === '0' ? '62'.substr($request->validated('phone'),1) : $request->validated('phone'),
             'address' => $request->validated('address'),
         ]);
+
         $detail = new DetailEmployee(['employee_id' => $employee->id]);
         $employee->detail()->save($detail);
         
@@ -63,7 +64,7 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-        Gate::authorize('listEmployee', $employee);
+        Gate::authorize('showEmployee', $employee);
 
         $employee = Employee::query()->where('slug',$employee->slug)->first();
         return view('employee.show',['employee' => $employee]);
@@ -90,28 +91,33 @@ class EmployeeController extends Controller
         Gate::authorize('crudEmployee', $employee);
         
         $employee->update([
-            'name' => ucwords(strtolower($request->validated('name'))),
+            'name' => $request->validated('name'),
             'nik' => $request->validated('nik'),
-            'born' => ucwords(strtolower($request->validated('born'))),
+            'born' => $request->validated('born'),
             'birthday' => $request->validated('birthday'),
-            'phone' => $request->validated('phone'),
+            'phone' => substr($request->validated('phone'),0,1) === '0' ? '62'.substr($request->validated('phone'),1) : $request->validated('phone'),
             'address' => $request->validated('address'),
         ]);
 
         $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255', "regex:/^[\w\s.@_]*$/", Rule::unique('detail_employees','email')->ignore($employee->detail->id)],
+            'join' => ['required', 'date'],
+            'email' => ['nullable', 'string', 'email', 'max:255', "regex:/^[\w\s.@_]*$/", Rule::unique('detail_employees','email')->ignore($employee->detail->id)],
+            'occupation_id' => [Rule::exists('occupations','id')],
         ]);
         
         $employee->detail()->update([
-            'email' => strtolower($request->email),
+            'email' => str()->lower($request->email),
+            'join' => $request->join,
             'resign' => $request->resign,
             'occupation_id' => is_numeric($request->occupation) ? $request->occupation : NULL,
         ]);
 
-        if(isset($employee->detail->user_id) || isset($request->resign)){
-            $user = User::query()->where('id', $employee->detail->user_id)->delete();
-            $employee->detail()->update(['user_id' => NULL]);
-            Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted user_id - '.$employee->detail->user_id]);
+        if(isset($request->resign)){
+            if(isset($employee->detail->user_id)){
+                $user = User::query()->where('id', $employee->detail->user_id)->delete();
+                $employee->detail()->update(['user_id' => NULL]);
+                Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted user_id - '.$employee->detail->user_id]);
+            }
         }
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated employee_id - '.$employee->id]);
@@ -123,6 +129,11 @@ class EmployeeController extends Controller
         Gate::authorize('crudEmployee', $employee);
 
         Employee::query()->where('slug', $employee->slug)->delete();
+        if(isset($employee->detail->user_id)){
+            $user = User::query()->where('id', $employee->detail->user_id)->delete();
+            $employee->detail()->update(['user_id' => NULL]);
+            Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted user_id - '.$employee->detail->user_id]);
+        }
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted employee_id - '.$employee->id]);
         return to_route('employees.index');

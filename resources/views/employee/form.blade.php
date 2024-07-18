@@ -19,7 +19,7 @@
                     </div>
                     <div>
                         <x-input-label for="nik" :value="__('NIK')" />
-                        <x-text-input id="nik" class="block mt-1 w-full" type="number" name="nik" :value="old('nik',$employee->nik)" autofocus />
+                        <x-text-input id="nik" class="block mt-1 w-full" type="number" name="nik" :value="old('nik',$employee->nik)" placeholder="Input 16 number" autofocus />
                         <x-input-error :messages="$errors->get('nik')" class="mt-2" />
                     </div>
                     <div>
@@ -45,6 +45,11 @@
 
                     @if($page_meta['method'] == 'put')
                     <div>
+                        <x-input-label for="join" :value="__('Resign')" />
+                        <x-text-input id="join" class="block mt-1 w-full" type="date" name="join" :value="old('join',$employee->detail->join)" autofocus />
+                        <x-input-error :messages="$errors->get('join')" class="mt-2" />
+                    </div>
+                    <div>
                         <x-input-label for="email" :value="__('Email')" />
                         <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email',$employee->detail->email)" autofocus />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -67,7 +72,6 @@
                         <x-input-error :messages="$errors->get('resign')" class="mt-2" />
                     </div>
                     @endif
-
                     <x-primary-button class="w-32">
                         {{ __('Save') }}
                     </x-primary-button>

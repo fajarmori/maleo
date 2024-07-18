@@ -20,7 +20,7 @@ class EmployeeRequest extends FormRequest
             'born' => ['required', 'string', 'max:255', "regex:/^[\w\s']*$/"],
             'birthday' => ['required', 'date'],
             'phone' => ['required', 'numeric', 'min_digits:10', 'max_digits:15'],
-            'address' => ['required', "regex:/^[\w\s.']*$/"],
+            'address' => ['required', "regex:/^[\w\s.,']*$/"],
         ];
     }
 }

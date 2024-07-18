@@ -38,51 +38,73 @@
                         <table id="listSite" class="min-w-full divide-y divide-gray-300">
                             <thead class="{{ $employee->detail->resign ? 'bg-red-200' : 'bg-gray-200' }}">
                                 <tr>
-                                    <th scope="col" class="px-3 py-4 w-32 text-left text-sm font-semibold text-gray-900">Name Site</th>
+                                    <th scope="col" class="px-3 py-4 w-40 text-left text-sm font-semibold text-gray-900">Name Employee</th>
                                     <th scope="col" class="px-3 py-4 w-8 text-left text-sm font-semibold text-gray-900">:</th>
                                     <th scope="col" class="px-3 py-4 text-left text-sm font-semibold text-gray-900">{{ $employee->name }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">NIK MRIA</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">MRIA-{{ substr(10000+$employee->mria, -4) }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm">NIK MRIA</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm">MRIA-{{ substr(10000+$employee->mria, -4) }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Occupation</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">@if(isset($employee->detail->occupation->name)) {{ $employee->detail->occupation->name }} @else -  @endif</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">Occupation</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">@if(isset($employee->detail->occupation->name)) {{ $employee->detail->occupation->name }} @else -  @endif</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Status</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->detail->resign ? 'Resign - '.\Carbon\Carbon::parse($employee->detail->resign)->isoFormat('DD-MM-Y') : 'Active' }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">Status</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $employee->detail->resign ? 'Resign, tanggal '.\Carbon\Carbon::parse($employee->detail->resign)->isoFormat('DD-MM-Y') : 'Active' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">No Identity</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->nik }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">No Identity</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $employee->nik }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Place Birthday</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->born }}, {{ \Carbon\Carbon::parse($employee->birthday)->isoFormat('DD-MM-Y') }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">Place Birthday</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $employee->born }}, {{ \Carbon\Carbon::parse($employee->birthday)->isoFormat('DD-MM-Y') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Phone</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->phone }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">Phone</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $employee->phone }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Email</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->detail->email ? : '-' }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">Email</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $employee->detail->email ? : '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Address</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">:</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $employee->address }}</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">Address</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $employee->address }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flow-root mb-6">
+            <div class="-mx-1 -my-1 overflow-x-auto">
+                <div class="inline-block min-w-full p-1 align-middle">
+                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+                        <table id="listSite" class="min-w-full divide-y divide-gray-300">
+                            <thead class="{{ $employee->detail->resign ? 'bg-red-200' : 'bg-gray-200' }}">
+                                <tr>
+                                    <th scope="col" class="px-3 py-4 w-40 text-left text-sm font-semibold text-gray-900" colspan="3">Information Employment</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                                <tr>
+                                    <td class="whitespace-normal text-wrap w-40 px-3 py-2 text-sm text-gray-500">Join Date</td>
+                                    <td class="whitespace-normal text-wrap w-8 px-3 py-2 text-sm text-gray-500">:</td>
+                                    <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ isset($employee->detail->join) ? \Carbon\Carbon::parse($employee->detail->join)->isoFormat('DD-MM-Y') : '-'}}</td>
                                 </tr>
                             </tbody>
                         </table>
