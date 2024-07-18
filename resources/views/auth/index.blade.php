@@ -40,18 +40,18 @@
                             <tbody class="divide-y divide-gray-200 bg-white">
                             @foreach($users as $user)
                             <tr>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
+                                <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">
                                     <div class="font-medium text-gray-900">{{  $user->name }}</div>
                                     <div class="italic">{{ $user->email }}</div>
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">
                                     <div class="font-medium text-gray-900">@switch($user->type) @case(0) Super Admin @break @case(1) Admin @break @default User @endswitch</div>
                                     <div class="italic">{{ $user->department->code }} | {{ $user->department->name }}</div>
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $user->email_verified_at ? 'Verified' : 'Unverified' }}</td>
+                                <td class="whitespace-normal text-wrap px-3 py-4 text-sm text-gray-500">{{ $user->email_verified_at ? 'Verified' : 'Unverified' }}</td>
                                 @if(auth()->user()->type === 0)
-                                <td class="whitespace-nowrap flex px-3 py-4 text-sm text-gray-500">
+                                <td class="whitespace-normal text-wrap flex px-3 py-4 text-sm text-gray-500">
                                     @if($user->id !== auth()->user()->id || $user->email !== 'admin@mria.co.id')
                                     <x-primary-button as="a" href="{{ route('user.edit', $user->id) }}" class="text-xs !mb-0">
                                         {{ __('Edit') }}

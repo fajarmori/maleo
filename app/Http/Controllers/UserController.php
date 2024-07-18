@@ -50,7 +50,7 @@ class UserController extends Controller
         ]);
 
         $user->update([
-            'name' => str()->title(str()->lower($request->name)),
+            'name' => str()->title($request->name),
             'email' => str()->lower($request->email),
             'type' => $request->type,
             'email_verified_at' => NULL,
