@@ -7,7 +7,7 @@ use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
-    public function pageUser(User $user): Response
+    public function allUser(User $user): Response
     {
         return $user->type === 0 ? Response::allow() : Response::denyAsNotFound();
     }
