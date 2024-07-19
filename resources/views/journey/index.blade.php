@@ -24,7 +24,7 @@
                             <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">#</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-6">Journey</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Journey</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Detail</th>
                                 @if(auth()->user()->type !== 2)
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
@@ -35,11 +35,10 @@
                             @foreach($journeys as $journey)
                             <tr>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
-                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                <td class="whitespace-nowrap px-3 py-4 text-sm">
                                     <div class="font-medium">{{ $journey->event }} - {{ $journey->site }}</div>
                                     <div class="font-semibold">MRIA-{{ substr(10000+$journey->employee->mria, -4) }} | {{ $journey->employee->name }}</div>
                                     <div><span class="font-medium">Rute :</span> {{ $journey->origin }} - {{ $journey->destination }}</div>
-                                    <div class="italic"></div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div><span class="font-medium">Pengajuan :</span> {{ $journey->application }}</div>
