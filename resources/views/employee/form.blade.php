@@ -45,7 +45,7 @@
 
                     @if($page_meta['method'] == 'put')
                     <div>
-                        <x-input-label for="join" :value="__('Resign')" />
+                        <x-input-label for="join" :value="__('Join')" />
                         <x-text-input id="join" class="block mt-1 w-full" type="date" name="join" :value="old('join',$employee->detail->join)" autofocus />
                         <x-input-error :messages="$errors->get('join')" class="mt-2" />
                     </div>
