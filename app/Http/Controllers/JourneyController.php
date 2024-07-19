@@ -16,7 +16,7 @@ class JourneyController extends Controller
     public function index()
     {
         $journey = new Journey();
-        Gate::authorize('listJourney', $journey);
+        Gate::authorize('showJourney', $journey);
 
         $journeys = Journey::query()->latest('id')->get();
         return view('journey.index',['journeys' => $journeys]);
@@ -44,13 +44,13 @@ class JourneyController extends Controller
         Gate::authorize('crudJourney', $journey);
 
         $journey = Journey::create([
-            'event' => ucfirst(strtolower($request->validated('event'))),
-            'site' => ucfirst(strtolower($request->validated('site'))),
+            'event' => str()->title($request->validated('event')),
+            'site' => str()->title($request->validated('site')),
             'application' => $request->validated('application'),
-            'origin' => ucfirst(strtolower($request->validated('origin'))),
-            'destination' => ucfirst(strtolower($request->validated('destination'))),
+            'origin' => str()->title($request->validated('origin')),
+            'destination' => str()->title($request->validated('destination')),
             'date' => $request->validated('date'),
-            'transportation' => ucfirst(strtolower($request->validated('transportation'))),
+            'transportation' => str()->title($request->validated('transportation')),
             'employee_id' => $employee_id,
         ]);
         
@@ -83,13 +83,13 @@ class JourneyController extends Controller
         Gate::authorize('crudJourney', $journey);
 
         $journey->update([
-            'event' => ucfirst(strtolower($request->validated('event'))),
-            'site' => ucfirst(strtolower($request->validated('site'))),
+            'event' => str()->title($request->validated('event')),
+            'site' => $request->validated('site'),
             'application' => $request->validated('application'),
-            'origin' => ucfirst(strtolower($request->validated('origin'))),
-            'destination' => ucfirst(strtolower($request->validated('destination'))),
+            'origin' => str()->title($request->validated('origin')),
+            'destination' => str()->title($request->validated('destination')),
             'date' => $request->validated('date'),
-            'transportation' => ucfirst(strtolower($request->validated('transportation'))),
+            'transportation' => str()->title($request->validated('transportation')),
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated journey_id - '.$journey->id]);
