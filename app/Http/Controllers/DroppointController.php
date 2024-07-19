@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
+use App\Models\site;
 use App\Models\Droppoint;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -14,7 +16,7 @@ class DroppointController extends Controller
     public function index()
     {
         $droppoint = new Droppoint();
-        Gate::authorize('listDroppoint', $droppoint);
+        Gate::authorize('showDroppoint', $droppoint);
 
         $droppoints = Droppoint::query()->latest()->get();
         return view('droppoint.index',['droppoints' => $droppoints]);
@@ -25,8 +27,12 @@ class DroppointController extends Controller
         $droppoint = new Droppoint();
         Gate::authorize('crudDroppoint', $droppoint);
 
+        $departments = Department::query()->latest('id')->get();
+        $sites = Site::query()->latest('id')->get();
         return view('droppoint.form',[
             'droppoint' => new Droppoint(),
+            'departments' => $departments,
+            'sites' => $sites,
             'page_meta' => collect([
                 'title' => 'Create Drop Point Delivery',
                 'method' => 'post',
@@ -41,9 +47,11 @@ class DroppointController extends Controller
         Gate::authorize('crudDroppoint', $droppoint);
 
         $droppoint = Droppoint::create([
-            'name' => strtoupper($request->validated('name')),
+            'name' => str()->upper($request->validated('name')),
             'address' => $request->validated('address'),
             'notes' => $request->validated('notes'),
+            'department_id' => $request->department,
+            'site_id' => $request->site,
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created droppoint_id - '.$droppoint->id]);
@@ -59,8 +67,12 @@ class DroppointController extends Controller
     {
         Gate::authorize('crudDroppoint', $droppoint);
 
+        $departments = Department::query()->latest('id')->get();
+        $sites = Site::query()->latest('id')->get();
         return view('droppoint.form',[
             'droppoint' => $droppoint,
+            'departments' => $departments,
+            'sites' => $sites,
             'page_meta' => collect([
                 'title' => 'Edit Drop Point Delivery',
                 'method' => 'put',
@@ -77,6 +89,8 @@ class DroppointController extends Controller
             'name' => strtoupper($request->validated('name')),
             'address' => $request->validated('address'),
             'notes' => $request->validated('notes'),
+            'department_id' => $request->department,
+            'site_id' => $request->site,
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'updated droppoint_id - '.$droppoint->id]);
