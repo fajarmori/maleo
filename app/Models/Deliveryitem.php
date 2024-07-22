@@ -18,12 +18,28 @@ class Deliveryitem extends Model
         'unit',
         'bale',
         'price',
+        'weight',
         'notes',
         'purchase_order',
         'date_request',
+        'department_id',
+        'site_id',
+        'user_id',
     ];
     public function deliverynote(): Relations\BelongsTo
     {
         return $this->belongsTo(Deliverynote::class);
+    }
+    public function user(): Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function department(): Relations\BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+    public function site(): Relations\BelongsTo
+    {
+        return $this->belongsTo(Site::class);
     }
 }

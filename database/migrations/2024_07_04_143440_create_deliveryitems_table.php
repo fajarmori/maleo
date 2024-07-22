@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('deliveryitems', function (Blueprint $table) {
@@ -20,17 +17,18 @@ return new class extends Migration
             $table->string('unit');
             $table->string('bale');
             $table->string('price');
+            $table->string('weight');
             $table->text('notes');
             $table->string('purchase_order')->nullable();
             $table->string('date_request')->nullable();
+            $table->foreignId('user_id');
+            $table->foreignId('department_id');
+            $table->foreignId('site_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('deliveryitems');
