@@ -33,7 +33,8 @@
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Origin</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Destination</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Quantity Item</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Items</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Maker</th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
                             </tr>
                             </thead>
@@ -48,6 +49,7 @@
                                 <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $deliverynote->sender->name }}</td>
                                 <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $deliverynote->recipient->name }}</td>
                                 <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $deliverynote->items->count() }}</td>
+                                <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ $deliverynote->user->department->code }}</td>
                                 <td class="whitespace-normal text-wrap px-3 py-2 text-sm text-gray-500">{{ !$deliverynote->date_recipient ? 'Shipping' : 'Delivered | '.$deliverynote->date_recipient }}</td>
                             </tr>
                             @endforeach

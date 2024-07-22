@@ -68,10 +68,10 @@
                         <tr style="border:1px solid black; background-color:lightblue;-webkit-print-color-adjust:exact;color-adjust:exact;">
                             <th style="width:1%; border:1px solid black;">No.</th>
                             <th style="width:32%; border:1px solid black;">Nama Barang</th>
-                            <th style="width:6%; border:1px solid black;">Qty</th>
+                            <th style="width:5%; border:1px solid black;">Qty</th>
                             <th style="width:8%; border:1px solid black;">Satuan</th>
-                            <th style="width:8%; border:1px solid black;">Packing</th>
-                            <th style="width:32%; border:1px solid black;">Keterangan</th>
+                            <th style="width:10%; border:1px solid black;">Packing</th>
+                            <th style="width:30%; border:1px solid black;">Keterangan</th>
                             <th style="border:1px solid black;" colspan="2">Ceklis</th>
                             <th style="width:8%; border:1px solid black;">KBL</th>
                         </tr>
@@ -213,10 +213,10 @@
                     <tr style="border:1px solid black; background-color:lightblue;-webkit-print-color-adjust:exact;color-adjust:exact;">
                         <th style="width:1%; border:1px solid black;">No.</th>
                         <th style="width:32%; border:1px solid black;">Nama Barang</th>
-                        <th style="width:6%; border:1px solid black;">Qty</th>
+                        <th style="width:5%; border:1px solid black;">Qty</th>
                         <th style="width:8%; border:1px solid black;">Satuan</th>
-                        <th style="width:8%; border:1px solid black;">Packing</th>
-                        <th style="width:32%; border:1px solid black;">Keterangan</th>
+                        <th style="width:10%; border:1px solid black;">Packing</th>
+                        <th style="width:30%; border:1px solid black;">Keterangan</th>
                         <th style="border:1px solid black;" colspan="2">Ceklis</th>
                         <th style="width:8%; border:1px solid black;">KBL</th>
                     </tr>
