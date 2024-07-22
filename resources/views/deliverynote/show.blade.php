@@ -1,7 +1,3 @@
-@php
-$departmentID = auth()->user()->detail->occupation->department_id??6;
-@endphp
-
 <x-app-layout>
     @slot('title','Detail Delivery Note')
     <x-slot name="header">
@@ -17,25 +13,23 @@ $departmentID = auth()->user()->detail->occupation->department_id??6;
                     <x-danger-button as="a" href="{{ route('deliverynotes.index') }}">
                         {{ __('Back') }}
                     </x-danger-button>
-                    @if(auth()->user()->type !== 2)
-                        @if($departmentID === 6)
-                        <x-primary-button as="a" href="{{ route('deliverynotes.edit', $deliverynote->id)}}">
-                            {{ __('Edit') }}
-                        </x-primary-button>
-                        <x-primary-button as="a" href="{{ route('generateDeliveryNote', $deliverynote->id)}}" target="_blank">
-                            {{ __('Print') }}
-                        </x-primary-button>
-                        <x-primary-button as="a" href="{{ route('deliveryitems.create', $deliverynote->id)}}">
-                            {{ __('Add Delivery Item') }}
-                        </x-primary-button>
-                        <form onsubmit="return confirm('Apakah anda yakin menghapus data Surat Jalan {{$deliverynote->letter}} ?');" action="{{ route('deliverynotes.destroy', $deliverynote->id) }}" method="POST" class="me-2">
-                            @method('DELETE')
-                            @csrf
-                            <x-dark-button class="w-full">
-                                {{ __('Delete') }}
-                            </x-dark-button>
-                        </form>
-                        @endif
+                    @if(auth()->user()->department_id === 1 || auth()->user()->department_id === 2 || auth()->user()->department_id === 6)
+                    <x-primary-button as="a" href="{{ route('deliverynotes.edit', $deliverynote->id)}}">
+                        {{ __('Edit') }}
+                    </x-primary-button>
+                    <x-primary-button as="a" href="{{ route('generateDeliveryNote', $deliverynote->id)}}" target="_blank">
+                        {{ __('Print') }}
+                    </x-primary-button>
+                    <x-primary-button as="a" href="{{ route('deliveryitems.create', $deliverynote->id)}}">
+                        {{ __('Add Delivery Item') }}
+                    </x-primary-button>
+                    <form onsubmit="return confirm('Apakah anda yakin menghapus data Surat Jalan {{$deliverynote->letter}} ?');" action="{{ route('deliverynotes.destroy', $deliverynote->id) }}" method="POST" class="me-2">
+                        @method('DELETE')
+                        @csrf
+                        <x-dark-button class="w-full">
+                            {{ __('Delete') }}
+                        </x-dark-button>
+                    </form>
                     @endif
                 </div>
             </div>
@@ -86,11 +80,11 @@ $departmentID = auth()->user()->detail->occupation->department_id??6;
                         <tr>
                             <td>No Telpon</td>
                             <td>:</td>
-                            <td>{{ $deliverynote->phone_sender }}</td>
+                            <td><a href="https://wa.me/{{ $deliverynote->phone_sender }}?text=Hi {{ $deliverynote->name_sender.', '.str_replace('/','%2F',$deliverynote->letter) }} adalah nomor Surat Jalan PT MRIA anda buat" target="_blank" class="text-indigo-600 hover:text-indigo-900">{{ $deliverynote->phone_sender }}</a></td>
                             <td></td>
                             <td>No Telpon</td>
                             <td>:</td>
-                            <td>{{ $deliverynote->phone_recipient }}</td>
+                            <td><a href="https://wa.me/{{ $deliverynote->phone_recipient }}?text=Hi {{ $deliverynote->name_recipient.', '.str_replace('/','%2F',$deliverynote->letter) }} adalah nomor Surat Jalan PT MRIA untuk anda" target="_blank" class="text-indigo-600 hover:text-indigo-900">{{ $deliverynote->phone_recipient }}</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -114,13 +108,11 @@ $departmentID = auth()->user()->detail->occupation->department_id??6;
                         <tr style="border:1px solid black;">
                             <td style="border:1px solid black;">{{ $loop->iteration }}</td>
                             <td style="border:1px solid black; text-align:left !important; padding-left:5px;">
-                                @if(auth()->user()->type === 0)
-                                <a href="{{ route('deliveryitems.edit', $item->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $item->name }}</a>
-                                @elseif($departmentID === 6)
+                                @if(auth()->user()->department_id === 1 || auth()->user()->department_id === 2 || auth()->user()->department_id === 6)
                                 <a href="{{ route('deliveryitems.edit', $item->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $item->name }}</a>
                                 @else
                                 {{ $item->name }}
-                                @endif
+                                @endif 
                             </td>
                             <td style="border:1px solid black;">{{ $item->quantity }}</td>
                             <td style="border:1px solid black;">{{ $item->unit }}</td>
@@ -136,11 +128,18 @@ $departmentID = auth()->user()->detail->occupation->department_id??6;
                 <table style="width:100%; margin-bottom:10px;">
                     <tbody style="vertical-align:top; border:1px solid black; border-collapse: collapse;">
                         <tr>
-                            <td style="width:50%;"><i>Catatan:</i></td>
+                            <td style="width:50%;font-style:italic;">Catatan:</td>
                             <td style="width:50%; border:1px solid black; text-align:center; background-color:yellow;"><b>PERHATIAN</b></td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <ul style="list-style:disc;margin:0;padding:10px 25px;">
+                                    <li>Estimasi berat: {{ $deliverynote->items->sum('weight') }} Kg</li>
+                                    <li>Estimasi sampai: {{ $deliverynote->estimated }}</li>
+                                    <li>Pengiriman melalui: {{ $deliverynote->via }}</li>
+                                    <li>{{ $deliverynote->notes }}</li>
+                                </ul>
+                            </td>
                             <td style="border:1px solid black; text-align:left; padding-left:5px;">
                                 <ol style="list-style:auto; padding:10px 30px; text-align:justify;">
                                     <li>Surat jalan dan kirimkan file dengan format PDF melalui google drive dan kirimkan file tersebut ke email scmmria@gmail.com dengan deskripsi nomor surat jalan.</li>
@@ -198,9 +197,9 @@ $departmentID = auth()->user()->detail->occupation->department_id??6;
                         </tr>
                         <tr>
                             <td style="border-right:1px solid black; text-transform:capitalize;">
-                                <div style="display:flex; border-top:2px solid black;margin:0px 10px;text-align:left;">
-                                    <div style="width:210px;">Kontak: {{ $deliverynote->phone_recipient }}</div>
-                                    <div>Tanggal penerimaan: {{ $deliverynote->date_recipient??'' }}</div>
+                                <div style="border-top:2px solid black;margin:0px 10px;text-align:left;">
+                                    <div>Kontak: {{ $deliverynote->phone_recipient }}</div>
+                                    <div style="margin-top:-5px;font-weight:bold;">Tanggal penerimaan: {{ $deliverynote->date_recipient??'' }}</div>
                                 </div>
                             </td>
                             <td style="border-right:1px solid black; text-transform:capitalize;">

@@ -22,6 +22,8 @@ class Deliverynote extends Model
         'date_recipient',
         'via',
         'estimated_delivery',
+        'user_id',
+        'notes',
     ];
 
     public function sender(): Relations\HasOne
@@ -35,5 +37,17 @@ class Deliverynote extends Model
     public function items(): Relations\HasMany
     {
         return $this->hasMany(Deliveryitem::class);
+    }
+    public function user(): Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function department(): Relations\BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+    public function site(): Relations\BelongsTo
+    {
+        return $this->belongsTo(Site::class);
     }
 }

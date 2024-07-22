@@ -9,24 +9,46 @@ use App\Models\Deliverynote;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\DeliverynoteRequest;
 
 class DeliverynoteController extends Controller
 {
     public function index()
     {
-        $deliverynotes = Deliverynote::query()->latest()->get();
+        $deliverynotes = Deliverynote::orWhereHas('items', function (Builder $query) {
+            $departmentID = auth()->user()->department_id;
+            if($departmentID != 2){
+                $query->where('department_id', 'like', $departmentID === 1 || $departmentID === 6 ? '%' : $departmentID);
+            } else {
+                $query->where('site_id', 'like', auth()->user()->site->id);
+            }
+        })->orWhereHas('sender', function (Builder $query) {
+            $departmentID = auth()->user()->department_id;
+            if($departmentID != 2){
+                $query->where('department_id', 'like', $departmentID === 1 || $departmentID === 6 ? '%' : $departmentID);
+            } else {
+                $query->where('site_id', 'like', auth()->user()->site->id);
+            }
+        })->orWhereHas('recipient', function (Builder $query) {
+            $departmentID = auth()->user()->department_id;
+            if($departmentID != 2){
+                $query->where('department_id', 'like', $departmentID === 1 || $departmentID === 6 ? '%' : $departmentID);
+            } else {
+                $query->where('site_id', 'like', auth()->user()->site->id);
+            }
+        })->latest('id')->get();
         return view('deliverynote.index',['deliverynotes' => $deliverynotes]);
     }
 
     public function create()
     {
         $deliverynote = new Deliverynote();
-        Gate::authorize('crudDeliverynote', $deliverynote);
+        Gate::authorize('createDeliverynote', $deliverynote);
 
         $deliverynote = Deliverynote::latest('id')->first();
         $deliverynote ? $number = $deliverynote->id : $number = 0;
-        $code = auth()->user()->detail->occupation->department->code ?? auth()->user()->site->code ?? 'ADMIN';
+        $code = auth()->user()->department_id === 2 ? auth()->user()->site->code : auth()->user()->department->code;
         switch (Carbon::now()->isoFormat('M')) {case 1: $roman = 'I'; break; case 2: $roman = 'II'; break; case 3: $roman = 'III'; break; case 4: $roman = 'IV'; break; case 5: $roman = 'V'; break; case 6: $roman = 'VI'; break; case 7: $roman = 'VII'; break; case 8: $roman = 'VIII'; break; case 9: $roman = 'IX'; break; case 10: $roman = 'X'; break; case 11: $roman = 'XI'; break; default: $roman = 'XII'; break;};
 
         return view('deliverynote.form',[
@@ -43,7 +65,7 @@ class DeliverynoteController extends Controller
     public function store(DeliverynoteRequest $request)
     {
         $deliverynote = new Deliverynote();
-        Gate::authorize('crudDeliverynote', $deliverynote);
+        Gate::authorize('createDeliverynote', $deliverynote);
 
         $sender = Droppoint::query()->where('name', $request->sender)->first();
         $recipient = Droppoint::query()->where('name', $request->recipient)->first();
@@ -52,14 +74,16 @@ class DeliverynoteController extends Controller
             'letter' => $request->letter,
             'date' => Carbon::now()->isoFormat('Y-MM-DD'),
             'sender_id' => $sender->id,
-            'name_sender' => ucwords(strtolower($request->validated('nameSender'))),
-            'phone_sender' => $request->validated('phoneSender'),
+            'name_sender' => str()->title($request->validated('nameSender')),
+            'phone_sender' => substr($request->validated('phoneSender'),0,1) === '0' ? '62'.substr($request->validated('phoneSender'),1) : $request->validated('phoneSender'),
             'recipient_id' => $recipient->id,
-            'name_recipient' => ucwords(strtolower($request->validated('nameRecipient'))),
-            'phone_recipient' => $request->validated('phoneRecipient'),
-            'via' => ucfirst(strtolower($request->validated('via'))),
+            'name_recipient' => str()->title($request->validated('nameRecipient')),
+            'phone_recipient' => substr($request->validated('phoneRecipient'),0,1) === '0' ? '62'.substr($request->validated('phoneRecipient'),1) : $request->validated('phoneRecipient'),
+            'via' => str()->title($request->validated('via')),
+            'user_id' => auth()->user()->id,
             'date_recipient' => $request->dateRecipient,
-            'estimated_delivery' => strtolower($request->estimated),
+            'estimated_delivery' => str()->lower($request->estimated),
+            'notes' => str()->ucfirst(str()->lower($request->notes)),
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created deliverynote_id - '.$deliverynote->id]);
@@ -74,7 +98,7 @@ class DeliverynoteController extends Controller
 
     public function edit(Deliverynote $deliverynote)
     {
-        Gate::authorize('crudDeliverynote', $deliverynote);
+        Gate::authorize('createDeliverynote', $deliverynote);
 
         return view('deliverynote.form',[
             'deliverynote' => $deliverynote,
@@ -88,21 +112,22 @@ class DeliverynoteController extends Controller
 
     public function update(DeliverynoteRequest $request, Deliverynote $deliverynote)
     {
-        Gate::authorize('crudDeliverynote', $deliverynote);
+        Gate::authorize('createDeliverynote', $deliverynote);
 
         $sender = Droppoint::query()->where('name', $request->sender)->first();
         $recipient = Droppoint::query()->where('name', $request->recipient)->first();
         
         $deliverynote->update([
             'sender_id' => $sender->id,
-            'name_sender' => ucwords(strtolower($request->validated('nameSender'))),
-            'phone_sender' => $request->validated('phoneSender'),
+            'name_sender' => str()->title($request->validated('nameSender')),
+            'phone_sender' => substr($request->validated('phoneSender'),0,1) === '0' ? '62'.substr($request->validated('phoneSender'),1) : $request->validated('phoneSender'),
             'recipient_id' => $recipient->id,
-            'name_recipient' => ucwords(strtolower($request->validated('nameRecipient'))),
-            'phone_recipient' => $request->validated('phoneRecipient'),
-            'via' => ucfirst(strtolower($request->validated('via'))),
+            'name_recipient' => str()->title($request->validated('nameRecipient')),
+            'phone_recipient' => substr($request->validated('phoneRecipient'),0,1) === '0' ? '62'.substr($request->validated('phoneRecipient'),1) : $request->validated('phoneRecipient'),
+            'via' => str()->title($request->validated('via')),
             'date_recipient' => $request->dateRecipient,
-            'estimated_delivery' => strtolower($request->estimated),
+            'estimated_delivery' => str()->lower($request->estimated),
+            'notes' => str()->ucfirst($request->notes),
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'update deliverynote_id - '.$deliverynote->id]);
@@ -111,7 +136,7 @@ class DeliverynoteController extends Controller
 
     public function destroy(Deliverynote $deliverynote)
     {
-        Gate::authorize('crudDeliverynote', $deliverynote);
+        Gate::authorize('createDeliverynote', $deliverynote);
         
         Deliverynote::query()->where('id', $deliverynote->id)->delete();
         
@@ -123,7 +148,7 @@ class DeliverynoteController extends Controller
     public function generateDeliveryNote($id)
     {
         $deliverynote = Deliverynote::query()->where('id',$id)->first();
-        Gate::authorize('crudDeliverynote', $deliverynote);
+        Gate::authorize('createDeliverynote', $deliverynote);
         
         return view('deliverynote.pdf',['deliverynote' => $deliverynote]);
 

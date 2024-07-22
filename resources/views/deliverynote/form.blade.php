@@ -61,6 +61,11 @@
                         <x-text-input id="estimated" class="block mt-1 w-full" type="text" name="estimated" :value="old('estimated',$deliverynote->estimated_delivery)" autofocus />
                         <x-input-error :messages="$errors->get('estimated')" class="mt-2" />
                     </div>
+                    <div>
+                        <x-input-label for="notes" :value="__('Notes')" />
+                        <x-textarea id="notes" name="notes" rows="2" class="block mt-1 w-full">{{ old('notes',$deliverynote->notes) }}</x-textarea>
+                        <x-input-error :messages="$errors->get('notes')" class="mt-2" />
+                    </div>
                     @if($page_meta['method'] == 'put')
                     <div>
                         <x-input-label for="dateRecipient" :value="__('Date Recipient')" />
@@ -82,38 +87,10 @@
 </x-app-layout>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#sender').on('keyup',function() {
-        var query = $(this).val();
-        $.ajax({
-            url:"{{ route('getdroppoint') }}",
-            type:"GET",
-            data:{'droppoint':query},
-            success:function (data) { 
-                $('#list-sender').html(data);
-            }
-        })
-    });
-    $('#list-sender').on('click', 'li', function(){
-        var value = $(this).text();
-        $('#sender').val(value);
-        $('#list-sender').html("");
-    });
-
-    $('#recipient').on('keyup',function() {
-        var query = $(this).val();
-        $.ajax({
-            url:"{{ route('getdroppoint') }}",
-            type:"GET",
-            data:{'droppoint':query},
-            success:function (data) { 
-                $('#list-recipient').html(data);
-            }
-        })
-    });
-    $('#list-recipient').on('click', 'li', function(){
-        var value = $(this).text();
-        $('#recipient').val(value);
-        $('#list-recipient').html("");
-    });
+    $('#sender').on('keyup',function() { var querySender = $(this).val(); $.ajax({ url:"{{ route('getdroppoint') }}", type:'GET', data:{'droppoint':querySender}, success:function (data) { $('#list-sender').html(data); } }) });
+    $('#recipient').on('keyup',function() { var queryRecipient = $(this).val(); $.ajax({ url:"{{ route('getdroppoint') }}", type:'GET', data:{'droppoint':queryRecipient}, success:function (data) { $('#list-recipient').html(data); } }) });
+    $('#list-sender').on('click', 'li', function(){ var sender = $(this).data('name'); $('#sender').val(sender); $('#list-sender').html(''); });
+    $('#list-recipient').on('click', 'li', function(){ var recipient = $(this).data('name'); $('#recipient').val(recipient); $('#list-recipient').html(''); });
+    $('input').on('focus',function() { $('#list-sender').html(''); $('#list-recipient').html(''); });
 })
 </script>

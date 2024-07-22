@@ -119,11 +119,18 @@
                 <table style="width:100%; margin-bottom:10px; border-collapse:collapse;">
                     <tbody style="vertical-align:top; border:1px solid black; border-collapse: collapse;">
                         <tr>
-                            <td style="width:50%;"><i>Catatan:</i></td>
+                            <td style="width:50%;font-style:italic;">Catatan:</td>
                             <td style="width:50%; border:1px solid black; text-align:center; background-color:yellow;-webkit-print-color-adjust:exact;color-adjust:exact;"><b>PERHATIAN</b></td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <ul style="list-style:disc;margin:0;padding:10px 25px;">
+                                    <li>Estimasi berat: {{ $deliverynote->items->sum('weight') }} Kg</li>
+                                    <li>Estimasi sampai: {{ $deliverynote->estimated }}</li>
+                                    <li>Pengiriman melalui: {{ $deliverynote->via }}</li>
+                                    <li>{{ $deliverynote->notes }}</li>
+                                </ul>
+                            </td>
                             <td style="border:1px solid black; text-align:left;">
                                 <ol style="text-align:justify; margin:15px 15px 15px 25px; padding:0px;">
                                     <li>Surat jalan dan kirimkan file dengan format PDF melalui google drive dan kirimkan file tersebut ke email scmmria@gmail.com dengan deskripsi nomor surat jalan.</li>
@@ -183,7 +190,7 @@
                             <td style="border-right:1px solid black; text-transform:capitalize;">
                                 <div style="border-top:2px solid black; margin:0px 10px; text-align:left;">
                                     <div style="padding:3px 0;">Kontak: {{ $deliverynote->phone_recipient }}</div>
-                                    <div style="padding:0 0 3px 0;">Tanggal penerimaan:</div>
+                                    <div style="padding-bottom:3px;font-weight:bold;">Tanggal penerimaan: {{ $deliverynote->date_recipient??'' }}</div>
                                 </div>
                             </td>
                             <td style="border-right:1px solid black; text-transform:capitalize;">

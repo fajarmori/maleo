@@ -8,27 +8,56 @@ use Illuminate\Auth\Access\Response;
 
 class DeliverynotePolicy
 {
-    // public function listDeliverynote(User $user, Deliverynote $deliverynote): Response
-    // {
-    //     switch ($user->type){
-    //     case 0:
-    //         return Response::allow();
-    //     default:
-    //         if(isset($user->detail->occupation->department_id)){
-    //             return $user->detail->occupation->department_id === 6 ? Response::allow() : Response::denyAsNotFound();
-    //         }else{
-    //             return substr($user->detail,0,8) === 'sitemria' ? Response::allow() : Response::denyAsNotFound();
-    //         }
-    //     }
-    // }
-    public function crudDeliverynote(User $user, Deliverynote $deliverynote): Response
+    public function createDeliverynote(User $user, Deliverynote $deliverynote): Response
     {
         switch ($user->type){
         case 0:
             return Response::allow();
         case 1:
-            $departmentID = $user->detail->occupation->department_id ?? 6;
-            return $departmentID === 6 ? Response::allow() : Response::denyAsNotFound();
+            switch ($user->department_id){
+            case 2:
+                return Response::allow();
+            case 6:
+                return Response::allow();
+            default:
+                return Response::denyAsNotFound();
+            }
+        default:
+            return Response::denyAsNotFound();
+        }
+    }
+    public function updateDeliverynote(User $user, Deliverynote $deliverynote): Response
+    {
+        switch ($user->type){
+        case 0:
+            return Response::allow();
+        case 1:
+            switch ($user->department_id){
+            case 2:
+                return Response::allow();
+            case 6:
+                return Response::allow();
+            default:
+                return Response::denyAsNotFound();
+            }
+        default:
+            return Response::denyAsNotFound();
+        }
+    }
+    public function deleteDeliverynote(User $user, Deliverynote $deliverynote): Response
+    {
+        switch ($user->type){
+        case 0:
+            return Response::allow();
+        case 1:
+            switch ($user->department_id){
+            case 2:
+                return Response::allow();
+            case 6:
+                return Response::allow();
+            default:
+                return Response::denyAsNotFound();
+            }
         default:
             return Response::denyAsNotFound();
         }

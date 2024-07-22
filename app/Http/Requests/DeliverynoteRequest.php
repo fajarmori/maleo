@@ -16,10 +16,10 @@ class DeliverynoteRequest extends FormRequest
         return [
             'sender' => ['required'],
             'nameSender' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
-            'phoneSender' => ['required', "regex:/^[\d]*$/"],
+            'phoneSender' => ['required', 'numeric', 'min_digits:10', 'max_digits:15'],
             'recipient' => ['required'],
             'nameRecipient' => ['required', 'string', 'max:255', "regex:/^[\w\s.']*$/"],
-            'phoneRecipient' => ['required', "regex:/^[\d]*$/"],
+            'phoneRecipient' => ['required', 'numeric', 'min_digits:10', 'max_digits:15'],
             'via' => ['required', 'string', 'max:255', "regex:/^[\w\s.,'()-\/]*$/"],
         ];
     }
