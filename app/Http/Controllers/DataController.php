@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Employee;
 use App\Models\Droppoint;
+use App\Models\Deliveryitem;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
@@ -75,6 +76,29 @@ class DataController extends Controller
             if (count($droppoints)>0) {
                 foreach ($droppoints as $droppoint){
                     $output .= '<li class="bg-white px-3 py-2 border" data-name="'.$droppoint->name.'">'.$droppoint->name.'</li>';
+                }
+            }
+            else {
+                $output .= '<li class="bg-white px-3 py-2 border">No results</li>';
+            }
+            $output .= '</ul>';
+            return $output;
+        }
+    }
+
+    public function getDeliveryItem(Request $request)
+    {
+        if($request->ajax()) {
+            $deliveryitems = Deliveryitem::query()
+                ->where([
+                    ['name', 'LIKE', '%'.$request->name.'%']
+                ])->limit(3)->get();
+            $output = '';
+
+            $output = '<ul class="absolute w-full">';
+            if (count($deliveryitems)>0) {
+                foreach ($deliveryitems as $deliveryitem){
+                    $output .= '<li class="bg-white px-3 py-2 border" data-name="'.$deliveryitem->name.'" data-weight="'.$deliveryitem->weight.'">'.$deliveryitem->weight.' KG | '.$deliveryitem->name.'</li>';
                 }
             }
             else {
