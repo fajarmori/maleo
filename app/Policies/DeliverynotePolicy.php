@@ -34,7 +34,7 @@ class DeliverynotePolicy
         case 1:
             switch ($user->department_id){
             case 2:
-                return Response::allow();
+                return $user->id === $deliverynote->user_id ? Response::allow() : Response::denyAsNotFound();
             case 6:
                 return Response::allow();
             default:
@@ -52,7 +52,7 @@ class DeliverynotePolicy
         case 1:
             switch ($user->department_id){
             case 2:
-                return Response::allow();
+                return $user->id === $deliverynote->user_id ? Response::allow() : Response::denyAsNotFound();
             case 6:
                 return Response::allow();
             default:

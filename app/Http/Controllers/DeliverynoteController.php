@@ -98,7 +98,7 @@ class DeliverynoteController extends Controller
 
     public function edit(Deliverynote $deliverynote)
     {
-        Gate::authorize('createDeliverynote', $deliverynote);
+        Gate::authorize('updateDeliverynote', $deliverynote);
 
         return view('deliverynote.form',[
             'deliverynote' => $deliverynote,
@@ -112,7 +112,7 @@ class DeliverynoteController extends Controller
 
     public function update(DeliverynoteRequest $request, Deliverynote $deliverynote)
     {
-        Gate::authorize('createDeliverynote', $deliverynote);
+        Gate::authorize('updateDeliverynote', $deliverynote);
 
         $sender = Droppoint::query()->where('name', $request->sender)->first();
         $recipient = Droppoint::query()->where('name', $request->recipient)->first();
@@ -136,7 +136,7 @@ class DeliverynoteController extends Controller
 
     public function destroy(Deliverynote $deliverynote)
     {
-        Gate::authorize('createDeliverynote', $deliverynote);
+        Gate::authorize('deleteDeliverynote', $deliverynote);
         
         Deliverynote::query()->where('id', $deliverynote->id)->delete();
         
