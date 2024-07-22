@@ -74,7 +74,7 @@ class DataController extends Controller
             $output = '<ul class="absolute w-full">';
             if (count($droppoints)>0) {
                 foreach ($droppoints as $droppoint){
-                    $output .= '<li class="bg-white px-3 py-2 border">'.$droppoint->name.'</li>';
+                    $output .= '<li class="bg-white px-3 py-2 border" data-name="'.$droppoint->name.'">'.$droppoint->name.'</li>';
                 }
             }
             else {
