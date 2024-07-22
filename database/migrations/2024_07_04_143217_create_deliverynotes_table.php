@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('deliverynotes', function (Blueprint $table) {
@@ -24,14 +21,13 @@ return new class extends Migration
             $table->date('date_recipient')->nullable();
             $table->string('via');
             $table->string('estimated_delivery')->nullable();
+            $table->text('notes')->nullable();
+            $table->foreignId('user_id');
             $table->softDeletes();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('deliverynotes');
