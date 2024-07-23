@@ -29,8 +29,6 @@
                             </x-primary-button>
                         </div>
                     </form>
-
-                    <a href="{{ route('profile.edit') }}" class="underline text-gray-600">Edit Profile</a>
                 </div>
             </div>
         </div>
