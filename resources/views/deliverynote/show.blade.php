@@ -109,10 +109,11 @@
                             <td style="border:1px solid black;">{{ $loop->iteration }}</td>
                             <td style="border:1px solid black; text-align:left !important; padding-left:5px;">
                                 @if(auth()->user()->department_id === 1 || auth()->user()->department_id === 2 || auth()->user()->department_id === 6)
-                                <a href="{{ route('deliveryitems.edit', $item->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $item->name }}</a>
+                                <div><a href="{{ route('deliveryitems.edit', $item->id) }}" class="text-indigo-600 hover:text-indigo-900">{{ $item->name }}</a></div>
                                 @else
-                                {{ $item->name }}
+                                <div>{{ $item->name }}</div>
                                 @endif 
+                                <div style="font-size:12px; font-style:italic;">manage by: {{ $item->department->code }}</div>
                             </td>
                             <td style="border:1px solid black;">{{ $item->quantity }}</td>
                             <td style="border:1px solid black;">{{ $item->unit }}</td>

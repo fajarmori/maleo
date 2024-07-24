@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/gait', [Controllers\MenuController::class, 'gait'])->name('gait');
         Route::get('/project', [Controllers\MenuController::class, 'project'])->name('project');
         Route::get('/application', [Controllers\MenuController::class, 'application'])->name('application');
-
+        
         Route::get('/getemployees', [Controllers\DataController::class, 'getEmployees'])->name('getemployees');
         Route::get('/getemailsite', [Controllers\DataController::class, 'getEmailSite'])->name('getemailsite');
         Route::get('/getdroppoint', [Controllers\DataController::class, 'getDropPoint'])->name('getdroppoint');

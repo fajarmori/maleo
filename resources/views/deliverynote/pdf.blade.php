@@ -79,7 +79,10 @@
                         @if($loop->iteration <= 5)
                         <tr style="border:1px solid black;">
                             <td style="border:1px solid black;">{{ $loop->iteration }}</td>
-                            <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->name }}</td>
+                            <td style="border:1px solid black; text-align:left; padding-left:5px;">
+                                <div>{{ $item->name }}</div>
+                                <div style="font-size:8px; font-style:italic;">manage by: {{ $item->department->code }}</div>
+                            </td>
                             <td style="border:1px solid black;">{{ $item->quantity }}</td>
                             <td style="border:1px solid black;">{{ $item->unit }}</td>
                             <td style="border:1px solid black;">{{ $item->bale }}</td>
@@ -102,7 +105,10 @@
                             @else
                                 <tr style="border:1px solid black;">
                                     <td style="border:1px solid black;">{{ $loop->iteration }}</td>
-                                    <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->name }}</td>
+                                    <td style="border:1px solid black; text-align:left; padding-left:5px;">
+                                        <div>{{ $item->name }}</div>
+                                        <div style="font-size:8px; font-style:italic;">manage by: {{ $item->department->code }}</div>
+                                    </td>
                                     <td style="border:1px solid black;">{{ $item->quantity }}</td>
                                     <td style="border:1px solid black;">{{ $item->unit }}</td>
                                     <td style="border:1px solid black;">{{ $item->bale }}</td>
@@ -224,7 +230,10 @@
                     @if($loop->iteration > 6)
                     <tr style="border:1px solid black;">
                         <td style="border:1px solid black;">{{ $loop->iteration }}</td>
-                        <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->name }}</td>
+                        <td style="border:1px solid black; text-align:left; padding-left:5px;">
+                            <div>{{ $item->name }}</div>
+                            <div style="font-size:8px; font-style:italic;">manage by: {{ $item->department->code }}</div>
+                        </td>
                         <td style="border:1px solid black;">{{ $item->quantity }}</td>
                         <td style="border:1px solid black;">{{ $item->unit }}</td>
                         <td style="border:1px solid black;">{{ $item->bale }}</td>
