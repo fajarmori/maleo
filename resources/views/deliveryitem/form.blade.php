@@ -40,7 +40,7 @@
                     </div>
                     <div>
                         <x-input-label for="price" :value="__('Price')" />
-                        <x-text-input id="price" class="block mt-1 w-full" type="number" name="price" :value="old('price',$deliveryitem->price)" placeholder="Price per item" autofocus />
+                        <x-text-input id="price" class="block mt-1 w-full" type="number" name="price" :value="old('price',$deliveryitem->price)" placeholder="Total price" autofocus />
                         <x-input-error :messages="$errors->get('price')" class="mt-2" />
                     </div>
                     <div>

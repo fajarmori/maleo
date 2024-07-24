@@ -92,7 +92,7 @@ class DataController extends Controller
             $deliveryitems = Deliveryitem::query()
                 ->where([
                     ['name', 'LIKE', '%'.$request->name.'%']
-                ])->limit(3)->get();
+                ])->limit(3)->get()->unique('name');
             $output = '';
 
             $output = '<ul class="absolute w-full">';
