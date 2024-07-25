@@ -71,7 +71,7 @@ class UserSeeder extends Seeder
             $user->email = $data[1];
             $user->type = $data[2];
             $user->department_id = $data[5];
-            $user->password = Hash::make('password');
+            $user->password = Hash::make($data[3]);
             $user->saveQuietly();
 
             if(!empty($data[4])){
