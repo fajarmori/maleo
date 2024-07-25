@@ -7,6 +7,7 @@ Route::get('/', Controllers\HomeController::class)->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::middleware('verified')->group(function () {
+    });
         Route::get('/log', Controllers\LogController::class)->name('log');
         Route::get('/dashboard', Controllers\DashboardController::class)->name('dashboard');
         
@@ -44,7 +45,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/getdeliveryitem', [Controllers\DataController::class, 'getDeliveryItem'])->name('getdeliveryitem');
         
         Route::get('/deliverynotegenerate/{id}',[Controllers\DeliverynoteController::class, 'generateDeliveryNote'])->name('generateDeliveryNote');
-    });
 });
 
 require __DIR__.'/auth.php';
