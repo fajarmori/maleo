@@ -13,22 +13,22 @@
                     @method($page_meta['method'])
                     @csrf
                     <div>
-                        <x-input-label for="name" :value="__('Name')" />
+                        <x-input-label for="name" :value="__('Name*')" />
                         <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name',$droppoint->name)" autofocus />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="address" :value="__('Address')" />
+                        <x-input-label for="address" :value="__('Address*')" />
                         <x-textarea id="address" name="address" rows="2" class="block mt-1 w-full">{{ old('address',$droppoint->address) }}</x-textarea>
                         <x-input-error :messages="$errors->get('address')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="notes" :value="__('Notes')" />
+                        <x-input-label for="notes" :value="__('Notes*')" />
                         <x-textarea id="notes" name="notes" rows="2" class="block mt-1 w-full">{{ old('notes',$droppoint->notes) }}</x-textarea>
                         <x-input-error :messages="$errors->get('notes')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="department" :value="__('Department')" />
+                        <x-input-label for="department" :value="__('Department*')" />
                         <select id="department" name="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="0">No Department</option>
                             @foreach($departments as $department)
@@ -38,7 +38,7 @@
                         <x-input-error :messages="$errors->get('department')" class="mt-2" />
                     </div>
                     <div id="site-select" class="{{ isset($droppoint->site->id) ? '' : 'hidden' }}">
-                        <x-input-label for="site" :value="__('Site')" />
+                        <x-input-label for="site" :value="__('Site*')" />
                         <select id="site" name="site" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="0">No Site</option>
                             @foreach($sites as $site)
@@ -54,6 +54,7 @@
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
+                <div class="mt-2 italic text-xs">*Required input</div>
             </div>
         </div>
     </x-container>

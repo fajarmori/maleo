@@ -13,37 +13,37 @@
                     @method($page_meta['method'])
                     @csrf
                     <div>
-                        <x-input-label for="event" :value="__('Event')" />
+                        <x-input-label for="event" :value="__('Event*')" />
                         <x-text-input id="event" class="block mt-1 w-full" type="text" name="event" :value="old('event',$journey->event)" autofocus />
                         <x-input-error :messages="$errors->get('event')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="site" :value="__('Site')" />
+                        <x-input-label for="site" :value="__('Site*')" />
                         <x-text-input id="site" class="block mt-1 w-full" type="text" name="site" :value="old('site',$journey->site)" autofocus />
                         <x-input-error :messages="$errors->get('site')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="application" :value="__('Application')" />
+                        <x-input-label for="application" :value="__('Application*')" />
                         <x-text-input id="application" class="block mt-1 w-full" type="text" name="application" :value="old('application',$journey->application)" autofocus />
                         <x-input-error :messages="$errors->get('application')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="origin" :value="__('Origin')" />
+                        <x-input-label for="origin" :value="__('Origin*')" />
                         <x-text-input id="origin" class="block mt-1 w-full" type="text" name="origin" :value="old('origin',$journey->origin)" autofocus />
                         <x-input-error :messages="$errors->get('origin')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="destination" :value="__('Destination')" />
+                        <x-input-label for="destination" :value="__('Destination*')" />
                         <x-text-input id="destination" class="block mt-1 w-full" type="text" name="destination" :value="old('destination',$journey->destination)" autofocus />
                         <x-input-error :messages="$errors->get('destination')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="date" :value="__('Date')" />
+                        <x-input-label for="date" :value="__('Date*')" />
                         <x-text-input id="date" class="block mt-1 w-full" type="date" name="date" :value="old('date',$journey->date)" autofocus />
                         <x-input-error :messages="$errors->get('date')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="transportation" :value="__('Transportation')" />
+                        <x-input-label for="transportation" :value="__('Transportation*')" />
                         <x-text-input id="transportation" class="block mt-1 w-full" type="text" name="transportation" :value="old('transportation',$journey->transportation)" autofocus />
                         <x-input-error :messages="$errors->get('transportation')" class="mt-2" />
                     </div>
@@ -54,6 +54,7 @@
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
+                <div class="mt-2 italic text-xs">*Required input</div>
             </div>
         </div>
     </x-container>

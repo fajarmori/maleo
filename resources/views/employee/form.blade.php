@@ -13,32 +13,32 @@
                     @method($page_meta['method'])
                     @csrf
                     <div>
-                        <x-input-label for="name" :value="__('Name')" />
+                        <x-input-label for="name" :value="__('Name*')" />
                         <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name',$employee->name)" autofocus />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="nik" :value="__('NIK')" />
+                        <x-input-label for="nik" :value="__('NIK*')" />
                         <x-text-input id="nik" class="block mt-1 w-full" type="number" name="nik" :value="old('nik',$employee->nik)" placeholder="Input 16 number" autofocus />
                         <x-input-error :messages="$errors->get('nik')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="born" :value="__('Born Place')" />
+                        <x-input-label for="born" :value="__('Born Place*')" />
                         <x-text-input id="born" class="block mt-1 w-full" type="text" name="born" :value="old('born',$employee->born)" autofocus />
                         <x-input-error :messages="$errors->get('born')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="birthday" :value="__('Birthday')" />
+                        <x-input-label for="birthday" :value="__('Birthday*')" />
                         <x-text-input id="birthday" class="block mt-1 w-full" type="date" name="birthday" :value="old('birthday',$employee->birthday)" autofocus />
                         <x-input-error :messages="$errors->get('birthday')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="phone" :value="__('Phone/Whatsapp')" />
+                        <x-input-label for="phone" :value="__('Phone/Whatsapp*')" />
                         <x-text-input id="phone" class="block mt-1 w-full" type="number" name="phone" :value="old('phone',$employee->phone)" placeholder="Starting from country code (62)" autofocus />
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="address" :value="__('Address')" />
+                        <x-input-label for="address" :value="__('Address*')" />
                         <x-textarea id="address" rows="2" class="block mt-1 w-full"  name="address" placeholder="Input same identity">{{ old('address',$employee->address) }}</x-textarea>
                         <x-input-error :messages="$errors->get('address')" class="mt-2" />
                     </div>
@@ -79,6 +79,7 @@
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
+                <div class="mt-2 italic text-xs">*Required input</div>
             </div>
         </div>
     </x-container>

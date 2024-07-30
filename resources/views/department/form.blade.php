@@ -13,12 +13,12 @@
                     @method($page_meta['method'])
                     @csrf
                     <div>
-                        <x-input-label for="name" :value="__('Department')" />
+                        <x-input-label for="name" :value="__('Department*')" />
                         <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name',$department->name)" autofocus />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="code" :value="__('Code')" />
+                        <x-input-label for="code" :value="__('Code*')" />
                         <x-text-input id="code" class="block mt-1 w-full" type="text" name="code" :value="old('code',$department->code)" minlength="3" maxlength="4" autofocus />
                         <x-input-error :messages="$errors->get('code')" class="mt-2" />
                     </div>
@@ -29,6 +29,7 @@
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
+                <div class="mt-2 italic text-xs">*Required input</div>
             </div>
         </div>
     </x-container>

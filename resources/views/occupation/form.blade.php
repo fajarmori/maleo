@@ -13,12 +13,12 @@
                     @method($page_meta['method'])
                     @csrf
                     <div>
-                        <x-input-label for="name" :value="__('Occupation')" />
+                        <x-input-label for="name" :value="__('Occupation*')" />
                         <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name',$occupation->name)" autofocus />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="department" :value="__('Department')" />
+                        <x-input-label for="department" :value="__('Department*')" />
                         <select id="department" name="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             @if($page_meta['method'] === 'post')
                                 <option selected>Choose department</option>
@@ -36,6 +36,7 @@
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
+                <div class="mt-2 italic text-xs">*Required input</div>
             </div>
         </div>
     </x-container>
