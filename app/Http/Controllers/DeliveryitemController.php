@@ -51,12 +51,12 @@ class DeliveryitemController extends Controller
 
         $deliveryitem = Deliveryitem::create([
             'deliverynote_id' => $deliverynote_id,
-            'code' => $request->code,
+            'code' => $request->code??0,
             'name' => str()->title($request->validated('name')),
             'quantity' => $request->validated('quantity'),
             'unit' => str()->upper($request->validated('unit')),
             'bale' => str()->upper($request->validated('bale')),
-            'price' => $request->validated('price'),
+            'price' => $request->validated('price')??0,
             'weight' => $request->validated('weight')??0,
             'notes' => $request->notes,
             'purchase_order' => $request->purchase_order,
@@ -101,12 +101,12 @@ class DeliveryitemController extends Controller
         Gate::authorize('updateDeliveryitem', $deliveryitem);
 
         $deliveryitem->update([
-            'code' => $request->code,
+            'code' => $request->code??0,
             'name' => $request->validated('name'),
             'quantity' => $request->validated('quantity'),
             'unit' => str()->upper($request->validated('unit')),
             'bale' => str()->upper($request->validated('bale')),
-            'price' => $request->validated('price'),
+            'price' => $request->validated('price')??0,
             'weight' => $request->validated('weight')??0,
             'notes' => $request->notes,
             'purchase_order' => $request->purchase_order,
