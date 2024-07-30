@@ -34,7 +34,7 @@
                                 <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">#</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Going</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Notification</th>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Journey</th>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Detail</th>
                                 </tr>
@@ -43,8 +43,9 @@
                                 @foreach($journeys as $journey)
                                 <tr>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-800 italic">
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 italic">
                                         {{ \Carbon\Carbon::now()->createMidnightDate()->diffInDays(\Carbon\Carbon::createMidnightDate($journey->date)) != 0 ? \Carbon\Carbon::now()->createMidnightDate()->diffInDays(\Carbon\Carbon::createMidnightDate($journey->date)).' Hari lagi' : 'Sekarang'  }}
+                                        <span class="bg-yellow-100 text-yellow-800 text-xs ml-2 me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{ $journey->created_at != $journey->updated_at ? 'Edited' : '' }}</span>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                                         <div class="font-medium">{{ $journey->event }} - {{ $journey->site }}</div>
