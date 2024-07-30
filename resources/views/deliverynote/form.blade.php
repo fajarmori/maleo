@@ -12,47 +12,40 @@
                 <form action="{{ $page_meta['url'] }}" method="post" class="[&>div]:mb-3" novalidate>
                     @method($page_meta['method'])
                     @csrf
-                    @if($page_meta['method'] == 'post')
                     <div>
-                        <x-input-label for="letter" :value="__('Number Delivery Note')" />
-                        <x-text-input id="letter" class="block mt-1 w-full" type="text" name="letter" :value="old('letter',$page_meta['number'])" autofocus readonly />
-                        <x-input-error :messages="$errors->get('letter')" class="mt-2" />
-                    </div>
-                    @endif
-                    <div>
-                        <x-input-label for="sender" :value="__('Origin')" />
+                        <x-input-label for="sender" :value="__('Origin*')" />
                         <x-text-input id="sender" class="block mt-1 w-full" type="text" name="sender" :value="old('sender',$deliverynote->sender->name??'')" autofocus />
                         <x-input-error :messages="$errors->get('sender')" class="mt-2" />
                         <div id="list-sender" class="relative z-10"></div>
                     </div>
                     <div>
-                        <x-input-label for="nameSender" :value="__('Name Sender')" />
+                        <x-input-label for="nameSender" :value="__('Name Sender*')" />
                         <x-text-input id="nameSender" class="block mt-1 w-full" type="text" name="nameSender" :value="old('nameSender',$deliverynote->name_sender)" autofocus />
                         <x-input-error :messages="$errors->get('nameSender')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="phoneSender" :value="__('Whatsapp/Phone Sender')" />
+                        <x-input-label for="phoneSender" :value="__('Whatsapp/Phone Sender*')" />
                         <x-text-input id="phoneSender" class="block mt-1 w-full" type="number" name="phoneSender" :value="old('phoneSender',$deliverynote->phone_sender)" placeholder="Starting from country code (62)" autofocus />
                         <x-input-error :messages="$errors->get('phoneSender')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="recipient" :value="__('Destination')" />
+                        <x-input-label for="recipient" :value="__('Destination*')" />
                         <x-text-input id="recipient" class="block mt-1 w-full" type="text" name="recipient" :value="old('recipient',$deliverynote->recipient->name??'')" autofocus />
                         <x-input-error :messages="$errors->get('recipient')" class="mt-2" />
                         <div id="list-recipient" class="relative z-10"></div>
                     </div>
                     <div>
-                        <x-input-label for="nameRecipient" :value="__('Name Recipient')" />
+                        <x-input-label for="nameRecipient" :value="__('Name Recipient*')" />
                         <x-text-input id="nameRecipient" class="block mt-1 w-full" type="text" name="nameRecipient" :value="old('nameRecipient',$deliverynote->name_recipient)" autofocus />
                         <x-input-error :messages="$errors->get('nameRecipient')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="phoneRecipient" :value="__('Whatsapp/Phone Recipient')" />
+                        <x-input-label for="phoneRecipient" :value="__('Whatsapp/Phone Recipient*')" />
                         <x-text-input id="phoneRecipient" class="block mt-1 w-full" type="number" name="phoneRecipient" :value="old('phoneRecipient',$deliverynote->phone_recipient)" placeholder="Starting from country code (62)" autofocus />
                         <x-input-error :messages="$errors->get('phoneRecipient')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="via" :value="__('Via')" />
+                        <x-input-label for="via" :value="__('Via*')" />
                         <x-text-input id="via" class="block mt-1 w-full" type="text" name="via" :value="old('via',$deliverynote->via)" autofocus />
                         <x-input-error :messages="$errors->get('via')" class="mt-2" />
                     </div>
@@ -81,6 +74,7 @@
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
+                <div class="mt-2 italic text-xs">*Required input</div>
             </div>
         </div>
     </x-container>
