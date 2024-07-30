@@ -14,7 +14,7 @@ class DeliveryitemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', 'string', "regex:/^[\w.]*$/"],
+            'code' => ['nullable', 'string', "regex:/^[\w.]*$/"],
             'name' => ['required', 'string', "regex:/^[\w\s.,':+\/\"()\-@&]*$/"],
             'quantity' => ['required', 'numeric', "regex:/^[\d.]*$/"],
             'unit' => ['required', 'string', "regex:/^[\w]*$/"],
