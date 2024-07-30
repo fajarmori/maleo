@@ -14,9 +14,11 @@
                         {{ __('Back') }}
                     </x-danger-button>
                     @if(auth()->user()->department_id === 1 || auth()->user()->department_id === 2 || auth()->user()->department_id === 6)
+                        @if(auth()->user()->type !== 2)
                         <x-primary-button as="a" href="{{ route('deliverynotes.create')}}">
                             {{ __('Add Delivery Note') }}
                         </x-primary-button>
+                        @endif
                     @endif
                 </div>
             </div>
