@@ -12,24 +12,26 @@
                 <form action="{{ $page_meta['url'] }}" method="post" class="[&>div]:mb-3" novalidate>
                     @method($page_meta['method'])
                     @csrf
+                    @if(auth()->user()->department_id === 1 || auth()->user()->department_id === 6)
                     <div>
                         <x-input-label for="code" :value="__('Code or KBL')" />
                         <x-text-input id="code" class="block mt-1 w-full" type="text" name="code" :value="old('code',$deliveryitem->code)" autofocus/>
                         <x-input-error :messages="$errors->get('code')" class="mt-2" />
                     </div>
+                    @endif
                     <div>
-                        <x-input-label for="name" :value="__('Name Item')" />
+                        <x-input-label for="name" :value="__('Name Item*')" />
                         <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name',$deliveryitem->name)" autofocus />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         <div id="list-name" class="relative z-10"></div>
                     </div>
                     <div>
-                        <x-input-label for="quantity" :value="__('Quantity')" />
+                        <x-input-label for="quantity" :value="__('Quantity*')" />
                         <x-text-input id="quantity" class="block mt-1 w-full" type="number" name="quantity" :value="old('quantity',$deliveryitem->quantity)" placeholder="Per unit" autofocus />
                         <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="unit" :value="__('Unit')" />
+                        <x-input-label for="unit" :value="__('Unit*')" />
                         <x-text-input id="unit" class="block mt-1 w-full" type="text" name="unit" :value="old('unit',$deliveryitem->unit)" placeholder="Use smallest units" autofocus />
                         <x-input-error :messages="$errors->get('unit')" class="mt-2" />
                     </div>
@@ -38,13 +40,15 @@
                         <x-text-input id="bale" class="block mt-1 w-full" type="text" name="bale" :value="old('bale',$deliveryitem->bale)" autofocus />
                         <x-input-error :messages="$errors->get('bale')" class="mt-2" />
                     </div>
+                    @if(auth()->user()->department_id === 1 || auth()->user()->department_id === 6)
                     <div>
                         <x-input-label for="price" :value="__('Price')" />
                         <x-text-input id="price" class="block mt-1 w-full" type="number" name="price" :value="old('price',$deliveryitem->price)" placeholder="Total price" autofocus />
                         <x-input-error :messages="$errors->get('price')" class="mt-2" />
                     </div>
+                    @endif
                     <div>
-                        <x-input-label for="weight" :value="__('Weight')" />
+                        <x-input-label for="weight" :value="__('Weight*')" />
                         <x-text-input id="weight" class="block mt-1 w-full" type="number" name="weight" :value="old('weight',$deliveryitem->weight)" placeholder="Per kilogram" autofocus />
                         <x-input-error :messages="$errors->get('weight')" class="mt-2" />
                     </div>
@@ -64,7 +68,7 @@
                         <x-input-error :messages="$errors->get('date_request')" class="mt-2" />
                     </div>
                     <div>
-                    <x-input-label for="department" :value="__('Department')" />
+                    <x-input-label for="department" :value="__('Department*')" />
                         <select id="department" name="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="0">No Department</option>
                             @foreach($departments as $department)
@@ -74,7 +78,7 @@
                         <x-input-error :messages="$errors->get('department')" class="mt-2" />
                     </div>
                     <div id="site-select" class="{{ isset($droppoint->site->id) ? '' : 'hidden' }}">
-                        <x-input-label for="site" :value="__('Site')" />
+                        <x-input-label for="site" :value="__('Site*')" />
                         <select id="site" name="site" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="0">No Site</option>
                             @foreach($sites as $site)
@@ -86,11 +90,11 @@
                     <x-primary-button class="w-32">
                         {{ __('Save') }}
                     </x-primary-button>
-                    
                     <x-danger-button as="a" href="{{ url()->previous() }}" class="w-32">
                         {{ __('Back') }}
                     </x-danger-button>
                 </form>
+                <div class="mt-2 italic text-xs">*Required input</div>
             </div>
         </div>
     </x-container>
