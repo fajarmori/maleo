@@ -132,7 +132,7 @@
                             <td>
                                 <ul style="list-style:disc;margin:0;padding:10px 25px;">
                                     <li>Estimasi berat: {{ $deliverynote->items->sum('weight') }} Kg</li>
-                                    <li>Estimasi sampai: {{ $deliverynote->estimated }}</li>
+                                    <li>Estimasi sampai: {{ $deliverynote->estimated_delivery }}</li>
                                     <li>Pengiriman melalui: {{ $deliverynote->via }}</li>
                                     <li>{{ $deliverynote->notes }}</li>
                                 </ul>
