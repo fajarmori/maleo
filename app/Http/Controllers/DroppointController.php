@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
-use App\Models\site;
+use App\Models\Site;
 use App\Models\Droppoint;
 use App\Models\Department;
 use Illuminate\Http\Request;
