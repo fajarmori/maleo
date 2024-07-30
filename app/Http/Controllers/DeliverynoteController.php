@@ -46,16 +46,10 @@ class DeliverynoteController extends Controller
         $deliverynote = new Deliverynote();
         Gate::authorize('createDeliverynote', $deliverynote);
 
-        $deliverynote = Deliverynote::latest('id')->first();
-        $deliverynote ? $number = $deliverynote->id : $number = 0;
-        $code = auth()->user()->department_id === 2 ? auth()->user()->site->code : auth()->user()->department->code;
-        switch (Carbon::now()->isoFormat('M')) {case 1: $roman = 'I'; break; case 2: $roman = 'II'; break; case 3: $roman = 'III'; break; case 4: $roman = 'IV'; break; case 5: $roman = 'V'; break; case 6: $roman = 'VI'; break; case 7: $roman = 'VII'; break; case 8: $roman = 'VIII'; break; case 9: $roman = 'IX'; break; case 10: $roman = 'X'; break; case 11: $roman = 'XI'; break; default: $roman = 'XII'; break;};
-
         return view('deliverynote.form',[
             'deliverynote' => new Deliverynote(),
             'page_meta' => collect([
                 'title' => 'Create Delivery Note',
-                'number' => substr((1000+$number)+1, -3).'/SJ-'.$code.'/'.$roman.'/'.Carbon::now()->isoFormat('Y'),
                 'method' => 'post',
                 'url' => route('deliverynotes.store'),
             ]),
@@ -69,9 +63,15 @@ class DeliverynoteController extends Controller
 
         $sender = Droppoint::query()->where('name', $request->sender)->first();
         $recipient = Droppoint::query()->where('name', $request->recipient)->first();
+
+        $check_letter = Deliverynote::latest('id')->first();
+        isset($check_letter) ? $letter = $check_letter->id : $letter = 0;
+        $number = $letter > 999 ? $letter : substr((1000+$letter)+1, -3);
+        $code = auth()->user()->department_id === 2 ? auth()->user()->site->code : auth()->user()->department->code;
+        switch (Carbon::now()->isoFormat('M')) {case 1: $roman = 'I'; break; case 2: $roman = 'II'; break; case 3: $roman = 'III'; break; case 4: $roman = 'IV'; break; case 5: $roman = 'V'; break; case 6: $roman = 'VI'; break; case 7: $roman = 'VII'; break; case 8: $roman = 'VIII'; break; case 9: $roman = 'IX'; break; case 10: $roman = 'X'; break; case 11: $roman = 'XI'; break; default: $roman = 'XII'; break;};
         
         $deliverynote = Deliverynote::create([
-            'letter' => $request->letter,
+            'letter' => $number.'/SJ-'.$code.'/'.$roman.'/'.Carbon::now()->isoFormat('Y'),
             'date' => Carbon::now()->isoFormat('Y-MM-DD'),
             'sender_id' => $sender->id,
             'name_sender' => str()->title($request->validated('nameSender')),
