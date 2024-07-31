@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('departments', Controllers\DepartmentController::class)->except(['show']);
         Route::resource('droppoints', Controllers\DroppointController::class);
         Route::resource('deliverynotes', Controllers\DeliverynoteController::class);
+        Route::get('deliveryitems/export/', [Controllers\DeliveryitemController::class, 'export'])->name('deliveryitems.export');
         Route::get('deliveryitems/create/{deliverynote:id}', [Controllers\DeliveryitemController::class, 'create'])->name('deliveryitems.create');
         Route::post('deliveryitems/create/{deliverynote:id}', [Controllers\DeliveryitemController::class, 'store'])->name('deliveryitems.store');
         Route::resource('deliveryitems', Controllers\DeliveryitemController::class)->except(['create','store','show']);
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/getemailsite', [Controllers\DataController::class, 'getEmailSite'])->name('getemailsite');
         Route::get('/getdroppoint', [Controllers\DataController::class, 'getDropPoint'])->name('getdroppoint');
         Route::get('/getdeliveryitem', [Controllers\DataController::class, 'getDeliveryItem'])->name('getdeliveryitem');
+
         
         Route::get('/deliverynotegenerate/{id}',[Controllers\DeliverynoteController::class, 'generateDeliveryNote'])->name('generateDeliveryNote');
 });
