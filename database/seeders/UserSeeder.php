@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
             ['Ade Wahyudin', 'ade.wahyudin@mria.co.id', 1, 'MRIA0141#', 29, 6],
             ['Ahmad Jauhari', 'ahmad.jauhari@mria.co.id', 1, 'MRIA4052#', 86, 8],
             ['Angga Wardhana', 'angga.wardhana@mria.co.id', 1, 'MRIA6002#', 7, 6],
-            ['Anggi Gilang', 'anggi.gilang@mria.co.id', 1, 'MRIA6092#', 77, 7],
+            ['Anggi Gilang', 'anggi.gilang@mria.co.id', 1, 'MRIA6092#', 338, 7],
             ['Annisa Noorraya', 'annisa.noorraya@mria.co.id', 1, 'MRIA5080#', 343, 8],
             ['Ardiyansah', 'ardiyansah@mria.co.id', 1, 'MRIA9022#', 171, 8],
             ['Muhamad Bagas Perdana Rosidin', 'bagas.perdana@mria.co.id', 1, 'MRIA1141#', 143, 3],
