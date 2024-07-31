@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+Use Carbon\Carbon;
 use App\Models\Log;
 use App\Models\Site;
 use App\Models\Department;
 use App\Models\Deliveryitem;
 use App\Models\Deliverynote;
 use Illuminate\Http\Request;
+use App\Exports\DeliveryitemExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\DeliveryitemRequest;
@@ -128,5 +131,14 @@ class DeliveryitemController extends Controller
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted deliveryitem_id - '.$deliveryitem->id]);
         return to_route('deliveryitems.index');
+    }
+
+    public function export() 
+    {
+        $deliveryitem = new Deliveryitem();
+        Gate::authorize('showDeliveryitem', $deliveryitem);
+        
+        $name_file = 'DeliveryItemsSCM_'.Carbon::now()->isoFormat('YMMDDHms').'.xlsx';
+        return Excel::download(new DeliveryitemExport, $name_file);
     }
 }
