@@ -59,13 +59,6 @@
                         <x-textarea id="notes" name="notes" rows="2" class="block mt-1 w-full">{{ old('notes',$deliverynote->notes) }}</x-textarea>
                         <x-input-error :messages="$errors->get('notes')" class="mt-2" />
                     </div>
-                    @if($page_meta['method'] == 'put')
-                    <div>
-                        <x-input-label for="dateRecipient" :value="__('Date Recipient')" />
-                        <x-text-input id="dateRecipient" class="block mt-1 w-full" type="date" name="dateRecipient" :value="old('dateRecipient',$deliverynote->date_recipient)" autofocus />
-                        <x-input-error :messages="$errors->get('dateRecipient')" class="mt-2" />
-                    </div>
-                    @endif
 
                     <x-primary-button class="w-32">
                         {{ __('Save') }}
