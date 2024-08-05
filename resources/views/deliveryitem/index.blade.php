@@ -34,8 +34,7 @@
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Quantity | Price</th>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Bale | Weight</th>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purchace | Request</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Notes</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Description</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
@@ -62,20 +61,9 @@
                                         <div class="text-gray-500">{{ isset($deliveryitem->date_request)?'DR: '.$deliveryitem->date_request:'-' }}</div>
                                     </td>
                                     <td class="px-3 py-4 text-sm text-gray-500">
-                                        <div class="whitespace-normal text-wrap line-clamp-1">{{ $deliveryitem->notes }}</div>
+                                        <div class="whitespace-normal text-wrap line-clamp-1">{{ $deliveryitem->description }}</div>
                                         <div>Maker: {{ $deliveryitem->user->name??'-' }} | <span class="italic"> for: <span class="uppercase">{{ isset($deliveryitem->department_id) ? $deliveryitem->department_id === 2 ? $deliveryitem->site->name : $deliveryitem->department->code : '-' }}</span></span></div>
                                     </td>
-                                    @if(auth()->user()->type !== 2)
-                                    <td class="whitespace-normal text-wrap flex px-3 py-4 text-sm text-gray-500">
-                                        <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$deliveryitem->name}} ?');" action="{{ route('deliveryitems.destroy', $deliveryitem->id) }}" method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <x-dark-button class="text-xs !mb-0">
-                                                {{ __('Delete') }}
-                                            </x-dark-button>
-                                        </form>
-                                    </td>
-                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>
