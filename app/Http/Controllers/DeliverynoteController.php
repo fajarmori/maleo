@@ -83,7 +83,7 @@ class DeliverynoteController extends Controller
             'user_id' => auth()->user()->id,
             'date_recipient' => $request->dateRecipient,
             'estimated_delivery' => str()->lower($request->estimated),
-            'notes' => str()->ucfirst(str()->lower($request->notes)),
+            'notes' => isset($request->notes) ? str()->ucfirst(str()->lower($request->notes)) : NULL,
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'created deliverynote_id - '.$deliverynote->id]);
@@ -127,10 +127,37 @@ class DeliverynoteController extends Controller
             'via' => str()->title($request->validated('via')),
             'date_recipient' => $request->dateRecipient,
             'estimated_delivery' => str()->lower($request->estimated),
-            'notes' => str()->ucfirst($request->notes),
+            'notes' => $request->notes ?? NULL,
         ]);
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'update deliverynote_id - '.$deliverynote->id]);
+        return to_route('deliverynotes.show',['deliverynote' => $deliverynote]);
+    }
+
+    public function accepted(Deliverynote $deliverynote)
+    {
+        Gate::authorize('confirmDeliverynote', $deliverynote);
+
+        return view('deliverynote.accepted',[
+            'deliverynote' => $deliverynote,
+            'page_meta' => collect([
+                'title' => 'Confirm Delivery Note '.$deliverynote->letter,
+                'method' => 'put',
+                'url' => route('deliverynotes.confirm', $deliverynote),
+            ]),
+        ]);
+    }
+
+    public function confirm(Request $request, Deliverynote $deliverynote)
+    {
+        Gate::authorize('confirmDeliverynote', $deliverynote);
+
+        $deliverynote->update([
+            'date_recipient' => $request->dateRecipient,
+            'notes' => $request->notes ?? NULL,
+        ]);
+        
+        Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'confirm deliverynote_id - '.$deliverynote->id]);
         return to_route('deliverynotes.show',['deliverynote' => $deliverynote]);
     }
 
