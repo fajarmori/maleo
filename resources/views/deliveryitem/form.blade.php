@@ -53,9 +53,9 @@
                         <x-input-error :messages="$errors->get('weight')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="notes" :value="__('Notes')" />
-                        <x-textarea id="notes" name="notes" rows="2" class="block mt-1 w-full">{{ old('notes',$deliveryitem->notes) }}</x-textarea>
-                        <x-input-error :messages="$errors->get('notes')" class="mt-2" />
+                        <x-input-label for="description" :value="__('Description*')" />
+                        <x-textarea id="description" name="description" rows="2" class="block mt-1 w-full">{{ old('description',$deliveryitem->description) }}</x-textarea>
+                        <x-input-error :messages="$errors->get('description')" class="mt-2" />
                     </div>
                     <div>
                         <x-input-label for="purchase_order" :value="__('Purchase Order/Receipt')" />
@@ -70,22 +70,11 @@
                     <div>
                     <x-input-label for="department" :value="__('Department*')" />
                         <select id="department" name="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="0">No Department</option>
                             @foreach($departments as $department)
-                                <option value="{{ $department->id }}" @if(isset($deliveryitem->department_id)) {{ $department->id == $deliveryitem->department_id ? 'selected' : '' }} @endif> {{ $department->code }} - {{ $department->name }}</option>
+                                <option value="{{ $department->id }}" @if(isset($deliveryitem->department_id)) {{ $department->id == $deliveryitem->department_id ? 'selected' : '' }} @else {{ $department->id == 6 ? 'selected' : '' }} @endif> {{ $department->code }} - {{ $department->name }}</option>
                             @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('department')" class="mt-2" />
-                    </div>
-                    <div id="site-select" class="{{ isset($droppoint->site->id) ? '' : 'hidden' }}">
-                        <x-input-label for="site" :value="__('Site*')" />
-                        <select id="site" name="site" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="0">No Site</option>
-                            @foreach($sites as $site)
-                                <option value="{{ $site->id }}" @if(isset($deliveryitem->site_id)) {{ $site->id == $deliveryitem->site_id ? 'selected' : '' }} @endif>{{ $site->code }} - {{ $site->name }}</option>
-                            @endforeach
-                        </select>
-                        <x-input-error :messages="$errors->get('site')" class="mt-2" />
                     </div>
                     <x-primary-button class="w-32">
                         {{ __('Save') }}
