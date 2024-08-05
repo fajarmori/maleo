@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('bale');
             $table->string('price');
             $table->string('weight');
-            $table->text('notes');
+            $table->text('description');
             $table->string('purchase_order')->nullable();
             $table->string('date_request')->nullable();
             $table->foreignId('user_id');
