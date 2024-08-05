@@ -23,6 +23,9 @@
                     <x-primary-button as="a" href="{{ route('deliveryitems.create', $deliverynote->id)}}">
                         {{ __('Add Delivery Item') }}
                     </x-primary-button>
+                    <x-primary-button as="a" href="{{ route('deliverynotes.accepted', $deliverynote->id)}}">
+                        {{ __('Confirm Recipient') }}
+                    </x-primary-button>
                     <form onsubmit="return confirm('Apakah anda yakin menghapus data Surat Jalan {{$deliverynote->letter}} ?');" action="{{ route('deliverynotes.destroy', $deliverynote->id) }}" method="POST" class="me-2">
                         @method('DELETE')
                         @csrf
@@ -113,12 +116,23 @@
                                 @else
                                 <div>{{ $item->name }}</div>
                                 @endif 
-                                <div style="font-size:12px; font-style:italic;">manage by: {{ $item->department->code }}</div>
+                                <div style="font-size:12px; font-style:italic; display:flex;">
+                                    @if(auth()->user()->type !== 2)
+                                        <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$item->name}} ?');" action="{{ route('deliveryitems.destroy', $item->id) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <x-dark-button class="!text-[10px] !px-2 !py-0 !mb-1">
+                                                {{ __('Delete') }}
+                                            </x-dark-button>
+                                        </form>
+                                    @endif
+                                    manage by: {{ $item->department->code }}
+                                </div>
                             </td>
                             <td style="border:1px solid black;">{{ $item->quantity }}</td>
                             <td style="border:1px solid black;">{{ $item->unit }}</td>
                             <td style="border:1px solid black;">{{ $item->bale }}</td>
-                            <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->notes }}</td>
+                            <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->description }}</td>
                             <td style="width:10px;"><div style="border:1px solid black; witdh:10px; height:15px; margin:5px;"></div></td>
                             <td style="width:10px;"><div style="border:1px solid black; witdh:10px; height:15px; margin:5px;"></div></td>
                             <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->code }}</td>
@@ -138,7 +152,7 @@
                                     <li>Estimasi berat: {{ $deliverynote->items->sum('weight') }} Kg</li>
                                     <li>Estimasi sampai: {{ $deliverynote->estimated_delivery }}</li>
                                     <li>Pengiriman melalui: {{ $deliverynote->via }}</li>
-                                    <li>{{ $deliverynote->notes }}</li>
+                                    <li>{{ $deliverynote->notes ?? 'Tidak ada catatan' }}</li>
                                 </ul>
                             </td>
                             <td style="border:1px solid black; text-align:left; padding-left:5px;">
