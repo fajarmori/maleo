@@ -21,6 +21,7 @@ class DeliveryitemRequest extends FormRequest
             'bale' => ['nullable', 'string', "regex:/^[\w\s\-]*$/"],
             'price' => ['nullable', 'numeric', "regex:/^[\d]*$/"],
             'weight' => ['required', 'numeric', "regex:/^[\d.]*$/"],
+            'description' => ['required'],
         ];
     }
 }
