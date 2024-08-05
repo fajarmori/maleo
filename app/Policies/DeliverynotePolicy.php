@@ -44,6 +44,24 @@ class DeliverynotePolicy
             return Response::denyAsNotFound();
         }
     }
+    public function confirmDeliverynote(User $user, Deliverynote $deliverynote): Response
+    {
+        switch ($user->type){
+        case 0:
+            return Response::allow();
+        case 1:
+            switch ($user->department_id){
+            case 2:
+                return $user->id === $deliverynote->recipient->site->user->id? Response::allow() : Response::denyAsNotFound();
+            case 6:
+                return Response::allow();
+            default:
+                return Response::denyAsNotFound();
+            }
+        default:
+            return Response::denyAsNotFound();
+        }
+    }
     public function deleteDeliverynote(User $user, Deliverynote $deliverynote): Response
     {
         switch ($user->type){
