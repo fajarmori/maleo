@@ -31,13 +31,11 @@ class DeliveryitemController extends Controller
         $deliveryitem = new Deliveryitem();
         Gate::authorize('createDeliveryitem', $deliveryitem);
 
-        $departments = Department::query()->latest('id')->get();
-        $sites = Site::query()->latest('id')->get();
+        $departments = Department::query()->whereBetween('id',[ 3, Department::query()->count()])->get();
         $deliverynote = Deliverynote::select('id','letter')->where('id',$deliverynote_id)->first();
         return view('deliveryitem.form',[
             'deliveryitem' => $deliveryitem,
             'departments' => $departments,
-            'sites' => $sites,
             'page_meta' => collect([
                 'title' => 'Create Item at '.$deliverynote->letter,
                 'method' => 'post',
@@ -61,7 +59,7 @@ class DeliveryitemController extends Controller
             'bale' => str()->upper($request->validated('bale')),
             'price' => $request->validated('price')??0,
             'weight' => $request->validated('weight')??0,
-            'notes' => $request->notes,
+            'description' => $request->description,
             'purchase_order' => $request->purchase_order,
             'date_request' => $request->date_request,
             'department_id' => $request->department,
@@ -84,12 +82,10 @@ class DeliveryitemController extends Controller
 
         $deliverynote = Deliverynote::select('id','letter')->where('id',$deliveryitem->deliverynote_id)->first();
 
-        $departments = Department::query()->latest('id')->get();
-        $sites = Site::query()->latest('id')->get();
+        $departments = Department::query()->whereBetween('id',[ 3, Department::query()->count()])->get();
         return view('deliveryitem.form',[
             'deliveryitem' => $deliveryitem,
             'departments' => $departments,
-            'sites' => $sites,
             'page_meta' => collect([
                 'title' => 'Edit Item at '.$deliverynote->letter,
                 'method' => 'put',
@@ -111,7 +107,7 @@ class DeliveryitemController extends Controller
             'bale' => str()->upper($request->validated('bale')),
             'price' => $request->validated('price')??0,
             'weight' => $request->validated('weight')??0,
-            'notes' => $request->notes,
+            'description' => $request->validated('description'),
             'purchase_order' => $request->purchase_order,
             'date_request' => $request->date_request,
             'department_id' => $request->department,
@@ -130,7 +126,7 @@ class DeliveryitemController extends Controller
         Deliveryitem::query()->where('id', $deliveryitem->id)->delete();
         
         Log::create(['user_id' => auth()->user()->id, 'email' => auth()->user()->email, 'log' => 'deleted deliveryitem_id - '.$deliveryitem->id]);
-        return to_route('deliveryitems.index');
+        return redirect(url()->previous());
     }
 
     public function export() 
