@@ -19,6 +19,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('occupations', Controllers\OccupationController::class)->except(['show']);
         Route::resource('departments', Controllers\DepartmentController::class)->except(['show']);
         Route::resource('droppoints', Controllers\DroppointController::class);
+        Route::get('deliverynotes/{deliverynote}/accepted', [Controllers\DeliverynoteController::class, 'accepted'])->name('deliverynotes.accepted');
+        Route::put('deliverynotes/{deliverynote}/accepted', [Controllers\DeliverynoteController::class, 'confirm'])->name('deliverynotes.confirm');
         Route::resource('deliverynotes', Controllers\DeliverynoteController::class);
         Route::get('deliveryitems/export/', [Controllers\DeliveryitemController::class, 'export'])->name('deliveryitems.export');
         Route::get('deliveryitems/create/{deliverynote:id}', [Controllers\DeliveryitemController::class, 'create'])->name('deliveryitems.create');
