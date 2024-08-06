@@ -19,7 +19,7 @@ class Deliveryitem extends Model
         'bale',
         'price',
         'weight',
-        'notes',
+        'description',
         'purchase_order',
         'date_request',
         'department_id',
