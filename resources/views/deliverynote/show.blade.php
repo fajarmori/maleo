@@ -107,7 +107,7 @@
                             <th style="border:1px solid black;" colspan="2">Ceklis</th>
                             <th style="width:60px; border:1px solid black;">KBL</th>
                         </tr>
-                        @foreach($deliverynote->items as $item)
+                        @foreach($deliverynote->items->sortBy('bale') as $item)
                         <tr style="border:1px solid black;">
                             <td style="border:1px solid black;">{{ $loop->iteration }}</td>
                             <td style="border:1px solid black; text-align:left !important; padding-left:5px;">
