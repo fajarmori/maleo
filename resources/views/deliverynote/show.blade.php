@@ -117,6 +117,7 @@
                                 <div>{{ $item->name }}</div>
                                 @endif 
                                 <div style="font-size:12px; font-style:italic; display:flex;">
+                                @if(auth()->user()->department_id === 1 || auth()->user()->department_id === 2 || auth()->user()->department_id === 6)
                                     @if(auth()->user()->type !== 2)
                                         <form onsubmit="return confirm('Apakah anda yakin menghapus data {{$item->name}} ?');" action="{{ route('deliveryitems.destroy', $item->id) }}" method="POST">
                                             @method('DELETE')
@@ -126,6 +127,7 @@
                                             </x-dark-button>
                                         </form>
                                     @endif
+                                @endif
                                     manage by: {{ $item->department->code }}
                                 </div>
                             </td>
