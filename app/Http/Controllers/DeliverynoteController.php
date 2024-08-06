@@ -82,7 +82,7 @@ class DeliverynoteController extends Controller
             'via' => str()->title($request->validated('via')),
             'user_id' => auth()->user()->id,
             'date_recipient' => $request->dateRecipient,
-            'estimated_delivery' => str()->lower($request->estimated),
+            'estimated_delivery' => isset($request->estimated) ? str()->lower($request->estimated) : NULL,
             'notes' => isset($request->notes) ? str()->ucfirst(str()->lower($request->notes)) : NULL,
         ]);
         
@@ -126,7 +126,7 @@ class DeliverynoteController extends Controller
             'phone_recipient' => substr($request->validated('phoneRecipient'),0,1) === '0' ? '62'.substr($request->validated('phoneRecipient'),1) : $request->validated('phoneRecipient'),
             'via' => str()->title($request->validated('via')),
             'date_recipient' => $request->dateRecipient,
-            'estimated_delivery' => str()->lower($request->estimated),
+            'estimated_delivery' => isset($request->estimated) ?? NULL,
             'notes' => $request->notes ?? NULL,
         ]);
         
