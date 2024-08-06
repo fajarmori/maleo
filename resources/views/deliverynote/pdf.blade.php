@@ -75,7 +75,7 @@
                             <th style="border:1px solid black;" colspan="2">Ceklis</th>
                             <th style="width:8%; border:1px solid black;">KBL</th>
                         </tr>
-                        @foreach($deliverynote->items as $item)
+                        @foreach($deliverynote->items->sortBy('bale') as $item)
                         @if($loop->iteration <= 5)
                         <tr style="border:1px solid black;">
                             <td style="border:1px solid black;">{{ $loop->iteration }}</td>
@@ -86,7 +86,7 @@
                             <td style="border:1px solid black;">{{ $item->quantity }}</td>
                             <td style="border:1px solid black;">{{ $item->unit }}</td>
                             <td style="border:1px solid black;">{{ $item->bale }}</td>
-                            <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->notes }}</td>
+                            <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->description }}</td>
                             <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 2px 4px 4px;"></div></td>
                             <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 4px 4px 2px;"></div></td>
                             <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->code }}</td>
@@ -112,7 +112,7 @@
                                     <td style="border:1px solid black;">{{ $item->quantity }}</td>
                                     <td style="border:1px solid black;">{{ $item->unit }}</td>
                                     <td style="border:1px solid black;">{{ $item->bale }}</td>
-                                    <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->notes }}</td>
+                                    <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->description }}</td>
                                     <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 2px 4px 4px;"></div></td>
                                     <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 4px 4px 2px;"></div></td>
                                     <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->code }}</td>
@@ -134,7 +134,7 @@
                                     <li>Estimasi berat: {{ $deliverynote->items->sum('weight') }} Kg</li>
                                     <li>Estimasi sampai: {{ $deliverynote->estimated_delivery }}</li>
                                     <li>Pengiriman melalui: {{ $deliverynote->via }}</li>
-                                    <li>{{ $deliverynote->notes }}</li>
+                                    <li>{{ $deliverynote->notes ?? 'Tidak ada catatan' }}</li>
                                 </ul>
                             </td>
                             <td style="border:1px solid black; text-align:left;">
@@ -208,41 +208,128 @@
                     </tbody>
                 </table>
             </div>
-        <footer><img src="{{asset('/storage/images/general/kop_surat_footer_a4_portrait.png')}}" alt="kop_surat_footer_a4_portrait" style="width:100%; position:fixed; bottom:0;"></footer>
+        <footer style="position:fixed; bottom:0; left:0; right:0;"><img src="{{asset('/storage/images/general/kop_surat_footer_a4_portrait.png')}}" alt="kop_surat_footer_a4_portrait" style="width:100%;"></footer>
         @if($deliverynote->items->count() > 6)
         <div style="padding-top:135px; padding-right:60px; padding-left:60px; page-break-after:always;">
-            <div style="font-style:italic; font-weight:bold; margin-bottom:10px;">Daftar barang lanjutan Surat Jalan Nomor {{$deliverynote->letter}}</div>
+            <div style="font-style:italic; font-weight:bold; margin-bottom:10px;">Daftar barang lanjutan Surat Jalan Nomor {{$deliverynote->letter}} | Lampiran 1</div>
             <table style="width:100%; margin-bottom:10px; border-collapse:collapse;">
                 <tbody style="text-align:center; vertical-align:top; border:1px solid black;">
-                    @foreach($deliverynote->items as $item)
-                    @if($loop->iteration == 7)
-                    <tr style="border:1px solid black; background-color:lightblue;-webkit-print-color-adjust:exact;color-adjust:exact;">
-                        <th style="width:1%; border:1px solid black;">No.</th>
-                        <th style="width:32%; border:1px solid black;">Nama Barang</th>
-                        <th style="width:5%; border:1px solid black;">Qty</th>
-                        <th style="width:8%; border:1px solid black;">Satuan</th>
-                        <th style="width:10%; border:1px solid black;">Packing</th>
-                        <th style="width:30%; border:1px solid black;">Keterangan</th>
-                        <th style="border:1px solid black;" colspan="2">Ceklis</th>
-                        <th style="width:8%; border:1px solid black;">KBL</th>
-                    </tr>
-                    @endif
-                    @if($loop->iteration > 6)
-                    <tr style="border:1px solid black;">
-                        <td style="border:1px solid black;">{{ $loop->iteration }}</td>
-                        <td style="border:1px solid black; text-align:left; padding-left:5px;">
-                            <div>{{ $item->name }}</div>
-                            <div style="font-size:8px; font-style:italic;">manage by: {{ $item->department->code }}</div>
-                        </td>
-                        <td style="border:1px solid black;">{{ $item->quantity }}</td>
-                        <td style="border:1px solid black;">{{ $item->unit }}</td>
-                        <td style="border:1px solid black;">{{ $item->bale }}</td>
-                        <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->notes }}</td>
-                        <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 2px 4px 4px;"></div></td>
-                        <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 4px 4px 2px;"></div></td>
-                        <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->code }}</td>
-                    </tr>
-                    @endif
+                    @foreach($deliverynote->items->sortBy('bale') as $item)
+                        @if($loop->iteration == 6)
+                        <tr style="border:1px solid black; background-color:lightblue;-webkit-print-color-adjust:exact;color-adjust:exact;">
+                            <th style="width:1%; border:1px solid black;">No.</th>
+                            <th style="width:32%; border:1px solid black;">Nama Barang</th>
+                            <th style="width:5%; border:1px solid black;">Qty</th>
+                            <th style="width:8%; border:1px solid black;">Satuan</th>
+                            <th style="width:10%; border:1px solid black;">Packing</th>
+                            <th style="width:30%; border:1px solid black;">Keterangan</th>
+                            <th style="border:1px solid black;" colspan="2">Ceklis</th>
+                            <th style="width:8%; border:1px solid black;">KBL</th>
+                        </tr>
+                        @endif
+                        @if ($loop->iteration > 5)
+                            <tr style="border:1px solid black;">
+                                <td style="border:1px solid black;">{{ $loop->iteration }}</td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">
+                                    <div>{{ $item->name }}</div>
+                                    <div style="font-size:8px; font-style:italic;">manage by: {{ $item->department->code }}</div>
+                                </td>
+                                <td style="border:1px solid black;">{{ $item->quantity }}</td>
+                                <td style="border:1px solid black;">{{ $item->unit }}</td>
+                                <td style="border:1px solid black;">{{ $item->bale }}</td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->description }}</td>
+                                <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 2px 4px 4px;"></div></td>
+                                <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 4px 4px 2px;"></div></td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->code }}</td>
+                            </tr>
+                        @endif
+                        @if ($loop->iteration == 30)
+                            @break
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @endif
+        @if($deliverynote->items->count() > 31)
+        <div style="padding-top:135px; padding-right:60px; padding-left:60px; page-break-after:always;">
+            <div style="font-style:italic; font-weight:bold; margin-bottom:10px;">Daftar barang lanjutan Surat Jalan Nomor {{$deliverynote->letter}} | Lampiran 2</div>
+            <table style="width:100%; margin-bottom:10px; border-collapse:collapse;">
+                <tbody style="text-align:center; vertical-align:top; border:1px solid black;">
+                    @foreach($deliverynote->items->sortBy('bale') as $item)
+                        @if($loop->iteration == 31)
+                        <tr style="border:1px solid black; background-color:lightblue;-webkit-print-color-adjust:exact;color-adjust:exact;">
+                            <th style="width:1%; border:1px solid black;">No.</th>
+                            <th style="width:32%; border:1px solid black;">Nama Barang</th>
+                            <th style="width:5%; border:1px solid black;">Qty</th>
+                            <th style="width:8%; border:1px solid black;">Satuan</th>
+                            <th style="width:10%; border:1px solid black;">Packing</th>
+                            <th style="width:30%; border:1px solid black;">Keterangan</th>
+                            <th style="border:1px solid black;" colspan="2">Ceklis</th>
+                            <th style="width:8%; border:1px solid black;">KBL</th>
+                        </tr>
+                        @endif
+                        @if ($loop->iteration > 30)
+                            <tr style="border:1px solid black;">
+                                <td style="border:1px solid black;">{{ $loop->iteration }}</td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">
+                                    <div>{{ $item->name }}</div>
+                                    <div style="font-size:8px; font-style:italic;">manage by: {{ $item->department->code }}</div>
+                                </td>
+                                <td style="border:1px solid black;">{{ $item->quantity }}</td>
+                                <td style="border:1px solid black;">{{ $item->unit }}</td>
+                                <td style="border:1px solid black;">{{ $item->bale }}</td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->description }}</td>
+                                <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 2px 4px 4px;"></div></td>
+                                <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 4px 4px 2px;"></div></td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->code }}</td>
+                            </tr>
+                        @endif
+                        @if ($loop->iteration == 55)
+                            @break
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @endif
+        @if($deliverynote->items->count() > 56)
+        <div style="padding-top:135px; padding-right:60px; padding-left:60px; page-break-after:always;">
+            <div style="font-style:italic; font-weight:bold; margin-bottom:10px;">Daftar barang lanjutan Surat Jalan Nomor {{$deliverynote->letter}} | Lampiran 3</div>
+            <table style="width:100%; margin-bottom:10px; border-collapse:collapse;">
+                <tbody style="text-align:center; vertical-align:top; border:1px solid black;">
+                    @foreach($deliverynote->items->sortBy('bale') as $item)
+                        @if($loop->iteration == 56)
+                        <tr style="border:1px solid black; background-color:lightblue;-webkit-print-color-adjust:exact;color-adjust:exact;">
+                            <th style="width:1%; border:1px solid black;">No.</th>
+                            <th style="width:32%; border:1px solid black;">Nama Barang</th>
+                            <th style="width:5%; border:1px solid black;">Qty</th>
+                            <th style="width:8%; border:1px solid black;">Satuan</th>
+                            <th style="width:10%; border:1px solid black;">Packing</th>
+                            <th style="width:30%; border:1px solid black;">Keterangan</th>
+                            <th style="border:1px solid black;" colspan="2">Ceklis</th>
+                            <th style="width:8%; border:1px solid black;">KBL</th>
+                        </tr>
+                        @endif
+                        @if ($loop->iteration > 55)
+                            <tr style="border:1px solid black;">
+                                <td style="border:1px solid black;">{{ $loop->iteration }}</td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">
+                                    <div>{{ $item->name }}</div>
+                                    <div style="font-size:8px; font-style:italic;">manage by: {{ $item->department->code }}</div>
+                                </td>
+                                <td style="border:1px solid black;">{{ $item->quantity }}</td>
+                                <td style="border:1px solid black;">{{ $item->unit }}</td>
+                                <td style="border:1px solid black;">{{ $item->bale }}</td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->description }}</td>
+                                <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 2px 4px 4px;"></div></td>
+                                <td style="width:3%;"><div style="border:1px solid black; witdh:10px; height:15px; margin:4px 4px 4px 2px;"></div></td>
+                                <td style="border:1px solid black; text-align:left; padding-left:5px;">{{ $item->code }}</td>
+                            </tr>
+                        @endif
+                        @if ($loop->iteration == 80)
+                            @break
+                        @endif
                     @endforeach
                 </tbody>
             </table>
