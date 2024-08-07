@@ -23,9 +23,36 @@
                     <x-primary-button as="a" href="{{ route('deliveryitems.create', $deliverynote->id)}}">
                         {{ __('Add Delivery Item') }}
                     </x-primary-button>
-                    <x-primary-button as="a" href="{{ route('deliverynotes.accepted', $deliverynote->id)}}">
-                        {{ __('Confirm Recipient') }}
-                    </x-primary-button>
+                    @endif
+                    @switch(Auth()->user()->type)
+                        @case(0)
+                            <x-primary-button as="a" href="{{ route('deliverynotes.accepted', $deliverynote->id)}}">
+                                {{ __('Confirm Recipient') }}
+                            </x-primary-button>
+                            @break
+                        @case(1)
+                            @switch(Auth()->user()->department_id)
+                                @case(2)
+                                    <x-primary-button as="a" href="{{ route('deliverynotes.accepted', $deliverynote->id)}}">
+                                        {{ __('Confirm Recipient') }}
+                                    </x-primary-button>
+                                    @break
+                                @case(6)
+                                    <x-primary-button as="a" href="{{ route('deliverynotes.accepted', $deliverynote->id)}}">
+                                        {{ __('Confirm Recipient') }}
+                                    </x-primary-button>
+                                    @break
+                                @default
+                                @if(Auth()->user()->department->id === $deliverynote->recipient->department->id)
+                                    <x-primary-button as="a" href="{{ route('deliverynotes.accepted', $deliverynote->id)}}">
+                                        {{ __('Confirm Recipient') }}
+                                    </x-primary-button>
+                                @endif
+                            @endswitch
+                            @break
+                        @default
+                    @endswitch
+                    @if(auth()->user()->department_id === 1 || auth()->user()->department_id === 2 || auth()->user()->department_id === 6)
                     <form onsubmit="return confirm('Apakah anda yakin menghapus data Surat Jalan {{$deliverynote->letter}} ?');" action="{{ route('deliverynotes.destroy', $deliverynote->id) }}" method="POST" class="me-2">
                         @method('DELETE')
                         @csrf
