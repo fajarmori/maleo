@@ -92,6 +92,8 @@ class DeliverynoteController extends Controller
 
     public function show(Deliverynote $deliverynote)
     {
+        Gate::authorize('showDeliverynote', $deliverynote);
+        
         $deliverynote = Deliverynote::query()->where('id',$deliverynote->id)->first();
         return view('deliverynote.show',['deliverynote' => $deliverynote]);
     }

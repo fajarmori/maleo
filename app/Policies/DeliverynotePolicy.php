@@ -8,6 +8,40 @@ use Illuminate\Auth\Access\Response;
 
 class DeliverynotePolicy
 {
+    public function showDeliverynote(User $user, Deliverynote $deliverynote): Response
+    {
+        switch ($user->type){
+        case 0:
+            return Response::allow();
+        default:
+            switch ($user->department_id){
+            case 2:
+                if($user->site->id == $deliverynote->sender->site->id){
+                    return Response::allow();
+                } elseif($user->site->id == $deliverynote->recipient->site->id){
+                    return Response::allow();
+                } else {
+                    return Response::denyAsNotFound();
+                }
+            case 6:
+                return Response::allow();
+            default:
+                if($user->department_id == $deliverynote->sender->department->id){
+                    return Response::allow();
+                } elseif($user->department_id == $deliverynote->recipient->department->id){
+                    return Response::allow();
+                } else {
+                    foreach($deliverynote->items as $item){
+                        if($item->department_id == auth()->user()->department_id){
+                            return Response::allow();
+                            break;
+                        }
+                    }
+                    return Response::denyAsNotFound();
+                }
+            }
+        }
+    }
     public function createDeliverynote(User $user, Deliverynote $deliverynote): Response
     {
         switch ($user->type){
