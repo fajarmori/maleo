@@ -113,7 +113,7 @@ class DeliverynoteController extends Controller
     public function update(DeliverynoteRequest $request, Deliverynote $deliverynote)
     {
         Gate::authorize('updateDeliverynote', $deliverynote);
-
+        
         $sender = Droppoint::query()->where('name', $request->sender)->first();
         $recipient = Droppoint::query()->where('name', $request->recipient)->first();
         
@@ -126,7 +126,7 @@ class DeliverynoteController extends Controller
             'phone_recipient' => substr($request->validated('phoneRecipient'),0,1) === '0' ? '62'.substr($request->validated('phoneRecipient'),1) : $request->validated('phoneRecipient'),
             'via' => str()->title($request->validated('via')),
             'date_recipient' => $request->dateRecipient,
-            'estimated_delivery' => isset($request->estimated) ?? NULL,
+            'estimated_delivery' => $request->estimated ?? NULL,
             'notes' => $request->notes ?? NULL,
         ]);
         
