@@ -16,9 +16,11 @@ class DeliverynotePolicy
         default:
             switch ($user->department_id){
             case 2:
-                if($user->site->id == $deliverynote->sender->site->id){
+                $checkSender =  $deliverynote->sender->site->id ?? 0;
+                $checkRecipient =  $deliverynote->recipient->site->id ?? 0;
+                if($user->site->id == $checkSender ){
                     return Response::allow();
-                } elseif($user->site->id == $deliverynote->recipient->site->id){
+                } elseif($user->site->id == $checkRecipient){
                     return Response::allow();
                 } else {
                     return Response::denyAsNotFound();
